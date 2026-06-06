@@ -1,1 +1,317 @@
-﻿/* Styles for Register */
+/* CSS Variables - Customized for Navy, Slate, and Crisp White */
+:root {
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Palette Config */
+    --color-bg: #0f172a;               /* Navy Blue body background */
+    --color-card: #334155;             /* Slate Gray card background */
+    --color-border: #ffffff;           /* Crisp White borders */
+    --color-input-bg: #ffffff;         /* Crisp White input backgrounds */
+    --color-icon: #0f172a;             /* Navy Blue icons */
+    
+    /* Text Colors */
+    --color-text-main: #ffffff;        /* Crisp White for main headings & labels */
+    --color-text-muted: #cbd5e1;       /* Light gray-white for descriptions */
+    --color-text-dark: #0f172a;        /* Navy Blue for text inside white components */
+    
+    /* Primary Buttons (White card with Navy Blue text) */
+    --color-primary: #ffffff;          /* Crisp White button background */
+    --color-primary-text: #0f172a;     /* Navy Blue button text */
+    --color-primary-hover: #e2e8f0;    /* Slightly muted hover */
+    --color-primary-focus: rgba(255, 255, 255, 0.3);
+    
+    /* Secondary Buttons (Transparent with White borders) */
+    --color-secondary-bg: transparent;
+    --color-secondary-border: #ffffff;
+    --color-secondary-text: #ffffff;
+    
+    /* Alerts (Contrasted on Slate Gray card) */
+    --color-success: #34d399;
+    --color-success-bg: #1e293b;       /* Dark navy box */
+    --color-success-border: #34d399;
+    
+    --color-error: #f87171;
+    --color-error-bg: #1e293b;
+    --color-error-border: #f87171;
+    
+    /* Border Radius & Shadow Tokens */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    
+    --shadow-main: 0 15px 35px -5px rgba(0, 0, 0, 0.4), 0 10px 15px -10px rgba(0, 0, 0, 0.4);
+    --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 700; /* Bold text by request */
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+}
+
+/* Base Card Styling */
+.register-card {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border); /* Crisp White Border */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-main);
+    padding: 2.5rem 2.25rem;
+    width: 100%;
+    max-width: 600px;
+    transition: all var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+}
+
+.register-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.register-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Round Profile Picture Container */
+.photo-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.photo-upload-box {
+    width: 110px;
+    height: 110px;
+    background-color: var(--color-input-bg); /* Crisp White */
+    border: 2px solid var(--color-border);    /* Crisp White Border */
+    border-radius: var(--radius-full);       /* Round Container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all var(--transition-smooth);
+}
+
+.photo-upload-box:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.photo-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: var(--radius-full);
+}
+
+.upload-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-icon); /* Navy Blue Icon */
+    margin-bottom: 4px;
+}
+
+.upload-text {
+    font-size: 0.75rem;
+    color: var(--color-icon); /* Navy Blue Text */
+    text-align: center;
+    padding: 0 4px;
+}
+
+/* Name Grid */
+.name-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    border: 2px solid var(--color-border); /* Crisp White Border */
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-bg); /* Crisp White Background */
+    color: var(--color-text-dark); /* Navy Blue Text inside inputs */
+    outline: none;
+    transition: all var(--transition-smooth);
+}
+
+.input-field::placeholder {
+    color: #64748b;
+}
+
+.input-field:focus {
+    box-shadow: 0 0 0 4px var(--color-primary-focus);
+}
+
+/* Custom Select styling */
+select.input-field {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%230f172a' stroke-width='3' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 14px;
+    padding-right: 40px;
+}
+
+select.input-field option {
+    background: var(--color-input-bg);
+    color: var(--color-text-dark);
+}
+
+/* Role Selector Radio Grid */
+.role-selector {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.role-option {
+    flex: 1;
+    position: relative;
+}
+
+.role-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.role-label {
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    background-color: var(--color-secondary-bg);
+    color: var(--color-secondary-text);
+    transition: all var(--transition-smooth);
+}
+
+.role-option input:checked + .role-label {
+    background-color: var(--color-primary); /* Crisp White */
+    color: var(--color-primary-text);       /* Navy Blue */
+}
+
+/* Additional Info and Word Limit */
+.word-counter {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+/* Alerts Banners */
+.alert-error {
+    display: none;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    background-color: var(--color-error-bg);
+    color: var(--color-error);
+    border: 2px solid var(--color-error-border);
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Buttons */
+.btn-submit {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--color-primary); /* Crisp White */
+    color: var(--color-primary-text);       /* Navy Blue */
+    border: 2px solid var(--color-border);   /* Crisp White */
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-smooth);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.btn-submit:active {
+    transform: translateY(1px);
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--color-text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity var(--transition-smooth);
+}
+
+.back-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+

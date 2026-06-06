@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = getEl('saveRfqBtn');
     btn.innerHTML = 'Saving...'; btn.disabled = true;
     try {
-      const { data, error } = await window.supabaseClient.from('rfqs').insert([{title, category, deadline, description: desc, rfq_code, status: 'Issued'}]).select();
+      const { data, error } = await window.supabaseClient.from('rfqs').insert([{title, category, deadline, description: desc, rfq_code, status: 'Pending Approval'}]).select();
       if(error) throw error;
       const rfqId = data[0].id;
       
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="py-4 px-5"><span class="bg-blue-50 text-vb-blue px-2 py-1 rounded text-xs font-mono font-bold cursor-pointer hover:bg-blue-100" onclick="copyCode('${rfq.rfq_code}')">${rfq.rfq_code}</span></td>
         <td class="py-4 px-5 text-center text-sm">${rfq.deadline}</td>
         <td class="py-4 px-5 text-center">
-          <span class="px-2 py-1 rounded-md text-[10px] font-bold ${rfq.status==='Issued'?'bg-emerald-50 text-emerald-600': rfq.status==='Canceled'?'bg-red-50 text-red-600':'bg-slate-100 text-slate-500'}">${rfq.status||'Draft'}</span>
+          <span class="px-2 py-1 rounded-md text-[10px] font-bold ${rfq.status==='Issued'?'bg-emerald-50 text-emerald-600': rfq.status==='Pending Approval'?'bg-amber-50 text-amber-600': rfq.status==='Canceled'?'bg-red-50 text-red-600':'bg-slate-100 text-slate-500'}">${rfq.status||'Draft'}</span>
         </td>
         <td class="py-4 px-5 text-right">
           <button onclick="window.openEditRfq('${rfq.id}')" class="p-1.5 border rounded-lg hover:border-vb-blue hover:text-vb-blue"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deadline: getEl('editRfqDeadline').value,
         description: getEl('editRfqDescription').value,
         rfq_code,
-        status: 'Issued'
+        status: 'Pending Approval'
       }]).select();
       const newId = data[0].id;
 

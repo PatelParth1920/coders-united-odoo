@@ -73,11 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Pre-populate with default items so layout looks professional on load
-    let poItems = [
-        { name: 'ThinkPad L14 Gen 4 Laptop', desc: 'Intel i5, 16GB RAM, 512GB SSD, Windows 11 Pro', qty: 2, price: 58500, gstRate: 18 },
-        { name: 'Logitech MX Master 3S Mouse', desc: 'Wireless Silent Ergonomic Mouse, Graphite', qty: 5, price: 8200, gstRate: 18 }
-    ];
+    // Initialize with an empty items array on load as requested
+    let poItems = [];
 
     // ==========================================
     // 3. INITIALIZATION & SYNCING

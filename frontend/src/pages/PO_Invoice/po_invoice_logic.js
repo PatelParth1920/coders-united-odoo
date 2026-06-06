@@ -255,9 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const handleSaveInvoice = async () => {
+    
     const type = 'Sent';
-    const invoice_id = getEl('frmInvId').value.trim();
-    const po = getEl('frmPo').value.trim();
+    let invoice_id = getEl('frmInvId') ? getEl('frmInvId').value.trim() : '';
+    let po = getEl('frmPo') ? getEl('frmPo').value.trim() : '';
+    
+    // Auto-generate if empty
+    if (!invoice_id) invoice_id = 'INV-' + Math.floor(1000 + Math.random() * 9000);
+    if (!po) po = 'PO-' + Math.floor(10000 + Math.random() * 90000);
+
     const contact = getEl('frmContact').value.trim();
     const email = getEl('frmEmail').value.trim();
     const gst_number = getEl('frmGst').value.trim();

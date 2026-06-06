@@ -113,68 +113,20 @@
       </div>
 
       <!-- Activity Timeline List -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-4 max-w-4xl">
-        <div class="flex flex-col">
-          
-          <!-- Item 1 -->
-          <div class="flex items-start gap-4 p-5 md:p-6 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-            <div class="w-10 h-10 rounded-full bg-emerald-50 border-2 border-emerald-500 text-emerald-600 flex items-center justify-center shrink-0">
-              <i data-lucide="check" class="w-5 h-5"></i>
-            </div>
-            <div class="flex-1 flex flex-col space-y-1">
-              <h3 class="text-sm font-light uppercase tracking-widest text-slate-900">
-                Quotation selected - <span class="font-medium text-slate-600">Infra supplies pvt ltd selected for office furniture Q2</span>
-              </h3>
-              <span class="text-xs font-medium text-slate-400">23 may 2025, 9:15 PM</span>
-            </div>
-          </div>
-
-          <!-- Item 2 -->
-          <div class="flex items-start gap-4 p-5 md:p-6 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-            <div class="w-10 h-10 rounded-full bg-blue-50 border-2 border-vb-blue text-vb-blue flex items-center justify-center shrink-0">
-              <i data-lucide="clock" class="w-5 h-5"></i>
-            </div>
-            <div class="flex-1 flex flex-col space-y-1">
-              <h3 class="text-sm font-light uppercase tracking-widest text-slate-900">
-                Approval pending - <span class="font-medium text-slate-600">PO-2024 awaiting L2 approval by priya shah</span>
-              </h3>
-              <span class="text-xs font-medium text-slate-400">22 may 2025, 09:15 AM</span>
-            </div>
-          </div>
-
-          <!-- Item 3 -->
-          <div class="flex items-start gap-4 p-5 md:p-6 border-b border-slate-100 hover:bg-slate-50 transition-colors group">
-            <div class="w-10 h-10 rounded-full bg-slate-50 border-2 border-slate-400 text-slate-600 flex items-center justify-center shrink-0">
-              <i data-lucide="file-text" class="w-5 h-5"></i>
-            </div>
-            <div class="flex-1 flex flex-col space-y-1">
-              <h3 class="text-sm font-light uppercase tracking-widest text-slate-900">
-                RFQ published - <span class="font-medium text-slate-600">office furniture Q2 sent to 3 vendors</span>
-              </h3>
-              <span class="text-xs font-medium text-slate-400">19 may 2025</span>
-            </div>
-          </div>
-
-          <!-- Item 4 -->
-          <div class="flex items-start gap-4 p-5 md:p-6 hover:bg-slate-50 transition-colors group">
-            <div class="w-10 h-10 rounded-full bg-rose-50 border-2 border-rose-500 text-rose-500 flex items-center justify-center shrink-0">
-              <i data-lucide="user-plus" class="w-5 h-5"></i>
-            </div>
-            <div class="flex-1 flex flex-col space-y-1">
-              <h3 class="text-sm font-light uppercase tracking-widest text-slate-900">
-                Vendor added - <span class="font-medium text-slate-600">Fastlog transport registered and pending verifications</span>
-              </h3>
-              <span class="text-xs font-medium text-slate-400">18 may 2025, 3:20 PM</span>
-            </div>
-          </div>
-
+      <div id="activityTimelineContainer" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-4 max-w-4xl">
+        <div id="activityTimelineBody" class="flex flex-col">
+          <!-- Injected by JS -->
+          <div class="p-6 text-center text-sm font-light uppercase tracking-widest text-slate-500">Loading activity...</div>
         </div>
+      </div>
       </div>
 
     </div>
   </main>
 
   <!-- Load the page script -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="../supabase_client.js"></script>
   <script src="./activity_logic.js"></script>
   <script>
     // Initialize Lucide icons

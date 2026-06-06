@@ -1,0 +1,7 @@
+# Python dependencies for vendorbridge custom addons
+# Add any third-party packages required by your custom addons here.
+
+# Example:
+# requests>=2.31.0
+# pandas>=2.0.0
+# openpyxl>=3.1.0  # useful for report generation

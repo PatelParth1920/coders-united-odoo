@@ -1,40 +1,41 @@
 <!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VendorBridge - Purchase Order &amp; Invoice</title>
+  <title>Nexora Systems - Purchase Order &amp; Invoice</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  
   <script>
     tailwind.config = {
-      theme: { extend: { colors: { 'vb-dark': '#031329', 'vb-blue': '#1d4ed8', 'vb-light': '#f8fafc', 'vb-card-border': '#e2e8f0' } } }
+      theme: { extend: { colors: { 'corp-primary': '#F8F9FA', 'corp-secondary': '#38BDF8', 'corp-accent': '#4ADE80', 'vb-dark': '#38BDF8', 'vb-blue': '#4ADE80', 'vb-card-border': '#e2e8f0' } } }
     }
   </script>
   <link rel="stylesheet" href="./po_invoice.css">
 </head>
-<body class="bg-slate-50 flex h-screen overflow-hidden">
+<body class="bg-[#F8F9FA] flex h-screen overflow-hidden">
 
   <!-- SIDEBAR -->
-  <aside id="sidebar" class="sidebar-transition w-64 bg-white text-slate-500 flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+  <aside id="sidebar" class="sidebar-transition w-64 bg-white text-[#38BDF8] flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
     <div class="flex flex-col overflow-y-auto grow">
       <div class="p-6 flex items-center gap-3 border-b border-slate-100">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-vb-blue to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#4ADE80] to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
           <span class="text-white font-light uppercase tracking-widest text-xl select-none">V</span>
         </div>
-        <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
+        <span id="logoText" class="text-[#38BDF8] font-light uppercase tracking-widest text-lg tracking-tight select-none">Nexora Systems</span>
       </div>
       <nav class="p-4 space-y-1 grow">
-        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Dashboard"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Vendors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="RFQs"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
-        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Quotations"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
-        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Approval"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="PO_Invoice"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO &amp; Invoices</span></a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Reports"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Activity"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Dashboard"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Vendors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="RFQs"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Quotations"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Approval"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="PO_Invoice"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO &amp; Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Reports"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors" data-page="Activity"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
       </nav>
     </div>
     <div class="p-4 border-t border-slate-100 space-y-4">
-      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors bg-transparent">
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-[#38BDF8] hover:text-[#38BDF8] hover:bg-[#F8F9FA] transition-colors bg-transparent">
         <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>
       </button>
     </div>
@@ -46,22 +47,22 @@
     <!-- HEADER -->
     <header class="bg-white border-b border-vb-card-border h-16 flex items-center justify-between px-8 shrink-0">
       <div class="flex items-center gap-4 w-96">
-        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg lg:hidden transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
+        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-[#F8F9FA] rounded-lg lg:hidden transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
         <div class="relative w-full">
-          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
-          <input type="text" placeholder="Search invoices..." class="w-full bg-slate-50 border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm outline-none">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-[#38BDF8]"></i>
+          <input type="text" placeholder="Search invoices..." class="w-full bg-[#F8F9FA] border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm outline-none">
         </div>
       </div>
       <div class="relative">
   <div class="relative">
-    <button id="profileDropdownBtn" class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-xl transition-colors outline-none cursor-pointer">
+    <button id="profileDropdownBtn" class="flex items-center gap-3 hover:bg-[#F8F9FA] p-2 rounded-xl transition-colors outline-none cursor-pointer">
       <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 text-blue-600 transition-colors shrink-0 overflow-hidden">
         <i data-lucide="user" class="w-4 h-4"></i>
       </div>
       <div class="flex flex-col text-left hidden sm:flex">
-        <span class="text-[11px] font-light uppercase tracking-widest leading-tight text-slate-800">Guest</span>
+        <span class="text-[11px] font-light uppercase tracking-widest leading-tight text-[#38BDF8]">Guest</span>
       </div>
-      <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+      <i data-lucide="chevron-down" class="w-3 h-3 text-[#38BDF8]"></i>
     </button>
     
     <div id="profileDropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 hidden z-50 overflow-hidden">
@@ -75,40 +76,40 @@
 </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto p-5 md:p-8 bg-slate-50 relative" id="scrollContainer">
+    <div class="flex-1 overflow-y-auto p-5 md:p-8 bg-[#F8F9FA] relative" id="scrollContainer">
 
       <!-- LIST VIEW -->
       <div id="listViewContainer" class="space-y-6 block max-w-6xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900">PO &amp; Invoices</h1>
-            <p class="text-[13px] text-slate-500 font-medium">Manage payment history and track status.</p>
+            <h1 class="text-2xl font-light uppercase tracking-widest text-[#38BDF8]">PO &amp; Invoices</h1>
+            <p class="text-[13px] text-[#38BDF8] font-medium">Manage payment history and track status.</p>
           </div>
-          <button id="btnOpenCreate" class="bg-vb-blue hover:bg-blue-700 text-white font-light uppercase tracking-widest py-2 px-4 rounded-lg text-sm flex items-center gap-2 shadow-sm transition-colors">
+          <button id="btnOpenCreate" class="bg-[#4ADE80] hover:bg-[#22c55e] text-white font-light uppercase tracking-widest py-2 px-4 rounded-lg text-sm flex items-center gap-2 shadow-sm transition-colors">
             <i data-lucide="plus" class="w-4 h-4"></i> Create Invoice
           </button>
         </div>
 
         <div class="flex gap-4 border-b border-slate-200 mb-6">
-          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-vb-blue text-vb-blue" data-tab="all">All Invoices</button>
-          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-slate-500 hover:text-slate-700" data-tab="Sent">Sent by Me</button>
-          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-slate-500 hover:text-slate-700" data-tab="Received">Received</button>
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-vb-blue text-[#38BDF8]" data-tab="all">All Invoices</button>
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-[#38BDF8] hover:text-slate-700" data-tab="Sent">Sent by Me</button>
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-[#38BDF8] hover:text-slate-700" data-tab="Received">Received</button>
         </div>
 
         <div class="bg-white rounded-xl border border-vb-card-border shadow-sm overflow-hidden min-h-[300px] relative">
           <div id="listLoading" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
-            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-vb-blue mb-2"></i>
+            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-[#38BDF8] mb-2"></i>
           </div>
           <div id="listEmpty" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center bg-white">
             <i data-lucide="file-x" class="w-10 h-10 text-slate-300 mb-3"></i>
-            <h3 class="text-lg font-light uppercase tracking-widest mb-1 text-slate-800">No Invoices Found</h3>
-            <p class="text-sm text-slate-500">Create a new invoice to get started.</p>
+            <h3 class="text-lg font-light uppercase tracking-widest mb-1 text-[#38BDF8]">No Invoices Found</h3>
+            <p class="text-sm text-[#38BDF8]">Create a new invoice to get started.</p>
           </div>
           
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
+                <tr class="bg-[#F8F9FA]/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase tracking-wider">
                   <th class="py-4 px-5">Type</th>
                   <th class="py-4 px-5">Invoice ID / PO</th>
                   <th class="py-4 px-5">Party (Vendor)</th>
@@ -118,7 +119,7 @@
                   <th class="py-4 px-5"></th>
                 </tr>
               </thead>
-              <tbody id="invoicesTbody" class="text-sm font-medium text-slate-800 divide-y divide-slate-100"></tbody>
+              <tbody id="invoicesTbody" class="text-sm font-medium text-[#38BDF8] divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
@@ -128,9 +129,9 @@
       <div id="detailViewContainer" class="hidden max-w-5xl mx-auto space-y-6 pb-10">
         <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
           <div class="flex items-center gap-4">
-            <button id="btnBackToList" class="p-2 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors bg-white"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+            <button id="btnBackToList" class="p-2 border border-slate-200 rounded-xl hover:bg-[#F8F9FA] transition-colors bg-white"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
             <div>
-              <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight" id="detTitle">Invoice Document</h1>
+              <h1 class="text-2xl font-light uppercase tracking-widest text-[#38BDF8] tracking-tight" id="detTitle">Invoice Document</h1>
               <p class="text-[14px] text-slate-600 font-medium" id="detSubtitle">PO-NUMBER</p>
             </div>
           </div>
@@ -143,25 +144,25 @@
           <div class="p-6 md:p-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div class="space-y-4">
-                <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">From:</h3>
-                <div class="text-sm text-slate-900 font-medium space-y-1" id="detFromInfo"></div>
+                <h3 class="text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase tracking-wider mb-2">From:</h3>
+                <div class="text-sm text-[#38BDF8] font-medium space-y-1" id="detFromInfo"></div>
               </div>
               <div class="space-y-4">
-                <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">To:</h3>
-                <div class="text-sm text-slate-900 font-medium space-y-1" id="detToInfo"></div>
+                <h3 class="text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase tracking-wider mb-2">To:</h3>
+                <div class="text-sm text-[#38BDF8] font-medium space-y-1" id="detToInfo"></div>
               </div>
             </div>
             <div class="w-full h-px bg-slate-200 my-6"></div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div class="space-y-3">
-                <div class="flex flex-col text-sm"><span class="text-xs text-slate-500 font-light uppercase tracking-widest uppercase tracking-wider mb-1">Invoice ID:</span><span class="font-light uppercase tracking-widest text-base" id="detInvId"></span></div>
+                <div class="flex flex-col text-sm"><span class="text-xs text-[#38BDF8] font-light uppercase tracking-widest uppercase tracking-wider mb-1">Invoice ID:</span><span class="font-light uppercase tracking-widest text-base" id="detInvId"></span></div>
               </div>
               <div class="space-y-3">
-                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">PO Num:</span><span class="font-light uppercase tracking-widest" id="detPoNum"></span></div>
-                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">Issue Date:</span><span class="font-medium" id="detIssue"></span></div>
+                <div class="flex text-sm"><span class="w-24 text-[#38BDF8] font-medium">PO Num:</span><span class="font-light uppercase tracking-widest" id="detPoNum"></span></div>
+                <div class="flex text-sm"><span class="w-24 text-[#38BDF8] font-medium">Issue Date:</span><span class="font-medium" id="detIssue"></span></div>
               </div>
               <div class="space-y-3">
-                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">Due Date:</span><span class="font-light uppercase tracking-widest text-red-500" id="detDue"></span></div>
+                <div class="flex text-sm"><span class="w-24 text-[#38BDF8] font-medium">Due Date:</span><span class="font-light uppercase tracking-widest text-red-500" id="detDue"></span></div>
               </div>
             </div>
           </div>
@@ -171,27 +172,27 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
+                <tr class="bg-[#F8F9FA]/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase tracking-wider">
                   <th class="py-4 px-6">Item</th>
                   <th class="py-4 px-6 w-24 text-center">Qty</th>
                   <th class="py-4 px-6 w-40 text-right">Unit price</th>
                   <th class="py-4 px-6 w-40 text-right">Total</th>
                 </tr>
               </thead>
-              <tbody class="text-sm font-medium text-slate-800 divide-y divide-slate-100" id="detItemsTbody"></tbody>
+              <tbody class="text-sm font-medium text-[#38BDF8] divide-y divide-slate-100" id="detItemsTbody"></tbody>
             </table>
           </div>
-          <div class="border-t border-slate-200 bg-slate-50/50 p-6 flex flex-col md:flex-row justify-between items-start gap-6">
+          <div class="border-t border-slate-200 bg-[#F8F9FA] p-6 flex flex-col md:flex-row justify-between items-start gap-6">
             
             <div class="flex-1 w-full max-w-md">
-              <h4 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">Terms &amp; Conditions</h4>
+              <h4 class="text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase tracking-wider mb-2">Terms &amp; Conditions</h4>
               <p class="text-xs text-slate-600 bg-white p-3 rounded-lg border border-slate-200 whitespace-pre-wrap" id="detTc"></p>
             </div>
 
             <div class="w-full max-w-sm space-y-3">
-              <div class="flex justify-between text-sm font-medium text-slate-600 px-2"><span>Subtotal</span><span id="detSubtotal" class="text-slate-900 font-mono"></span></div>
-              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2"><span id="detTaxLabel"></span><span id="detTaxAmount" class="text-slate-900 font-mono"></span></div>
-              <div class="flex justify-between items-center text-sm font-light uppercase tracking-widest text-slate-900 px-2 border-t-2 border-slate-800 pt-3 mt-1"><span class="uppercase tracking-wider">Grand total</span><span id="detGrandTotal" class="text-lg text-vb-blue font-mono"></span></div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2"><span>Subtotal</span><span id="detSubtotal" class="text-[#38BDF8] font-mono"></span></div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2"><span id="detTaxLabel"></span><span id="detTaxAmount" class="text-[#38BDF8] font-mono"></span></div>
+              <div class="flex justify-between items-center text-sm font-light uppercase tracking-widest text-[#38BDF8] px-2 border-t-2 border-slate-800 pt-3 mt-1"><span class="uppercase tracking-wider">Grand total</span><span id="detGrandTotal" class="text-lg text-[#38BDF8] font-mono"></span></div>
             </div>
           </div>
         </div>
@@ -214,15 +215,15 @@
     <div id="createModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex justify-end">
       <div class="w-full max-w-2xl bg-white h-full shadow-2xl flex flex-col translate-x-full transition-transform duration-300" id="createModalPanel">
         <div class="p-6 border-b border-slate-200 flex justify-between items-center shrink-0">
-          <h2 class="text-xl font-light uppercase tracking-widest text-slate-900">Draft New Invoice</h2>
-          <button id="btnCloseCreate" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+          <h2 class="text-xl font-light uppercase tracking-widest text-[#38BDF8]">Draft New Invoice</h2>
+          <button id="btnCloseCreate" class="p-2 text-[#38BDF8] hover:bg-[#F8F9FA] rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <div class="p-6 overflow-y-auto flex-1 space-y-6">
           
           <div class="grid grid-cols-1 gap-4">
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Vendor / Party Name <span class="text-red-500">*</span></label>
-              <input type="text" id="frmVendorSearch" placeholder="Enter vendor name manually..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue font-light uppercase tracking-widest">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Vendor / Party Name <span class="text-red-500">*</span></label>
+              <input type="text" id="frmVendorSearch" placeholder="Enter vendor name manually..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue font-light uppercase tracking-widest">
             </div>
           </div>
 
@@ -233,27 +234,27 @@
 
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Email Address <span class="text-red-500">*</span></label>
-              <input type="email" id="frmEmail" placeholder="billing@company.com" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Email Address <span class="text-red-500">*</span></label>
+              <input type="email" id="frmEmail" placeholder="billing@company.com" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue">
             </div>
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Contact Number (Opt)</label>
-              <input type="text" id="frmContact" placeholder="+1 234 567 890" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Contact Number (Opt)</label>
+              <input type="text" id="frmContact" placeholder="+1 234 567 890" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue">
             </div>
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">GST / Tax ID (Opt)</label>
-              <input type="text" id="frmGst" placeholder="GSTIN..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">GST / Tax ID (Opt)</label>
+              <input type="text" id="frmGst" placeholder="GSTIN..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue">
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Issue Date <span class="text-red-500">*</span></label>
-              <input type="date" id="frmIssue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Issue Date <span class="text-red-500">*</span></label>
+              <input type="date" id="frmIssue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue">
             </div>
             <div>
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Due Date <span class="text-red-500">*</span></label>
-              <input type="date" id="frmDue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Due Date <span class="text-red-500">*</span></label>
+              <input type="date" id="frmDue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue">
             </div>
           </div>
 
@@ -261,12 +262,12 @@
 
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase">Line Items <span class="text-red-500">*</span></label>
-              <button id="btnAddItem" class="text-xs font-light uppercase tracking-widest text-vb-blue flex items-center gap-1 hover:underline"><i data-lucide="plus" class="w-3 h-3"></i> Add Item</button>
+              <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase">Line Items <span class="text-red-500">*</span></label>
+              <button id="btnAddItem" class="text-xs font-light uppercase tracking-widest text-[#38BDF8] flex items-center gap-1 hover:underline"><i data-lucide="plus" class="w-3 h-3"></i> Add Item</button>
             </div>
             <div class="border border-slate-200 rounded-lg overflow-hidden">
               <table class="w-full text-left text-sm">
-                <thead class="bg-slate-50 text-[10px] uppercase text-slate-500">
+                <thead class="bg-[#F8F9FA] text-[10px] uppercase text-[#38BDF8]">
                   <tr><th class="p-2">Name</th><th class="p-2 w-16">Qty</th><th class="p-2 w-24">Price</th><th class="p-2 w-10"></th></tr>
                 </thead>
                 <tbody id="frmItemsBody" class="divide-y divide-slate-100"></tbody>
@@ -275,25 +276,25 @@
           </div>
 
           <div class="flex justify-end items-center gap-4">
-            <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase">Tax %</label>
-            <input type="number" id="frmTax" value="0" min="0" class="w-20 border border-slate-200 rounded-lg p-2 text-sm bg-slate-50 outline-none text-right font-light uppercase tracking-widest text-slate-800">
+            <label class="text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase">Tax %</label>
+            <input type="number" id="frmTax" value="0" min="0" class="w-20 border border-slate-200 rounded-lg p-2 text-sm bg-[#F8F9FA] outline-none text-right font-light uppercase tracking-widest text-[#38BDF8]">
           </div>
 
-          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-right space-y-1">
-            <p class="text-xs font-medium text-slate-500">Subtotal: $<span id="lblSub" class="font-mono">0.00</span></p>
-            <p class="text-xs font-medium text-slate-500">Tax: $<span id="lblTax" class="font-mono">0.00</span></p>
-            <p class="text-base font-light uppercase tracking-widest text-slate-900 mt-2 pt-2 border-t border-slate-200">Grand Total: $<span id="lblTotal" class="font-mono">0.00</span></p>
+          <div class="bg-[#F8F9FA] p-4 rounded-lg border border-slate-200 text-right space-y-1">
+            <p class="text-xs font-medium text-[#38BDF8]">Subtotal: $<span id="lblSub" class="font-mono">0.00</span></p>
+            <p class="text-xs font-medium text-[#38BDF8]">Tax: $<span id="lblTax" class="font-mono">0.00</span></p>
+            <p class="text-base font-light uppercase tracking-widest text-[#38BDF8] mt-2 pt-2 border-t border-slate-200">Grand Total: $<span id="lblTotal" class="font-mono">0.00</span></p>
           </div>
 
           <div>
-            <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Terms &amp; Conditions</label>
-            <textarea id="frmTc" rows="3" placeholder="Payment is due within 30 days..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue"></textarea>
+            <label class="block text-xs font-light uppercase tracking-widest text-[#38BDF8] uppercase mb-2">Terms &amp; Conditions</label>
+            <textarea id="frmTc" rows="3" placeholder="Payment is due within 30 days..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-[#F8F9FA] outline-none focus:border-vb-blue"></textarea>
           </div>
 
         </div>
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-[#F8F9FA] flex justify-end gap-3 shrink-0">
           <button id="btnCancelCreate" class="px-5 py-2.5 text-sm font-light uppercase tracking-widest text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
-          <button id="btnSaveInvoice" class="px-5 py-2.5 text-sm font-light uppercase tracking-widest text-white bg-vb-blue hover:bg-blue-700 rounded-lg shadow-md transition-colors flex items-center gap-2">
+          <button id="btnSaveInvoice" class="px-5 py-2.5 text-sm font-light uppercase tracking-widest text-white bg-[#4ADE80] hover:bg-[#22c55e] rounded-lg shadow-md transition-colors flex items-center gap-2">
             Save Invoice
           </button>
         </div>

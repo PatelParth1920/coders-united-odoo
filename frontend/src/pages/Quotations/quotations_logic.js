@@ -10,37 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toggleSidebar = () => {
     isCollapsed = !isCollapsed;
-    
     if (isCollapsed) {
       sidebar.classList.remove('w-64');
       sidebar.classList.add('w-20');
-      
       if(logoText) logoText.classList.add('hidden');
       if(supportBox) supportBox.classList.add('hidden');
-      
-      document.querySelectorAll('.sidebar-label').forEach(label => {
-        label.classList.add('hidden');
-      });
-      
+      document.querySelectorAll('.sidebar-label').forEach(label => label.classList.add('hidden'));
       if(collapseBtn) collapseBtn.innerHTML = '<i data-lucide="chevrons-right" class="w-5 h-5 shrink-0"></i>';
     } else {
       sidebar.classList.remove('w-20');
       sidebar.classList.add('w-64');
-      
       setTimeout(() => {
         if(logoText) logoText.classList.remove('hidden');
         if(supportBox) supportBox.classList.remove('hidden');
-        document.querySelectorAll('.sidebar-label').forEach(label => {
-          label.classList.remove('hidden');
-        });
+        document.querySelectorAll('.sidebar-label').forEach(label => label.classList.remove('hidden'));
       }, 150);
-      
-      if(collapseBtn) {
-        collapseBtn.innerHTML = `
-          <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Collapse</span>
-        `;
-      }
+      if(collapseBtn) collapseBtn.innerHTML = `<i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>`;
     }
     lucide.createIcons();
   };
@@ -55,14 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- UI Elements ---
-  const rfqSelector = document.getElementById('rfqSelector');
-  const modeEntryBtn = document.getElementById('modeEntryBtn');
-  const modeComparisonBtn = document.getElementById('modeComparisonBtn');
-  
   const loadingState = document.getElementById('quotationsLoadingState');
-  const noRfqSelectedState = document.getElementById('noRfqSelectedState');
+  
+  // Home Screen
+  const dashboardOverview = document.getElementById('dashboardOverview');
+  const optSubmitQuoteBtn = document.getElementById('optSubmitQuoteBtn');
+  const optAnalyzeQuotesBtn = document.getElementById('optAnalyzeQuotesBtn');
+
+  // Submit Flow
+  const codeEntryContainer = document.getElementById('codeEntryContainer');
+  const backFromCodeBtn = document.getElementById('backFromCodeBtn');
+  const rfqCodeInput = document.getElementById('rfqCodeInput');
+  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+
+  // Analyze Flow
+  const receivedListView = document.getElementById('receivedListView');
+  const backFromReceivedBtn = document.getElementById('backFromReceivedBtn');
+  const receivedQuotesGrid = document.getElementById('receivedQuotesGrid');
+  const noReceivedState = document.getElementById('noReceivedState');
+
+  // Mode Containers
   const modeEntryContainer = document.getElementById('modeEntryContainer');
   const modeComparisonContainer = document.getElementById('modeComparisonContainer');
+  const backToDashboardBtn1 = document.getElementById('backToDashboardBtn1');
+  const backToDashboardBtn2 = document.getElementById('backToDashboardBtn2');
 
   // Entry Mode Elements
   const vendorSelector = document.getElementById('vendorSelector');
@@ -71,12 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const quoteFormArea = document.getElementById('quoteFormArea');
   const vendorAlreadySubmittedState = document.getElementById('vendorAlreadySubmittedState');
   const quoteItemsTbody = document.getElementById('quoteItemsTbody');
-  
   const quoteTax = document.getElementById('quoteTax');
   const quoteDelivery = document.getElementById('quoteDelivery');
   const quoteTerms = document.getElementById('quoteTerms');
   const submitQuoteBtn = document.getElementById('submitQuoteBtn');
-  
   const summarySubtotal = document.getElementById('summarySubtotal');
   const summaryTaxPercent = document.getElementById('summaryTaxPercent');
   const summaryTaxAmount = document.getElementById('summaryTaxAmount');
@@ -84,178 +83,173 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Comparison Mode Elements
   const comparisonSubtitle = document.getElementById('comparisonSubtitle');
-  const noQuotationsState = document.getElementById('noQuotationsState');
   const comparisonMatrixWrapper = document.getElementById('comparisonMatrixWrapper');
   const comparisonThead = document.getElementById('comparisonThead');
   const comparisonTbody = document.getElementById('comparisonTbody');
   const comparisonLegend = document.getElementById('comparisonLegend');
 
   // --- State ---
-  let currentMode = 'entry'; // 'entry' or 'comparison'
   let allRfqs = [];
   let currentRfq = null;
   let currentRfqItems = [];
-  
   let assignedVendors = [];
   let existingQuotations = [];
   let selectedVendorId = '';
+  let quoteLineItems = [];
 
-  // Form State
-  let quoteLineItems = []; // Array of { rfq_item_id, unit_price, qty, total }
-
-  // --- Initialization ---
-  const init = async () => {
-    try {
-      showLoading(true);
-      const { data, error } = await window.supabaseClient.from('rfqs').select('*').order('created_at', { ascending: false });
-      if (error) throw error;
-      allRfqs = data;
-      
-      rfqSelector.innerHTML = '<option value="">Select an RFQ...</option>';
-      allRfqs.forEach(rfq => {
-        rfqSelector.innerHTML += `<option value="${rfq.id}">${rfq.title} (${rfq.status})</option>`;
-      });
-    } catch (err) {
-      console.error("Failed to load RFQs:", err);
-      alert("Failed to load RFQs.");
-    } finally {
-      showLoading(false);
-    }
-  };
-
-  // --- Event Listeners ---
-  modeEntryBtn.addEventListener('click', () => setMode('entry'));
-  modeComparisonBtn.addEventListener('click', () => setMode('comparison'));
-  
-  rfqSelector.addEventListener('change', async (e) => {
-    const rfqId = e.target.value;
-    if (!rfqId) {
-      currentRfq = null;
-      renderBaseUI();
-      return;
-    }
-    currentRfq = allRfqs.find(r => r.id === rfqId);
-    await loadRfqData();
-  });
-
-  vendorSelector.addEventListener('change', (e) => {
-    selectedVendorId = e.target.value;
-    renderEntryForm();
-  });
-
-  quoteTax.addEventListener('input', calculateTotals);
-
-  submitQuoteBtn.addEventListener('click', async () => {
-    if (!selectedVendorId) return alert("Select a vendor.");
-    const delivery = parseInt(quoteDelivery.value) || 0;
-    if (delivery <= 0) return alert("Enter valid delivery days.");
-    
-    // Validate unit prices
-    const invalidItem = quoteLineItems.find(item => item.unit_price <= 0);
-    if (invalidItem) return alert("Please enter valid unit prices for all items.");
-
-    const taxPercent = parseFloat(quoteTax.value) || 0;
-    const sub = quoteLineItems.reduce((acc, curr) => acc + curr.total, 0);
-    const taxAmt = sub * (taxPercent / 100);
-    const grand = sub + taxAmt;
-
-    showLoading(true);
-    try {
-      // 1. Insert Quotation
-      const { data: qData, error: qError } = await window.supabaseClient.from('quotations').insert([{
-        rfq_id: currentRfq.id,
-        vendor_id: selectedVendorId,
-        subtotal: sub,
-        tax_percentage: taxPercent,
-        grand_total: grand,
-        delivery_days: delivery,
-        terms: quoteTerms.value.trim(),
-        status: 'Submitted'
-      }]).select();
-      if (qError) throw qError;
-
-      const quotationId = qData[0].id;
-
-      // 2. Insert Items
-      const itemsToInsert = quoteLineItems.map(item => ({
-        quotation_id: quotationId,
-        rfq_item_id: item.rfq_item_id,
-        unit_price: item.unit_price,
-        total_price: item.total
-      }));
-
-      const { error: iError } = await window.supabaseClient.from('quotation_items').insert(itemsToInsert);
-      if (iError) throw iError;
-
-      alert("Quotation submitted successfully!");
-      await loadRfqData(); // Refresh data
-
-    } catch (err) {
-      console.error(err);
-      alert("Failed to submit quotation. Error: " + (err.message || err));
-    } finally {
-      showLoading(false);
-    }
-  });
-
-
-  // --- Logic Functions ---
+  // --- Helpers ---
   const showLoading = (show) => {
     if (show) loadingState.classList.remove('hidden');
     else loadingState.classList.add('hidden');
   };
 
-  const setMode = (mode) => {
-    currentMode = mode;
-    if (mode === 'entry') {
-      modeEntryBtn.className = "flex-1 py-2 text-sm font-bold rounded-lg transition-colors bg-white text-vb-blue shadow-sm";
-      modeComparisonBtn.className = "flex-1 py-2 text-sm font-bold rounded-lg transition-colors text-slate-500 hover:text-slate-700 bg-transparent";
-    } else {
-      modeComparisonBtn.className = "flex-1 py-2 text-sm font-bold rounded-lg transition-colors bg-white text-vb-blue shadow-sm";
-      modeEntryBtn.className = "flex-1 py-2 text-sm font-bold rounded-lg transition-colors text-slate-500 hover:text-slate-700 bg-transparent";
-    }
-    renderBaseUI();
+  const hideAllViews = () => {
+    dashboardOverview.classList.add('hidden');
+    codeEntryContainer.classList.add('hidden');
+    receivedListView.classList.add('hidden');
+    modeEntryContainer.classList.add('hidden');
+    modeComparisonContainer.classList.add('hidden');
   };
 
-  const renderBaseUI = () => {
-    if (!currentRfq) {
-      noRfqSelectedState.classList.remove('hidden');
-      modeEntryContainer.classList.add('hidden');
-      modeComparisonContainer.classList.add('hidden');
-      return;
-    }
-    noRfqSelectedState.classList.add('hidden');
-    
-    if (currentMode === 'entry') {
-      modeEntryContainer.classList.remove('hidden');
-      modeComparisonContainer.classList.add('hidden');
-      setupEntryMode();
-    } else {
-      modeComparisonContainer.classList.remove('hidden');
-      modeEntryContainer.classList.add('hidden');
-      setupComparisonMode();
-    }
-    lucide.createIcons();
+  const showHomeScreen = () => {
+    hideAllViews();
+    dashboardOverview.classList.remove('hidden');
+    currentRfq = null;
   };
 
-  const loadRfqData = async () => {
-    if (!currentRfq) return;
+  // --- Navigation Event Listeners ---
+  backFromCodeBtn.addEventListener('click', showHomeScreen);
+  backFromReceivedBtn.addEventListener('click', showHomeScreen);
+  backToDashboardBtn1.addEventListener('click', showHomeScreen);
+  backToDashboardBtn2.addEventListener('click', showHomeScreen);
+
+  // --- FLOW 1: SUBMIT QUOTATION ---
+  optSubmitQuoteBtn.addEventListener('click', () => {
+    hideAllViews();
+    codeEntryContainer.classList.remove('hidden');
+    rfqCodeInput.value = '';
+    rfqCodeInput.focus();
+  });
+
+  verifyCodeBtn.addEventListener('click', async () => {
+    const code = rfqCodeInput.value.trim().toUpperCase();
+    if (!code) return alert("Please enter a valid RFQ code.");
+
     showLoading(true);
     try {
-      // Load RFQ Items
+      // Find RFQ by code
+      const { data, error } = await window.supabaseClient.from('rfqs').select('*').eq('rfq_code', code).single();
+      
+      if (error || !data) {
+        alert("Invalid RFQ Code. Please check the code and try again.");
+        return;
+      }
+
+      currentRfq = data;
+      await loadActiveRfqData('entry');
+      
+      hideAllViews();
+      modeEntryContainer.classList.remove('hidden');
+      
+    } catch (err) {
+      console.error(err);
+      if (err.code === 'PGRST116') {
+        alert("RFQ Code not found.");
+      } else {
+        alert("Error verifying code.");
+      }
+    } finally {
+      showLoading(false);
+    }
+  });
+
+
+  // --- FLOW 2: ANALYZE QUOTATIONS ---
+  optAnalyzeQuotesBtn.addEventListener('click', async () => {
+    hideAllViews();
+    receivedListView.classList.remove('hidden');
+    showLoading(true);
+    
+    try {
+      // 1. Fetch all RFQs
+      const { data: rfqs, error: rfqErr } = await window.supabaseClient.from('rfqs').select('*').order('created_at', { ascending: false });
+      if (rfqErr) throw rfqErr;
+
+      // 2. Fetch all quotations
+      const { data: allQuotations, error: qErr } = await window.supabaseClient.from('quotations').select('rfq_id, vendor_id');
+      if (qErr) throw qErr;
+
+      let receivedCardsHtml = '';
+      let receivedC = 0;
+      allRfqs = rfqs; // Store for later
+
+      rfqs.forEach(rfq => {
+        const quotedForThis = allQuotations.filter(q => q.rfq_id === rfq.id);
+        const totalQuoted = quotedForThis.length;
+
+        if (totalQuoted > 0) {
+          receivedC++;
+          receivedCardsHtml += `
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between h-full group" onclick="openComparisonMode('${rfq.id}')">
+              <div>
+                <div class="flex items-start justify-between mb-2">
+                  <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-vb-blue transition-colors">${rfq.title}</h3>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-600 border border-emerald-200 shrink-0 whitespace-nowrap">${totalQuoted} bids</span>
+                </div>
+                <p class="text-[11px] text-slate-500 font-mono mb-3 bg-slate-50 inline-block px-1.5 py-0.5 rounded border border-slate-100">Code: ${rfq.rfq_code || 'N/A'}</p>
+                <div class="flex items-center gap-4 text-xs text-slate-500 font-medium">
+                  <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> ${rfq.deadline}</span>
+                </div>
+              </div>
+              <button class="mt-4 w-full bg-slate-50 group-hover:bg-emerald-500 group-hover:text-white border border-slate-200 group-hover:border-emerald-500 text-slate-700 py-2 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Analyze
+              </button>
+            </div>
+          `;
+        }
+      });
+
+      receivedQuotesGrid.innerHTML = receivedCardsHtml;
+
+      if (receivedC === 0) noReceivedState.classList.remove('hidden');
+      else noReceivedState.classList.add('hidden');
+
+      lucide.createIcons();
+
+    } catch (err) {
+      console.error("Dashboard Load Error:", err);
+      alert("Failed to load received quotations. Error: " + (err.message || JSON.stringify(err)));
+    } finally {
+      showLoading(false);
+    }
+  });
+
+  window.openComparisonMode = async (rfqId) => {
+    currentRfq = allRfqs.find(r => r.id === rfqId);
+    await loadActiveRfqData('comparison');
+    hideAllViews();
+    modeComparisonContainer.classList.remove('hidden');
+  };
+
+  // --- Shared Logic ---
+  const loadActiveRfqData = async (mode) => {
+    showLoading(true);
+    try {
       const { data: items } = await window.supabaseClient.from('rfq_items').select('*').eq('rfq_id', currentRfq.id);
       currentRfqItems = items || [];
 
-      // Load Assigned Vendors
       const { data: vendorLinks } = await window.supabaseClient.from('rfq_vendors').select('vendor_id, vendors(id, name, category)').eq('rfq_id', currentRfq.id);
       assignedVendors = vendorLinks ? vendorLinks.map(link => link.vendors) : [];
 
-      // Load Existing Quotations
       const { data: quotes } = await window.supabaseClient.from('quotations').select('*, vendors(name), quotation_items(*)').eq('rfq_id', currentRfq.id);
       existingQuotations = quotes || [];
 
       selectedVendorId = '';
-      renderBaseUI();
+
+      if (mode === 'entry') setupEntryMode();
+      if (mode === 'comparison') setupComparisonMode();
+      
+      lucide.createIcons();
     } catch (err) {
       console.error(err);
       alert("Failed to load RFQ data.");
@@ -264,12 +258,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // --- Entry Mode ---
+  // --- Entry Mode Logic ---
   const setupEntryMode = () => {
     entryRfqTitle.textContent = currentRfq.title;
     entryRfqDesc.textContent = `Deadline: ${currentRfq.deadline} | Items: ${currentRfqItems.length}`;
 
-    // Populate Vendor Dropdown (only those who haven't submitted)
     vendorSelector.innerHTML = '<option value="">Select Vendor...</option>';
     assignedVendors.forEach(v => {
       const hasSubmitted = existingQuotations.some(q => q.vendor_id === v.id);
@@ -282,6 +275,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderEntryForm();
   };
+
+  vendorSelector.addEventListener('change', (e) => {
+    selectedVendorId = e.target.value;
+    renderEntryForm();
+  });
 
   const renderEntryForm = () => {
     if (!selectedVendorId) {
@@ -297,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Initialize state for form
     quoteLineItems = currentRfqItems.map(item => ({
       rfq_item_id: item.id,
       name: item.item_name,
@@ -310,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
     vendorAlreadySubmittedState.classList.add('hidden');
     quoteFormArea.classList.remove('hidden');
     
-    // Reset inputs
     quoteTax.value = 18;
     quoteDelivery.value = '';
     quoteTerms.value = '';
@@ -362,22 +358,63 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryGrandTotal.textContent = `₹ ${grandTotal.toLocaleString('en-IN')}`;
   };
 
-  // --- Comparison Mode ---
+  quoteTax.addEventListener('input', calculateTotals);
+
+  submitQuoteBtn.addEventListener('click', async () => {
+    if (!selectedVendorId) return alert("Select a vendor.");
+    const delivery = parseInt(quoteDelivery.value) || 0;
+    if (delivery <= 0) return alert("Enter valid delivery days.");
+    
+    const invalidItem = quoteLineItems.find(item => item.unit_price <= 0);
+    if (invalidItem) return alert("Please enter valid unit prices for all items.");
+
+    const taxPercent = parseFloat(quoteTax.value) || 0;
+    const sub = quoteLineItems.reduce((acc, curr) => acc + curr.total, 0);
+    const taxAmt = sub * (taxPercent / 100);
+    const grand = sub + taxAmt;
+
+    showLoading(true);
+    try {
+      const { data: qData, error: qError } = await window.supabaseClient.from('quotations').insert([{
+        rfq_id: currentRfq.id,
+        vendor_id: selectedVendorId,
+        subtotal: sub,
+        tax_percentage: taxPercent,
+        grand_total: grand,
+        delivery_days: delivery,
+        terms: quoteTerms.value.trim(),
+        status: 'Submitted'
+      }]).select();
+      if (qError) throw qError;
+
+      const quotationId = qData[0].id;
+      const itemsToInsert = quoteLineItems.map(item => ({
+        quotation_id: quotationId,
+        rfq_item_id: item.rfq_item_id,
+        unit_price: item.unit_price,
+        total_price: item.total
+      }));
+
+      const { error: iError } = await window.supabaseClient.from('quotation_items').insert(itemsToInsert);
+      if (iError) throw iError;
+
+      alert("Quotation submitted successfully!");
+      showHomeScreen(); 
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit quotation. Error: " + (err.message || err));
+    } finally {
+      showLoading(false);
+    }
+  });
+
+  // --- Comparison Mode Logic ---
   const setupComparisonMode = () => {
     comparisonSubtitle.textContent = `RFQ: ${currentRfq.title} - ${existingQuotations.length} quotations received`;
-
-    if (existingQuotations.length === 0) {
-      noQuotationsState.classList.remove('hidden');
-      comparisonMatrixWrapper.classList.add('hidden');
-      comparisonLegend.classList.add('hidden');
-      return;
-    }
-
-    noQuotationsState.classList.add('hidden');
     comparisonMatrixWrapper.classList.remove('hidden');
     comparisonLegend.classList.remove('hidden');
 
-    // Find lowest grand total
     let lowestQuoteId = null;
     let minTotal = Infinity;
     existingQuotations.forEach(q => {
@@ -387,12 +424,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Build Table Header
     comparisonThead.innerHTML = '';
     const trHead = document.createElement('tr');
     trHead.className = 'bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider';
-    let thCriteria = `<th class="py-4 px-4 text-left border-r border-slate-200 w-48">Criteria</th>`;
-    trHead.innerHTML = thCriteria;
+    trHead.innerHTML = `<th class="py-4 px-4 text-left border-r border-slate-200 w-48">Criteria</th>`;
 
     existingQuotations.forEach(q => {
       const isLowest = q.id === lowestQuoteId;
@@ -411,60 +446,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     comparisonThead.appendChild(trHead);
 
-    // Build Table Body
     comparisonTbody.innerHTML = '';
     
-    // Row: Grand Total
-    const trGrand = document.createElement('tr');
-    trGrand.className = 'border-b border-slate-100';
-    trGrand.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">Grand Total</td>`;
-    existingQuotations.forEach(q => {
-      const isLowest = q.id === lowestQuoteId;
-      trGrand.innerHTML += `<td class="py-4 px-4 ${isLowest ? 'border-r border-emerald-200 bg-emerald-50/40 font-bold text-slate-900' : 'border-r border-slate-200'}">₹ ${q.grand_total.toLocaleString('en-IN')}</td>`;
-    });
-    comparisonTbody.appendChild(trGrand);
+    // Rows generator helper
+    const addRow = (label, prop, formatter) => {
+      const tr = document.createElement('tr');
+      tr.className = 'border-b border-slate-100';
+      tr.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">${label}</td>`;
+      existingQuotations.forEach(q => {
+        const isLowest = q.id === lowestQuoteId;
+        const classes = isLowest ? 'border-r border-emerald-200 bg-emerald-50/40' : 'border-r border-slate-200';
+        tr.innerHTML += `<td class="py-4 px-4 ${classes}">${formatter(q[prop])}</td>`;
+      });
+      comparisonTbody.appendChild(tr);
+    };
 
-    // Row: Subtotal
-    const trSub = document.createElement('tr');
-    trSub.className = 'border-b border-slate-100';
-    trSub.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">Subtotal</td>`;
-    existingQuotations.forEach(q => {
-      const isLowest = q.id === lowestQuoteId;
-      trSub.innerHTML += `<td class="py-4 px-4 ${isLowest ? 'border-r border-emerald-200 bg-emerald-50/40' : 'border-r border-slate-200'}">₹ ${q.subtotal.toLocaleString('en-IN')}</td>`;
-    });
-    comparisonTbody.appendChild(trSub);
+    addRow('Grand Total', 'grand_total', v => `<span class="font-bold text-slate-900">₹ ${v.toLocaleString('en-IN')}</span>`);
+    addRow('Subtotal', 'subtotal', v => `₹ ${v.toLocaleString('en-IN')}`);
+    addRow('GST %', 'tax_percentage', v => `${v}%`);
+    addRow('Delivery (days)', 'delivery_days', v => v);
+    addRow('Terms', 'terms', v => `<span class="text-[10px] text-slate-500 leading-tight">${v || '-'}</span>`);
 
-    // Row: GST
-    const trGst = document.createElement('tr');
-    trGst.className = 'border-b border-slate-100';
-    trGst.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">GST %</td>`;
-    existingQuotations.forEach(q => {
-      const isLowest = q.id === lowestQuoteId;
-      trGst.innerHTML += `<td class="py-4 px-4 ${isLowest ? 'border-r border-emerald-200 bg-emerald-50/40' : 'border-r border-slate-200'}">${q.tax_percentage}%</td>`;
-    });
-    comparisonTbody.appendChild(trGst);
-
-    // Row: Delivery
-    const trDel = document.createElement('tr');
-    trDel.className = 'border-b border-slate-100';
-    trDel.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">Delivery (days)</td>`;
-    existingQuotations.forEach(q => {
-      const isLowest = q.id === lowestQuoteId;
-      trDel.innerHTML += `<td class="py-4 px-4 ${isLowest ? 'border-r border-emerald-200 bg-emerald-50/40' : 'border-r border-slate-200'}">${q.delivery_days}</td>`;
-    });
-    comparisonTbody.appendChild(trDel);
-
-    // Row: Terms
-    const trTerms = document.createElement('tr');
-    trTerms.className = 'border-b border-slate-100';
-    trTerms.innerHTML = `<td class="py-4 px-4 text-left text-slate-500 border-r border-slate-200">Terms</td>`;
-    existingQuotations.forEach(q => {
-      const isLowest = q.id === lowestQuoteId;
-      trTerms.innerHTML += `<td class="py-4 px-4 text-[10px] text-slate-500 leading-tight ${isLowest ? 'border-r border-emerald-200 bg-emerald-50/40' : 'border-r border-slate-200'}">${q.terms || '-'}</td>`;
-    });
-    comparisonTbody.appendChild(trTerms);
-
-    // Row: Actions
+    // Actions Row
     const trAct = document.createElement('tr');
     trAct.innerHTML = `<td class="py-4 px-4 text-left border-r border-slate-200"></td>`;
     existingQuotations.forEach(q => {
@@ -481,7 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
     comparisonTbody.appendChild(trAct);
   };
 
-  // Global approve function
   window.approveQuote = async (quoteId) => {
     if (!confirm("Are you sure you want to approve this quotation?")) return;
     showLoading(true);
@@ -489,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { error } = await window.supabaseClient.from('quotations').update({ status: 'Approved' }).eq('id', quoteId);
       if (error) throw error;
       alert("Quotation approved!");
-      await loadRfqData();
+      showHomeScreen();
     } catch (err) {
       console.error(err);
       alert("Failed to approve quotation.");
@@ -498,11 +500,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Initialize
-  if (window.supabaseClient) {
-    init();
-  } else {
-    // Wait slightly if supabase loads asynchronously
-    setTimeout(init, 500);
-  }
+  // Launch (Remove init since we don't fetch data until a button is clicked)
 });

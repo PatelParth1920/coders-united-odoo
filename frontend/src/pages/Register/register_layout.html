@@ -1,112 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vander Bridge - Register Profile</title>
-    <link rel="stylesheet" href="register.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VendorBridge - Register</title>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="../../global.css">
 </head>
-<body>
+<body class="bg-slate-50 flex h-screen items-center justify-center font-sans">
 
-    <div class="register-card">
-        <div class="register-title">Register Partner Profile</div>
-        <div class="register-subtitle">Set up your Vander Bridge authentication identity</div>
+  <!-- Background decorations -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-50"></div>
+  </div>
 
-        <div id="error-message-box" class="alert-error"></div>
-
-        <form id="detailed-register-form">
-            
-            <!-- ID Photo Upload (Round Container) -->
-            <div class="form-group">
-                <label class="form-label">Identification Photo</label>
-                <div class="photo-upload-container">
-                    <div class="photo-upload-box" onclick="document.getElementById('id-photo-input').click()">
-                        <div id="default-upload-icon-container" style="text-align: center;">
-                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                            <div class="upload-text">Upload ID</div>
-                        </div>
-                        <input type="file" id="id-photo-input" accept="image/*" style="display: none;" onchange="previewImage(event)">
-                        <img id="image-preview-element" class="photo-preview" src="#" alt="Preview">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Name Details (First, Middle, Last) -->
-            <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <div class="name-row">
-                    <input type="text" id="first-name" class="input-field" placeholder="First Name" required>
-                    <input type="text" id="middle-name" class="input-field" placeholder="Middle Name">
-                    <input type="text" id="last-name" class="input-field" placeholder="Last Name" required>
-                </div>
-            </div>
-
-            <!-- Email Address -->
-            <div class="form-group">
-                <label class="form-label" for="reg-email">Email Address</label>
-                <input type="text" id="reg-email" class="input-field" placeholder="partner@vanderbridge.com" required>
-            </div>
-
-            <!-- Phone Number -->
-            <div class="form-group">
-                <label class="form-label" for="reg-phone">Phone Number</label>
-                <input type="text" id="reg-phone" class="input-field" placeholder="e.g. 9876543210" required>
-            </div>
-
-            <!-- Country Select -->
-            <div class="form-group">
-                <label class="form-label" for="reg-country">Country</label>
-                <select id="reg-country" class="input-field" required>
-                    <option value="">Select your country</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="India">India</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <option value="Japan">Japan</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="Other">Other Country</option>
-                </select>
-            </div>
-
-            <!-- Roles: Admin, Vendor, Buyer -->
-            <div class="form-group">
-                <label class="form-label">Select Business Role</label>
-                <div class="role-selector">
-                    <div class="role-option">
-                        <input type="radio" id="role-admin" name="user-role" value="admin" required>
-                        <label for="role-admin" class="role-label">Admin</label>
-                    </div>
-                    <div class="role-option">
-                        <input type="radio" id="role-vendor" name="user-role" value="vendor" checked>
-                        <label for="role-vendor" class="role-label">Vendor</label>
-                    </div>
-                    <div class="role-option">
-                        <input type="radio" id="role-buyer" name="user-role" value="buyer">
-                        <label for="role-buyer" class="role-label">Buyer</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Additional Information (150 words limit) -->
-            <div class="form-group">
-                <label class="form-label" for="reg-info">Additional Information</label>
-                <textarea id="reg-info" class="input-field" style="height: 100px; resize: none;" placeholder="Introduce your business specialties..." oninput="checkWordLimit(this)"></textarea>
-                <div class="word-counter"><span id="word-count-val">0</span> / 150 words</div>
-            </div>
-
-            <button type="submit" class="btn-submit">Register Profile</button>
-        </form>
-        
-        <a href="index.html" class="back-link">Return to Portal</a>
+  <div class="w-full max-w-md bg-white rounded-3xl border border-slate-100 shadow-2xl overflow-hidden relative z-10 flex flex-col">
+    
+    <!-- Header Area -->
+    <div class="bg-vb-dark px-8 py-10 flex flex-col items-center justify-center relative overflow-hidden">
+      <!-- subtle grid overlay -->
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiLz48L3N2Zz4=')]"></div>
+      
+      <div class="w-16 h-16 rounded-2xl bg-vb-blue flex items-center justify-center shadow-[0_0_30px_rgba(29,78,216,0.6)] mb-4 relative z-10">
+        <span class="text-white font-light uppercase tracking-widest text-xl font-light tracking-widest select-none">V</span>
+      </div>
+      <h1 class="text-white font-light uppercase tracking-widest text-2xl tracking-wide relative z-10">VendorBridge</h1>
+      <p class="text-slate-400 text-sm mt-1 font-medium relative z-10">Intelligent Procurement Platform</p>
     </div>
 
-    <script src="register.js"></script>
+    <!-- Login Form -->
+    <div class="p-8">
+      <h2 class="text-lg font-light uppercase tracking-widest text-slate-800 mb-6 text-center">Create a new account</h2>
+      
+      <form id="registerForm" class="space-y-5">
+        <div>
+          <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wide mb-2">Full Name</label>
+          <div class="relative">
+            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+            <input type="text" id="txtName" value="New Vendor" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm bg-slate-50 outline-none focus:border-vb-blue focus:bg-white focus:ring-4 focus:ring-blue-50 font-medium transition-all" required>
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wide mb-2">Email Address</label>
+          <div class="relative">
+            <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+            <input type="email" id="txtEmail" value="admin@vendorbridge.com" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm bg-slate-50 outline-none focus:border-vb-blue focus:bg-white focus:ring-4 focus:ring-blue-50 font-medium transition-all" required>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wide">Password</label>
+            <a href="#" class="text-xs font-light uppercase tracking-widest text-vb-blue hover:text-blue-800 transition-colors">Forgot?</a>
+          </div>
+          <div class="relative">
+            <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+            <input type="password" id="txtPassword" value="password123" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm bg-slate-50 outline-none focus:border-vb-blue focus:bg-white focus:ring-4 focus:ring-blue-50 font-medium transition-all" required>
+          </div>
+        </div>
+
+        <button type="submit" id="btnRegister" class="w-full bg-vb-blue hover:bg-blue-700 text-white font-light uppercase tracking-widest py-3 px-4 rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 mt-2">
+          <span>Create Account</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+      
+      <p id="errorMsg" class="text-red-500 text-xs font-light uppercase tracking-widest text-center mt-4 hidden">Invalid credentials. Please try again.</p>
+
+      <div class="mt-8 text-center border-t border-slate-100 pt-6 space-y-4">
+        <a href="../Dashboard/dashboard_layout.html" class="block w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-light uppercase tracking-widest py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+          <i data-lucide="eye" class="w-4 h-4"></i> Continue as Guest
+        </a>
+        <p class="text-xs text-slate-500 font-medium">Already have an account? <a href="../Login/login_layout.html" class="text-vb-blue hover:underline">Sign In here</a></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="../supabase_client.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      
+      const form = document.getElementById('loginForm');
+      const btnRegister = document.getElementById('btnRegister');
+      const errorMsg = document.getElementById('errorMsg');
+      const emailInput = document.getElementById('txtEmail');
+      const passInput = document.getElementById('txtPassword');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        btnRegister.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Registering...';
+        btnRegister.classList.add('opacity-80', 'cursor-not-allowed');
+        lucide.createIcons();
+        errorMsg.classList.add('hidden');
+
+        try {
+          if(!window.supabaseClient) throw new Error('Supabase not loaded');
+          const { data, error } = await window.supabaseClient.auth.signUp({
+            email: emailInput.value,
+            password: passInput.value,
+            options: {
+              data: {
+                full_name: document.getElementById('txtName') ? document.getElementById('txtName').value : ''
+              }
+            }
+          }); //
+            
+
+          if(error) throw error;
+          
+          window.location.href = '../Dashboard/dashboard_layout.html';
+        } catch (err) {
+          errorMsg.textContent = err.message || 'Registration failed. Please try again.';
+          errorMsg.classList.remove('hidden');
+          btnRegister.innerHTML = '<span>Create Account</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
+          btnRegister.classList.remove('opacity-80', 'cursor-not-allowed');
+          lucide.createIcons();
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const pBtn = document.getElementById('profileDropdownBtn');
+      const pMenu = document.getElementById('profileDropdownMenu');
+      const bLogout = document.getElementById('btnLogout');
+      
+      if(pBtn && pMenu) {
+        // Remove existing listeners if any by cloning
+        const newBtn = pBtn.cloneNode(true);
+        pBtn.parentNode.replaceChild(newBtn, pBtn);
+        
+        newBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pMenu.classList.toggle('hidden');
+        });
+        
+        document.addEventListener('click', (e) => {
+          if(!pMenu.contains(e.target) && !newBtn.contains(e.target)) {
+            pMenu.classList.add('hidden');
+          }
+        });
+      }
+      
+      if(bLogout) {
+        const newLogout = bLogout.cloneNode(true);
+        bLogout.parentNode.replaceChild(newLogout, bLogout);
+        
+        newLogout.addEventListener('click', async () => {
+          if(window.supabaseClient && window.supabaseClient.auth) {
+            await window.supabaseClient.auth.signOut();
+          }
+          window.location.href = '../Login/login_layout.html';
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
-

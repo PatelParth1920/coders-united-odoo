@@ -53,73 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const { data, error } = await window.supabaseClient.from('vendors').select('id, name, contact, gst_no');
       if(!error && data) {
         allVendors = data;
-        
-        const searchInput = getEl('frmVendorSearch');
-        const hiddenId = getEl('frmVendor');
-        const dropdown = getEl('vendorDropdown');
-
-        // Function to render dropdown items based on query
-        const renderDropdown = (query) => {
-          dropdown.innerHTML = '';
-          const q = query.toLowerCase().trim();
-          
-          let matches = allVendors;
-          if (q) matches = allVendors.filter(v => v.name.toLowerCase().includes(q));
-          
-          if (matches.length === 0) {
-             dropdown.innerHTML = '<div class="p-3 text-xs text-slate-500 text-center">No vendors found matching "' + q + '"</div>';
-          } else {
-             matches.forEach(v => {
-                const div = document.createElement('div');
-                div.className = 'p-3 hover:bg-blue-50 cursor-pointer transition-colors';
-                
-                // Highlight the match
-                const nameStr = v.name;
-                const matchIndex = nameStr.toLowerCase().indexOf(q);
-                let displayHTML = nameStr;
-                if(q && matchIndex >= 0) {
-                    displayHTML = nameStr.substring(0, matchIndex) + 
-                                  '<span class="bg-yellow-200 font-bold">' + nameStr.substring(matchIndex, matchIndex + q.length) + '</span>' + 
-                                  nameStr.substring(matchIndex + q.length);
-                }
-
-                div.innerHTML = `<div class="font-bold text-sm text-slate-800">${displayHTML}</div>`;
-                if(v.contact || v.gst_no) {
-                    div.innerHTML += `<div class="text-[10px] text-slate-500 mt-0.5">${v.gst_no ? 'GST: ' + v.gst_no : ''} ${v.contact ? '| ' + v.contact : ''}</div>`;
-                }
-
-                div.addEventListener('click', () => {
-                    searchInput.value = v.name;
-                    hiddenId.value = v.id;
-                    dropdown.classList.add('hidden');
-                    
-                    // Auto-fill logic
-                    if (getEl('frmContact')) getEl('frmContact').value = v.contact || '';
-                    if (getEl('frmGst')) getEl('frmGst').value = v.gst_no || '';
-                });
-                dropdown.appendChild(div);
-             });
-          }
-          dropdown.classList.remove('hidden');
-        };
-
-        // Event listeners
-        if(searchInput) {
-            searchInput.addEventListener('focus', () => renderDropdown(searchInput.value));
-            searchInput.addEventListener('input', (e) => {
-                hiddenId.value = ''; // clear hidden id if they start typing again
-                if (getEl('frmContact')) getEl('frmContact').value = '';
-                if (getEl('frmGst')) getEl('frmGst').value = '';
-                renderDropdown(e.target.value);
-            });
-            
-            // Close dropdown if clicked outside
-            document.addEventListener('click', (e) => {
-                if(!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        }
       }
     } catch(err) { console.error(err); }
   };
@@ -272,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 10);
     // Auto-generate a dummy invoice ID
     getEl('frmInvId').value = 'INV-' + new Date().getFullYear() + '-' + Math.floor(Math.random()*1000).toString().padStart(3,'0');
+    getEl('frmPo').value = 'PO-' + new Date().getFullYear() + '-' + Math.floor(Math.random()*1000).toString().padStart(3,'0');
     frmItemsList = [{name: '', qty: 1, price: 0}];
     renderFrmItems();
     calculateFrmTotals();
@@ -322,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleSaveInvoice = async () => {
     const type = 'Sent';
-    const vendor_id = getEl('frmVendor').value;
     const invoice_id = getEl('frmInvId').value.trim();
     const po = getEl('frmPo').value.trim();
     const contact = getEl('frmContact').value.trim();
@@ -332,8 +265,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const issue = getEl('frmIssue').value;
     const due = getEl('frmDue').value;
 
-    if(!vendor_id || !po || !issue || !due || !invoice_id) return alert('Please fill out all required header fields (Vendor, Inv ID, PO, Dates).');
-    if(frmItemsList.length === 0 || frmItemsList.some(i => i.name.trim() === '')) return alert('Please provide valid line items.');
+    let vendor_id = getEl('frmVendor').value;
+    const vendor_search = getEl('frmVendorSearch').value.trim();
+    
+    if(!vendor_search || !email || !issue || !due) return alert('Please fill out all required header fields: Vendor Name, Email, Issue Date, Due Date.');
+    if(frmItemsList.length === 0 || frmItemsList.some(i => i.name.trim() === '' || i.price <= 0)) return alert('Please provide valid line items with prices.');
+
+    if (!vendor_id && vendor_search) {
+      const exactMatch = allVendors.find(v => (v.name || '').toLowerCase() === vendor_search.toLowerCase());
+      if (exactMatch) {
+        vendor_id = exactMatch.id;
+      } else {
+        // Create new vendor dynamically
+        const { data: vData } = await window.supabaseClient.from('vendors').insert([{
+            name: vendor_search,
+            category: 'Other',
+            gst_no: gst_number || 'N/A',
+            contact: contact || '',
+            status: 'Active',
+            relationship: 'One-time'
+        }]).select();
+        if (vData && vData.length > 0) vendor_id = vData[0].id;
+      }
+    }
 
     const sub = frmItemsList.reduce((acc, curr) => acc + (curr.qty * curr.price), 0);
     const taxPct = parseFloat(getEl('frmTax').value) || 0;

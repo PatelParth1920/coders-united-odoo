@@ -7,11 +7,36 @@ document.addEventListener('DOMContentLoaded', () => {
     
     try {
       // Fetch Metrics from Supabase
-      const [{ data: rfqs }, { data: approvals }, { data: invoices }] = await Promise.all([
+      let [{ data: rfqs }, { data: approvals }, { data: invoices }] = await Promise.all([
         window.supabaseClient.from('rfqs').select('id, rfq_id, vendor_name, status, created_at'),
         window.supabaseClient.from('approvals').select('status'),
         window.supabaseClient.from('invoices').select('id, invoice_id, vendor_name, grand_total, status, created_at')
       ]);
+
+      
+      // Mock data fallback if database is empty
+      if (!rfqs || rfqs.length === 0) {
+        rfqs = [
+          { id: '1', rfq_id: 'RFQ-7091', vendor_name: 'TechCorp Solutions', status: 'Open', created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
+          { id: '2', rfq_id: 'RFQ-8820', vendor_name: 'Global Industries', status: 'Closed', created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString() },
+          { id: '3', rfq_id: 'RFQ-4432', vendor_name: 'Nexus Hardware', status: 'Open', created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString() }
+        ];
+      }
+
+      if (!approvals || approvals.length === 0) {
+        approvals = [
+          { status: 'Pending' }, { status: 'Pending' }, { status: 'Approved' }
+        ];
+      }
+
+      if (!invoices || invoices.length === 0) {
+        invoices = [
+          { id: '1', invoice_id: 'INV-1092', vendor_name: 'TechCorp Solutions', grand_total: 15400, status: 'Paid', created_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), issue_date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString() },
+          { id: '2', invoice_id: 'INV-3021', vendor_name: 'Apex Manufacturing', grand_total: 8200, status: 'Pending', created_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), issue_date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString() },
+          { id: '3', invoice_id: 'INV-4011', vendor_name: 'Global Industries', grand_total: 4100, status: 'Overdue', created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), issue_date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45).toISOString() },
+          { id: '4', invoice_id: 'INV-9002', vendor_name: 'Nexus Hardware', grand_total: 21000, status: 'Paid', created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(), issue_date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60).toISOString() }
+        ];
+      }
 
       if (rfqs) {
         getEl('dashActiveRfqs').innerText = rfqs.filter(r => r.status === 'Open').length;
@@ -30,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (inv.status === 'Pending') pendingCount++;
           
           if (inv.status === 'Paid') {
-            const mIdx = Math.floor(Math.random() * 6);
+            const issue = new Date(inv.issue_date || inv.created_at); const mIdx = issue.getMonth() % 6;
             monthlyData[mIdx] += parseFloat(inv.grand_total || 0);
           }
         });
@@ -178,6 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   init();
+  const setupRealtime = () => {
+    if(!window.supabaseClient) return;
+    window.supabaseClient.channel('dashboard-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'invoices' }, payload => {
+        init();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'rfqs' }, payload => {
+        init();
+      })
+      .subscribe();
+  };
+  setupRealtime();
 
   // SIDEBAR LOGIC
   const sidebar = document.getElementById('sidebar');

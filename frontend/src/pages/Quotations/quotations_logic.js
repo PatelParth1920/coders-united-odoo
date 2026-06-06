@@ -123,8 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
   backToDashboardBtn1.addEventListener('click', showHomeScreen);
   backToDashboardBtn2.addEventListener('click', showHomeScreen);
 
+  let activeFlow = '';
+
   // --- FLOW 1: SUBMIT QUOTATION ---
   optSubmitQuoteBtn.addEventListener('click', () => {
+    activeFlow = 'submit';
     hideAllViews();
     codeEntryContainer.classList.remove('hidden');
     rfqCodeInput.value = '';
@@ -146,10 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       currentRfq = data;
-      await loadActiveRfqData('entry');
       
-      hideAllViews();
-      modeEntryContainer.classList.remove('hidden');
+      if (activeFlow === 'submit') {
+        await loadActiveRfqData('entry');
+        hideAllViews();
+        modeEntryContainer.classList.remove('hidden');
+      } else if (activeFlow === 'analyze') {
+        await loadActiveRfqData('comparison');
+        hideAllViews();
+        modeComparisonContainer.classList.remove('hidden');
+      }
       
     } catch (err) {
       console.error(err);
@@ -163,65 +172,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const demoBypassBtn = document.getElementById('demoBypassBtn');
+  if(demoBypassBtn) {
+    demoBypassBtn.addEventListener('click', async () => {
+      showLoading(true);
+      try {
+        const { data, error } = await window.supabaseClient.from('rfqs').select('rfq_code').order('created_at', {ascending: false}).limit(1).single();
+        if(data) {
+          rfqCodeInput.value = data.rfq_code;
+          verifyCodeBtn.click();
+        } else {
+          alert("No RFQs exist to demo!");
+        }
+      } catch(err) {
+        console.error(err);
+        alert("Demo failed.");
+      } finally {
+        showLoading(false);
+      }
+    });
+  }
+
 
   // --- FLOW 2: ANALYZE QUOTATIONS ---
   optAnalyzeQuotesBtn.addEventListener('click', async () => {
+    activeFlow = 'analyze';
     hideAllViews();
-    receivedListView.classList.remove('hidden');
-    showLoading(true);
-    
-    try {
-      // 1. Fetch all RFQs
-      const { data: rfqs, error: rfqErr } = await window.supabaseClient.from('rfqs').select('*').order('created_at', { ascending: false });
-      if (rfqErr) throw rfqErr;
-
-      // 2. Fetch all quotations
-      const { data: allQuotations, error: qErr } = await window.supabaseClient.from('quotations').select('rfq_id, vendor_id');
-      if (qErr) throw qErr;
-
-      let receivedCardsHtml = '';
-      let receivedC = 0;
-      allRfqs = rfqs; // Store for later
-
-      rfqs.forEach(rfq => {
-        const quotedForThis = allQuotations.filter(q => q.rfq_id === rfq.id);
-        const totalQuoted = quotedForThis.length;
-
-        if (totalQuoted > 0) {
-          receivedC++;
-          receivedCardsHtml += `
-            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between h-full group" onclick="openComparisonMode('${rfq.id}')">
-              <div>
-                <div class="flex items-start justify-between mb-2">
-                  <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-vb-blue transition-colors">${rfq.title}</h3>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-600 border border-emerald-200 shrink-0 whitespace-nowrap">${totalQuoted} bids</span>
-                </div>
-                <p class="text-[11px] text-slate-500 font-mono mb-3 bg-slate-50 inline-block px-1.5 py-0.5 rounded border border-slate-100">Code: ${rfq.rfq_code || 'N/A'}</p>
-                <div class="flex items-center gap-4 text-xs text-slate-500 font-medium">
-                  <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> ${rfq.deadline}</span>
-                </div>
-              </div>
-              <button class="mt-4 w-full bg-slate-50 group-hover:bg-emerald-500 group-hover:text-white border border-slate-200 group-hover:border-emerald-500 text-slate-700 py-2 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2">
-                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Analyze
-              </button>
-            </div>
-          `;
-        }
-      });
-
-      receivedQuotesGrid.innerHTML = receivedCardsHtml;
-
-      if (receivedC === 0) noReceivedState.classList.remove('hidden');
-      else noReceivedState.classList.add('hidden');
-
-      lucide.createIcons();
-
-    } catch (err) {
-      console.error("Dashboard Load Error:", err);
-      alert("Failed to load received quotations. Error: " + (err.message || JSON.stringify(err)));
-    } finally {
-      showLoading(false);
-    }
+    codeEntryContainer.classList.remove('hidden');
+    rfqCodeInput.value = '';
+    rfqCodeInput.focus();
   });
 
   window.openComparisonMode = async (rfqId) => {
@@ -491,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { error } = await window.supabaseClient.from('quotations').update({ status: 'Approved' }).eq('id', quoteId);
       if (error) throw error;
       alert("Quotation approved!");
-      showHomeScreen();
+      window.location.href = '../Approval/approval_layout.html';
     } catch (err) {
       console.error(err);
       alert("Failed to approve quotation.");

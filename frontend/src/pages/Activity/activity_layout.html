@@ -1,32 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VendorBridge - Activity & Logs</title>
+  <title>VendorBridge - Activity &amp; Logs</title>
   
   <!-- CDNs for Tailwind CSS, Lucide Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <!-- Tailwind Configuration to extend colors -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'vb-dark': '#031329',
-            'vb-blue': '#1d4ed8',
-            'vb-light': '#f8fafc',
-            'vb-card-border': '#e2e8f0'
-          }
-        }
-      }
-    }
-  </script>
+  
   
   <!-- Custom stylesheet link -->
   <link rel="stylesheet" href="./activity.css">
+  <link rel="stylesheet" href="..\..\global.css">
 </head>
 <body class="bg-slate-50 flex h-screen overflow-hidden">
 
@@ -40,15 +26,14 @@
         <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
       </div>
       <nav class="p-4 space-y-1 grow">
-        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
-        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
-        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span></a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-vb-blue bg-blue-50"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
-        <a href="../Settings/settings_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span></a>
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Dashboard"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Vendors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="RFQs"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Quotations"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Approval"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="PO_Invoice"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO &amp; Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Reports"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors" data-page="Activity"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
       </nav>
     </div>
     <div class="p-4 border-t border-slate-100 space-y-4">
@@ -71,28 +56,32 @@
         </button>
         <div class="relative w-full">
           <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
-          <input id="globalSearchInput" type="text" placeholder="Search vendors, RFQs, quotations..." 
-                 class="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400">
+          <input id="globalSearchInput" type="text" placeholder="Search vendors, RFQs, quotations..." class="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400">
         </div>
       </div>
 
       <!-- Right side: Notifications & Profile -->
       <div class="flex items-center gap-6">
-        <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
-          <i data-lucide="bell" class="w-6 h-6"></i>
-          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-light uppercase tracking-widest text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
-        </button>
-
-        <div class="w-px h-6 bg-slate-200"></div>
-
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center border border-slate-300 shadow-sm shrink-0 overflow-hidden"><i data-lucide="user" class="w-5 h-5 text-slate-500"></i></div>
-          <div class="flex flex-col text-left shrink-0">
-            <span class="text-sm font-light uppercase tracking-widest text-slate-800 leading-tight">Arjun Sharma</span>
-            <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md self-start mt-0.5 leading-none">Procurement Officer</span>
-          </div>
-        </div>
+  <div class="relative">
+    <button id="profileDropdownBtn" class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-xl transition-colors outline-none cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 text-blue-600 transition-colors shrink-0 overflow-hidden">
+        <i data-lucide="user" class="w-4 h-4"></i>
       </div>
+      <div class="flex flex-col text-left hidden sm:flex">
+        <span class="text-[11px] font-light uppercase tracking-widest leading-tight text-slate-800">Guest</span>
+      </div>
+      <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+    </button>
+    
+    <div id="profileDropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 hidden z-50 overflow-hidden">
+      <div class="py-1">
+        <button id="btnLogout" class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors font-light uppercase tracking-widest">
+          <i data-lucide="log-out" class="w-4 h-4"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     </header>
 
     <!-- ================= SCROLLABLE CONTENT AREA ================= -->
@@ -100,7 +89,7 @@
       
       <!-- Page Header & Subtitle -->
       <div class="flex flex-col space-y-1">
-        <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight">Activity & Logs</h1>
+        <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight">Activity &amp; Logs</h1>
         <p class="text-[14px] text-slate-600 font-medium">Procurement audit trail</p>
       </div>
 
@@ -191,5 +180,49 @@
     // Initialize Lucide icons
     lucide.createIcons();
   </script>
-</body>
-</html>
+
+  
+
+
+
+  
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const pBtn = document.getElementById('profileDropdownBtn');
+      const pMenu = document.getElementById('profileDropdownMenu');
+      const bLogout = document.getElementById('btnLogout');
+      
+      if(pBtn && pMenu) {
+        // Remove existing listeners if any by cloning
+        const newBtn = pBtn.cloneNode(true);
+        pBtn.parentNode.replaceChild(newBtn, pBtn);
+        
+        newBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pMenu.classList.toggle('hidden');
+        });
+        
+        document.addEventListener('click', (e) => {
+          if(!pMenu.contains(e.target) && !newBtn.contains(e.target)) {
+            pMenu.classList.add('hidden');
+          }
+        });
+      }
+      
+      if(bLogout) {
+        const newLogout = bLogout.cloneNode(true);
+        bLogout.parentNode.replaceChild(newLogout, bLogout);
+        
+        newLogout.addEventListener('click', async () => {
+          if(window.supabaseClient && window.supabaseClient.auth) {
+            await window.supabaseClient.auth.signOut();
+          }
+          window.location.href = '../Login/login_layout.html';
+        });
+      }
+    });
+  </script>
+
+</body></html>

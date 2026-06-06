@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
   // --- UTILS ---
@@ -85,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = getEl('saveRfqBtn');
     btn.innerHTML = 'Saving...'; btn.disabled = true;
     try {
-      const { data, error } = await window.supabaseClient.from('rfqs').insert([{title, category, deadline, description: desc, rfq_code, status: 'Pending Approval'}]).select();
+      const { data, error } = await window.supabaseClient.from('rfqs').insert([{title, category, deadline, description: desc, rfq_code, status: 'In Progress'}]).select();
       if(error) throw error;
       const rfqId = data[0].id;
       
@@ -99,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       getEl('successRfqCode').innerText = rfq_code;
       getEl('rfqSuccessOverlay').classList.remove('hidden');
+      sessionStorage.removeItem('vb_rfqs_cache');
       let count = 3;
       setInterval(() => {
         count--;
@@ -161,12 +161,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- MANAGE RFQS ---
   let allCreatedRfqs = [];
   const fetchManageRfqs = async () => {
-    getEl('manageLoadingState').classList.remove('hidden');
+    // Stale-While-Revalidate caching for instantaneous UI
+    const cached = sessionStorage.getItem('vb_rfqs_cache');
+    if (cached) {
+      allCreatedRfqs = JSON.parse(cached);
+      renderManageTable();
+    } else {
+      getEl('manageLoadingState').classList.remove('hidden');
+    }
     getEl('manageEmptyState').classList.add('hidden');
+
     try {
       const { data, error } = await window.supabaseClient.from('rfqs').select('*').order('created_at', {ascending: false});
       if(error) throw error;
       allCreatedRfqs = data || [];
+      sessionStorage.setItem('vb_rfqs_cache', JSON.stringify(allCreatedRfqs));
       renderManageTable();
     } catch(err) {
       console.error(err);
@@ -190,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="py-4 px-5"><span class="bg-blue-50 text-vb-blue px-2 py-1 rounded text-xs font-mono font-bold cursor-pointer hover:bg-blue-100" onclick="copyCode('${rfq.rfq_code}')">${rfq.rfq_code}</span></td>
         <td class="py-4 px-5 text-center text-sm">${rfq.deadline}</td>
         <td class="py-4 px-5 text-center">
-          <span class="px-2 py-1 rounded-md text-[10px] font-bold ${rfq.status==='Issued'?'bg-emerald-50 text-emerald-600': rfq.status==='Pending Approval'?'bg-amber-50 text-amber-600': rfq.status==='Canceled'?'bg-red-50 text-red-600':'bg-slate-100 text-slate-500'}">${rfq.status||'Draft'}</span>
+          <span class="px-2 py-1 rounded-md text-[10px] font-light uppercase tracking-widest ${rfq.status==='Completed'?'bg-emerald-50 text-emerald-600 border border-emerald-100': rfq.status==='In Progress'?'bg-blue-50 text-blue-600 border border-blue-100': rfq.status==='Issued'?'bg-amber-50 text-amber-600 border border-amber-100': rfq.status==='Canceled'?'bg-red-50 text-red-600 border border-red-100': 'bg-slate-100 text-slate-500 border border-slate-200'}">${rfq.status||'In Progress'}</span>
         </td>
         <td class="py-4 px-5 text-right">
           <button onclick="window.openEditRfq('${rfq.id}')" class="p-1.5 border rounded-lg hover:border-vb-blue hover:text-vb-blue"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
@@ -206,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.deleteRfq = async (id) => {
     if(!confirm("Delete this RFQ?")) return;
     await window.supabaseClient.from('rfqs').delete().eq('id', id);
+    sessionStorage.removeItem('vb_rfqs_cache');
     fetchManageRfqs();
   };
 
@@ -223,31 +233,45 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!rfq) return;
     editingRfqId = id;
     
+    // 1. OPEN IMMEDIATELY FOR INSTANT FEEDBACK
+    getEl('editRfqModal').classList.remove('hidden');
+    
+    // 2. SHOW LOADING STATE IN THE UI
+    getEl('editRfqItemsTbody').innerHTML = '<tr><td colspan="4" class="py-4 text-center text-[10px] font-light uppercase tracking-widest text-slate-500">Loading items...</td></tr>';
+    getEl('editRfqVendorsList').innerHTML = '<li class="p-4 text-center text-[10px] font-light uppercase tracking-widest text-slate-500">Loading vendors...</li>';
+    
+    // 3. POPULATE CACHED HEADER DATA
     getEl('editRfqTitle').value = rfq.title;
     getEl('editRfqCategory').value = rfq.category || 'Other';
     getEl('editRfqDeadline').value = rfq.deadline;
     getEl('editRfqDescription').value = rfq.description || '';
-    origHeader = { title: rfq.title, category: rfq.category||'Other', deadline: rfq.deadline, desc: rfq.description||'' };
+    origHeader = { title: rfq.title, category: rfq.category||'Other', deadline: rfq.deadline, desc: rfq.description||'', status: rfq.status||'In Progress' };
 
-    const { data: items } = await window.supabaseClient.from('rfq_items').select('*').eq('rfq_id', id);
-    origLineItems = items ? items.map(i => ({name: i.item_name, qty: i.quantity, unit: i.unit})) : [];
-    editLineItems = JSON.parse(JSON.stringify(origLineItems));
+    // 4. FETCH RELATIONAL DATA ASYNCHRONOUSLY
+    try {
+      const { data: items } = await window.supabaseClient.from('rfq_items').select('*').eq('rfq_id', id);
+      origLineItems = items ? items.map(i => ({name: i.item_name, qty: i.quantity, unit: i.unit})) : [];
+      editLineItems = JSON.parse(JSON.stringify(origLineItems));
 
-    const { data: vLinks } = await window.supabaseClient.from('rfq_vendors').select('vendor_id').eq('rfq_id', id);
-    if(vLinks && vLinks.length>0) {
-      const vIds = vLinks.map(l=>l.vendor_id);
-      origVendorsIds = vIds.sort();
-      const { data: vDetails } = await window.supabaseClient.from('vendors').select('*').in('id', vIds);
-      editVendors = vDetails || [];
-    } else {
-      origVendorsIds = [];
-      editVendors = [];
+      const { data: vLinks } = await window.supabaseClient.from('rfq_vendors').select('vendor_id').eq('rfq_id', id);
+      if(vLinks && vLinks.length>0) {
+        const vIds = vLinks.map(l=>l.vendor_id);
+        origVendorsIds = vIds.sort();
+        const { data: vDetails } = await window.supabaseClient.from('vendors').select('*').in('id', vIds);
+        editVendors = vDetails || [];
+      } else {
+        origVendorsIds = [];
+        editVendors = [];
+      }
+
+      renderEditItems();
+      renderEditVendors();
+      checkEditChanges();
+    } catch(err) {
+      console.error('Failed to load RFQ details', err);
+      getEl('editRfqItemsTbody').innerHTML = '<tr><td colspan="4" class="py-4 text-center text-xs text-red-500">Failed to load items</td></tr>';
+      getEl('editRfqVendorsList').innerHTML = '<li class="p-4 text-center text-xs text-red-500">Failed to load vendors</li>';
     }
-
-    renderEditItems();
-    renderEditVendors();
-    checkEditChanges();
-    getEl('editRfqModal').classList.remove('hidden');
   };
 
   const closeEditModal = () => { getEl('editRfqModal').classList.add('hidden'); };
@@ -296,7 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const currHeader = { 
       title: getEl('editRfqTitle').value, 
       category: getEl('editRfqCategory').value, 
-      deadline: getEl('editRfqDeadline').value, 
+      deadline: getEl('editRfqDeadline').value,
+      status: origHeader.status, 
       desc: getEl('editRfqDescription').value 
     };
     const headerChg = JSON.stringify(currHeader) !== JSON.stringify(origHeader);
@@ -350,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       alert("Saved successfully!");
       closeEditModal();
+      sessionStorage.removeItem('vb_rfqs_cache');
       fetchManageRfqs();
     } catch(e) { console.error(e); alert("Save failed."); }
     getEl('saveEditRfqBtn').innerText = "Save Details";
@@ -370,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deadline: getEl('editRfqDeadline').value,
         description: getEl('editRfqDescription').value,
         rfq_code,
-        status: 'Pending Approval'
+        status: 'Issued'
       }]).select();
       const newId = data[0].id;
 
@@ -382,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       alert("Reissued successfully under " + rfq_code);
       closeEditModal();
+      sessionStorage.removeItem('vb_rfqs_cache');
       fetchManageRfqs();
     } catch(e) { console.error(e); alert("Reissue failed."); }
     getEl('reissueRfqBtn').innerText = "Cancel & Reissue";

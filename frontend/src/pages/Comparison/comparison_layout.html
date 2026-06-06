@@ -1,1 +1,43 @@
-﻿<!-- HTML Layout for Comparison -->
+<html><head></head><body>﻿<!-- HTML Layout for Comparison -->
+
+  
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const pBtn = document.getElementById('profileDropdownBtn');
+      const pMenu = document.getElementById('profileDropdownMenu');
+      const bLogout = document.getElementById('btnLogout');
+      
+      if(pBtn && pMenu) {
+        // Remove existing listeners if any by cloning
+        const newBtn = pBtn.cloneNode(true);
+        pBtn.parentNode.replaceChild(newBtn, pBtn);
+        
+        newBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pMenu.classList.toggle('hidden');
+        });
+        
+        document.addEventListener('click', (e) => {
+          if(!pMenu.contains(e.target) && !newBtn.contains(e.target)) {
+            pMenu.classList.add('hidden');
+          }
+        });
+      }
+      
+      if(bLogout) {
+        const newLogout = bLogout.cloneNode(true);
+        bLogout.parentNode.replaceChild(newLogout, bLogout);
+        
+        newLogout.addEventListener('click', async () => {
+          if(window.supabaseClient && window.supabaseClient.auth) {
+            await window.supabaseClient.auth.signOut();
+          }
+          window.location.href = '../Login/login_layout.html';
+        });
+      }
+    });
+  </script>
+
+</body></html>

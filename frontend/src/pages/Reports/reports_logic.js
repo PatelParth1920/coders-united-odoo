@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rawInvoices = invoices || [];
       filteredInvoices = [...rawInvoices];
 
-      populateVendorDropdown();
+      
       updateDashboard();
 
     } catch(e) {
@@ -29,43 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Bind events
-    getEl('btnApplyFilter').addEventListener('click', applyGlobalFilters);
+    
     getEl('tblSearch').addEventListener('input', applyTableSearch);
     getEl('btnExportCSV').addEventListener('click', exportToCSV);
   };
 
-  const populateVendorDropdown = () => {
-    const sel = getEl('filterVendor');
-    sel.innerHTML = '<option value="">All Vendors</option>';
-    rawVendors.forEach(v => {
-      sel.innerHTML += `<option value="${v.id}">${v.name}</option>`;
-    });
-  };
+  
 
-  const applyGlobalFilters = () => {
-    const timeFilter = getEl('filterTime').value;
-    const vendorFilter = getEl('filterVendor').value;
-
-    filteredInvoices = rawInvoices.filter(inv => {
-      let keep = true;
-      
-      // Vendor Filter
-      if (vendorFilter && inv.vendor_id !== vendorFilter) keep = false;
-
-      // Time Filter
-      if (keep && timeFilter !== 'all') {
-        const invDate = new Date(inv.issue_date);
-        const now = new Date();
-        const diffDays = (now - invDate) / (1000 * 60 * 60 * 24);
-        
-        if (timeFilter === 'month' && diffDays > 30) keep = false;
-        if (timeFilter === 'year' && diffDays > 365) keep = false;
-      }
-      return keep;
-    });
-
-    updateDashboard();
-  };
+  
 
   const updateDashboard = () => {
     // 1. Compute KPIs
@@ -87,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTrendChart();
 
     // 3. Render Top Vendors
-    renderTopVendors();
+    
 
     // 4. Render Table
     renderDataTable();
@@ -148,46 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
           x: { grid: { display: false } }
         }
       }
-    });
-  };
-
-  const renderTopVendors = () => {
-    const list = getEl('topVendorsList');
-    list.innerHTML = '';
-
-    // Aggregate spend by vendor
-    const vSpend = {};
-    filteredInvoices.forEach(inv => {
-      if(inv.status !== 'Paid') return; // only rank by actual paid volume
-      const vName = inv.vendors?.name || 'Unknown Vendor';
-      vSpend[vName] = (vSpend[vName] || 0) + parseFloat(inv.grand_total || 0);
-    });
-
-    const sortedVendors = Object.keys(vSpend).map(k => ({ name: k, total: vSpend[k] })).sort((a,b) => b.total - a.total).slice(0, 5);
-
-    if(sortedVendors.length === 0) {
-      list.innerHTML = '<li class="p-6 text-center text-sm text-slate-500 font-medium">No paid data available.</li>';
-      return;
-    }
-
-    sortedVendors.forEach((v, index) => {
-      const maxSpend = sortedVendors[0].total;
-      const pct = Math.max(5, Math.round((v.total / maxSpend) * 100)); // Visual progress bar
-      
-      list.innerHTML += `
-        <li class="p-4 hover:bg-slate-50 transition-colors">
-          <div class="flex justify-between items-center mb-2">
-            <div class="flex items-center gap-3">
-              <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold">${index + 1}</span>
-              <span class="text-sm font-bold text-slate-800">${v.name}</span>
-            </div>
-            <span class="text-sm font-bold text-slate-900 font-mono">$${v.total.toLocaleString()}</span>
-          </div>
-          <div class="w-full bg-slate-100 rounded-full h-1.5 ml-9" style="width: calc(100% - 2.25rem)">
-            <div class="bg-vb-blue h-1.5 rounded-full" style="width: ${pct}%"></div>
-          </div>
-        </li>
-      `;
     });
   };
 

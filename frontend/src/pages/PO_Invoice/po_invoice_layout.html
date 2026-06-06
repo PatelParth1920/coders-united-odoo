@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VendorBridge - Reports & Analytics</title>
+  <title>VendorBridge - Purchase Order & Invoice</title>
   
   <!-- CDNs for Tailwind CSS, Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <!-- Tailwind Configuration to extend colors -->
   <script>
@@ -27,7 +26,7 @@
   </script>
   
   <!-- Custom stylesheet link -->
-  <link rel="stylesheet" href="./reports.css">
+  <link rel="stylesheet" href="./po_invoice.css">
 </head>
 <body class="bg-vb-light flex h-screen overflow-hidden">
 
@@ -65,11 +64,11 @@
           <i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
           <span class="sidebar-label">Approvals</span>
         </a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+        <a href="./po_invoice_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
           <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
           <span class="sidebar-label">PO & Invoices</span>
         </a>
-        <a href="./reports_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
           <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i>
           <span class="sidebar-label">Reports</span>
         </a>
@@ -148,160 +147,155 @@
     </header>
 
     <!-- ================= SCROLLABLE CONTENT AREA ================= -->
-    <div class="flex-1 overflow-y-auto p-5 md:p-8 space-y-8 bg-slate-50/50">
+    <div class="flex-1 overflow-y-auto p-5 md:p-8 bg-slate-50">
       
       <!-- Top Action Bar -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="max-w-5xl mx-auto flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
         <div class="flex flex-col space-y-1">
-          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Reports & Analytics</h1>
-          <p class="text-[14px] text-slate-600 font-medium">Procurement Insights - May 2025</p>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Purchase Order & Invoice</h1>
+          <p class="text-[14px] text-slate-600 font-medium flex items-center gap-2">
+            PO-2024-auto-generated after approval
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          </p>
         </div>
         
         <div class="flex items-center gap-3">
-          <div class="relative">
-            <select class="appearance-none bg-white border border-slate-300 hover:border-slate-400 text-slate-700 rounded-lg py-2 pl-4 pr-10 font-semibold text-sm shadow-sm transition-colors outline-none cursor-pointer">
-              <option>May 2025</option>
-              <option>April 2025</option>
-              <option>March 2025</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-          <button class="bg-vb-dark hover:bg-slate-800 text-white rounded-lg py-2 px-6 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
-            <i data-lucide="download-cloud" class="w-4 h-4"></i>
-            Export
+          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Download PDF
+          </button>
+          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            Print
+          </button>
+          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            Email invoice
           </button>
         </div>
       </div>
 
-      <!-- Overview Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Main Document Box -->
+      <div class="max-w-5xl mx-auto space-y-6">
         
-        <!-- Total Spend -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col items-center justify-center text-center">
-          <h2 class="text-4xl font-extrabold text-blue-600 mb-2">12.4 L</h2>
-          <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Total Spend</p>
-        </div>
-        
-        <!-- Active Vendors -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col items-center justify-center text-center">
-          <h2 class="text-4xl font-extrabold text-emerald-500 mb-2">28</h2>
-          <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Active Vendors</p>
-        </div>
-        
-        <!-- PO Fulfillment -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col items-center justify-center text-center">
-          <h2 class="text-4xl font-extrabold text-amber-500 mb-2">94%</h2>
-          <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">PO Fulfillment</p>
-        </div>
-        
-        <!-- Overdue Invoices -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col items-center justify-center text-center">
-          <h2 class="text-4xl font-extrabold text-rose-500 mb-2">3</h2>
-          <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Overdue Invoices</p>
-        </div>
-
-      </div>
-
-      <!-- Main Charts Area -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- Left: Spend By Category -->
-        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-6">Spend By Category</h3>
-          
-          <div class="space-y-6">
-            
-            <!-- IT Hardware -->
-            <div>
-              <div class="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                <span>IT Hardware</span>
-                <span>₹4.8L</span>
+        <!-- Header / Details Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="p-6 md:p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+              
+              <!-- Bill To -->
+              <div class="space-y-4">
+                <div>
+                  <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Bill To:</h3>
+                  <div class="text-sm text-slate-900 font-medium space-y-1">
+                    <p class="font-bold text-base">Your Organization Name</p>
+                    <p>123 business park, ahmedabad</p>
+                    <p class="text-slate-500">GSTIN: 25383438AFB</p>
+                  </div>
+                </div>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-3">
-                <div class="bg-blue-600 h-3 rounded-full" style="width: 70%"></div>
+
+              <!-- Vendor -->
+              <div class="space-y-4">
+                <div>
+                  <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Vendor:</h3>
+                  <div class="text-sm text-slate-900 font-medium space-y-1">
+                    <p class="font-bold text-base">Infra supplies pvt ltd</p>
+                    <p>456, industrial estate, surat</p>
+                    <p class="text-slate-500">GSTIN: 343434DB4523</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Furniture -->
-            <div>
-              <div class="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                <span>Furniture</span>
-                <span>₹3.2L</span>
+            <div class="w-full h-px bg-slate-200 my-6"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div class="space-y-3">
+                <div class="flex text-sm">
+                  <span class="w-32 text-slate-500 font-medium">PO Number:</span>
+                  <span class="font-bold text-slate-900">PO-2025-0068</span>
+                </div>
+                <div class="flex text-sm">
+                  <span class="w-32 text-slate-500 font-medium">PO date:</span>
+                  <span class="font-medium text-slate-900">21 may, 2025</span>
+                </div>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-3">
-                <div class="bg-emerald-500 h-3 rounded-full" style="width: 45%"></div>
+              <div class="space-y-3">
+                <div class="flex text-sm">
+                  <span class="w-32 text-slate-500 font-medium">invoice date:</span>
+                  <span class="font-medium text-slate-900">22 may 2025</span>
+                </div>
+                <div class="flex text-sm">
+                  <span class="w-32 text-slate-500 font-medium">Due date:</span>
+                  <span class="font-medium text-slate-900">21 june 2025</span>
+                </div>
               </div>
             </div>
-
-            <!-- Stationery -->
-            <div>
-              <div class="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                <span>Stationery</span>
-                <span>₹2.1L</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-3">
-                <div class="bg-amber-400 h-3 rounded-full" style="width: 30%"></div>
-              </div>
-            </div>
-
-            <!-- Logistics -->
-            <div>
-              <div class="flex justify-between text-sm font-bold text-slate-800 mb-2">
-                <span>Logistics</span>
-                <span>₹2.3L</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-3">
-                <div class="bg-orange-500 h-3 rounded-full" style="width: 35%"></div>
-              </div>
-            </div>
-
           </div>
         </div>
 
-        <!-- Right: Top Vendors & Trend -->
-        <div class="lg:col-span-7 space-y-8">
-          
-          <!-- Top Vendors Table -->
-          <div>
-            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3">Top Vendors By Spend</h3>
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-              <table class="w-full text-left border-collapse">
-                <thead>
-                  <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    <th class="py-3.5 px-5">Vendor</th>
-                    <th class="py-3.5 px-5 w-32 text-right">Spend (₹)</th>
-                    <th class="py-3.5 px-5 w-24 text-center">POs</th>
-                  </tr>
-                </thead>
-                <tbody class="text-sm font-medium text-slate-800 divide-y divide-slate-100">
-                  <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3.5 px-5 text-slate-900">TechCore Ltd</td>
-                    <td class="py-3.5 px-5 text-right font-bold text-slate-700">4,20,000</td>
-                    <td class="py-3.5 px-5 text-center">6</td>
-                  </tr>
-                  <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3.5 px-5 text-slate-900">Infra Supplies</td>
-                    <td class="py-3.5 px-5 text-right font-bold text-slate-700">3,10,000</td>
-                    <td class="py-3.5 px-5 text-center">4</td>
-                  </tr>
-                  <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3.5 px-5 text-slate-900">FastLog</td>
-                    <td class="py-3.5 px-5 text-right font-bold text-slate-700">1,90,000</td>
-                    <td class="py-3.5 px-5 text-center">3</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <!-- Table Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <th class="py-4 px-6">Item</th>
+                  <th class="py-4 px-6 w-24 text-center">Qty</th>
+                  <th class="py-4 px-6 w-40 text-right">Unit price (₹)</th>
+                  <th class="py-4 px-6 w-40 text-right">Total (₹)</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm font-medium text-slate-800 divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="py-4 px-6 text-slate-900">Ergonomic chair</td>
+                  <td class="py-4 px-6 text-center">25</td>
+                  <td class="py-4 px-6 text-right">3,500</td>
+                  <td class="py-4 px-6 text-right">87,500</td>
+                </tr>
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="py-4 px-6 text-slate-900">Standing desks</td>
+                  <td class="py-4 px-6 text-center">10</td>
+                  <td class="py-4 px-6 text-right">8,200</td>
+                  <td class="py-4 px-6 text-right">82,000</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <!-- Monthly Trend Chart -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-6">Monthly Trend</h3>
-            <div class="relative h-48 w-full">
-              <canvas id="monthlyTrendChart"></canvas>
+          <!-- Totals Footer inside the table card -->
+          <div class="border-t border-slate-200 bg-slate-50/50 p-6 flex flex-col items-end">
+            <div class="w-full max-w-sm space-y-3">
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2">
+                <span>Subtotal</span>
+                <span class="text-slate-900">1,69,500</span>
+              </div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2">
+                <span>CGST(9%)</span>
+                <span class="text-slate-900">15,255</span>
+              </div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2">
+                <span>SGST(9%)</span>
+                <span class="text-slate-900">15,255</span>
+              </div>
+              <div class="flex justify-between items-center text-sm font-bold text-slate-900 px-2 border-t-2 border-slate-800 pt-3 mt-1">
+                <span class="uppercase tracking-wider">Grand total</span>
+                <span class="text-lg text-vb-blue">₹ 2,00,010</span>
+              </div>
             </div>
           </div>
+        </div>
 
+        <!-- Document Footer Actions -->
+        <div class="flex items-center justify-between pt-2 pb-10">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-medium text-slate-500">status:</span>
+            <span class="bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Pending Payment</span>
+          </div>
+          <button class="text-sm font-bold text-vb-blue hover:text-blue-800 hover:bg-blue-50 transition-colors py-2 px-4 rounded-lg">
+            Mark as Paid
+          </button>
         </div>
 
       </div>
@@ -310,6 +304,10 @@
   </main>
 
   <!-- Load the page script -->
-  <script src="./reports_logic.js"></script>
+  <script src="./po_invoice_logic.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
 </body>
 </html>

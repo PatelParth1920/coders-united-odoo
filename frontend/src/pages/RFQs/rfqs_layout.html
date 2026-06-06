@@ -1,1 +1,375 @@
-﻿<!-- HTML Layout for RFQs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VendorBridge - Create RFQ</title>
+  
+  <!-- CDNs for Tailwind CSS, Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind Configuration to extend colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'vb-dark': '#031329',
+            'vb-blue': '#1d4ed8',
+            'vb-light': '#f8fafc',
+            'vb-card-border': '#e2e8f0'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom stylesheet link -->
+  <link rel="stylesheet" href="./rfqs.css">
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-vb-light flex h-screen overflow-hidden">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside id="sidebar" class="sidebar-transition w-64 bg-vb-dark text-slate-300 flex flex-col justify-between h-full border-r border-slate-800 shrink-0">
+    <div class="flex flex-col overflow-y-auto grow">
+      
+      <!-- Brand Logo Header -->
+      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
+        <div class="w-9 h-9 rounded-lg bg-vb-blue flex items-center justify-center shadow-lg shadow-blue-900/30 shrink-0">
+          <span class="text-white font-bold text-xl select-none">V</span>
+        </div>
+        <span id="logoText" class="text-white font-semibold text-lg tracking-wide select-none">VendorBridge</span>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="p-4 space-y-1.5 grow">
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="users" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Vendors</span>
+        </a>
+        <a href="./rfqs_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
+          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">RFQs</span>
+        </a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Quotations</span>
+        </a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Approvals</span>
+        </a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">PO & Invoices</span>
+        </a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Reports</span>
+        </a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="history" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Activity Logs</span>
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
+          <i data-lucide="settings" class="w-5 h-5 shrink-0"></i>
+          <span class="sidebar-label">Settings</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="p-4 border-t border-slate-800 space-y-4">
+      <!-- Need Help Panel -->
+      <div id="supportBox" class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-center space-y-3">
+        <div class="flex justify-center">
+          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
+            <i data-lucide="headphones" class="w-5 h-5 text-slate-300"></i>
+          </div>
+        </div>
+        <div class="space-y-1">
+          <h4 class="text-xs font-semibold text-white">Need Help?</h4>
+          <p class="text-[11px] text-slate-500 leading-normal">Contact support team for assistance.</p>
+        </div>
+        <button id="contactSupportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
+          <span>Contact Support</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <!-- Collapse Toggle Button -->
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white bg-transparent">
+        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i>
+        <span class="sidebar-label">Collapse</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN LAYOUT AREA ================= -->
+  <main class="flex-1 flex flex-col h-full overflow-hidden">
+    
+    <!-- ================= HEADER ================= -->
+    <header class="bg-white border-b border-vb-card-border h-16 flex items-center justify-between px-8 shrink-0">
+      
+      <!-- Left side: Hamburger Toggle & Search -->
+      <div class="flex items-center gap-4 w-96">
+        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg lg:hidden transition-colors">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
+          <input id="globalSearchInput" type="text" placeholder="Search vendors, RFQs, quotations..." 
+                 class="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400">
+        </div>
+      </div>
+
+      <!-- Right side: Notifications & Profile -->
+      <div class="flex items-center gap-6">
+        <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+          <i data-lucide="bell" class="w-6 h-6"></i>
+          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-bold text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
+        </button>
+
+        <div class="w-px h-6 bg-slate-200"></div>
+
+        <div class="flex items-center gap-3">
+          <img src="../../../assets/user_avatar_arjun.png" alt="Arjun Sharma" 
+               class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-sm shrink-0">
+          <div class="flex flex-col text-left shrink-0">
+            <span class="text-sm font-semibold text-slate-800 leading-tight">Arjun Sharma</span>
+            <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md self-start mt-0.5 leading-none">Procurement Officer</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= SCROLLABLE CONTENT AREA ================= -->
+    <div class="flex-1 overflow-y-auto p-5 md:p-8 space-y-6">
+      
+      <!-- Page Header -->
+      <div class="flex flex-col space-y-1">
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Create RFQ's</h1>
+        <p class="text-[13px] text-slate-500 font-medium">New request for quotation</p>
+      </div>
+
+      <!-- Steps Indicator -->
+      <div class="relative max-w-4xl mx-auto flex justify-between items-center py-4 mb-4">
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-slate-200 z-0"></div>
+        
+        <div class="relative z-10 flex flex-col items-center gap-2">
+          <div id="stepCircle1" class="w-10 h-10 rounded-full bg-vb-blue text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-white transition-colors">1</div>
+          <span class="text-xs font-semibold text-slate-800" id="stepText1">Details</span>
+        </div>
+        <div class="relative z-10 flex flex-col items-center gap-2">
+          <div id="stepCircle2" class="w-10 h-10 rounded-full bg-white text-slate-400 border border-slate-300 flex items-center justify-center font-bold text-sm ring-4 ring-white transition-colors">2</div>
+          <span class="text-xs font-semibold text-slate-400" id="stepText2">Items & Vendors</span>
+        </div>
+        <div class="relative z-10 flex flex-col items-center gap-2">
+          <div id="stepCircle3" class="w-10 h-10 rounded-full bg-white text-slate-400 border border-slate-300 flex items-center justify-center font-bold text-sm ring-4 ring-white transition-colors">3</div>
+          <span class="text-xs font-semibold text-slate-400" id="stepText3">Review</span>
+        </div>
+      </div>
+
+      <!-- Wizard Container -->
+      <div class="max-w-4xl mx-auto pb-10">
+        
+        <!-- STEP 1: RFQ Details -->
+        <div id="step1Container" class="space-y-6 block">
+          <div class="bg-white rounded-xl border border-vb-card-border p-6 shadow-sm space-y-5">
+            <!-- Title -->
+            <div>
+              <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">RFQ's Title<span class="text-red-500">*</span></label>
+              <input type="text" id="rfqTitle" placeholder="e.g. Office Furniture procurement Q2" class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-2.5 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all placeholder:text-slate-400">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Category -->
+              <div>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Category</label>
+                <select id="rfqCategory" class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-2.5 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all appearance-none cursor-pointer">
+                  <option value="Furniture">Furniture</option>
+                  <option value="IT Equipment">IT Equipment</option>
+                  <option value="Office Supplies">Office Supplies</option>
+                  <option value="Construction">Construction</option>
+                  <option value="Logistics">Logistics</option>
+                </select>
+              </div>
+              
+              <!-- Deadline -->
+              <div>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Deadline<span class="text-red-500">*</span></label>
+                <input type="date" id="rfqDeadline" class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-2.5 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all text-slate-600">
+              </div>
+            </div>
+            
+            <!-- Description -->
+            <div>
+              <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Description</label>
+              <textarea id="rfqDescription" rows="4" placeholder="Describe the requirements..." class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-2.5 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all placeholder:text-slate-400 resize-none"></textarea>
+            </div>
+
+            <!-- Attachments Section -->
+            <div class="pt-2">
+              <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Attachments (Optional)</label>
+              <div class="border-2 border-dashed border-slate-300 hover:border-vb-blue hover:bg-blue-50 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors group">
+                <div class="w-10 h-10 rounded-full bg-slate-50 group-hover:bg-white flex items-center justify-center mb-2">
+                  <i data-lucide="upload-cloud" class="w-5 h-5 text-slate-400 group-hover:text-vb-blue transition-colors"></i>
+                </div>
+                <p class="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Drag & drop files or click to upload</p>
+                <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, PNG, JPG</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-end pt-2">
+            <button id="btnNext1" class="bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-2.5 px-8 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+              Next Step <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Items & Vendors -->
+        <div id="step2Container" class="space-y-6 hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Line Items Section -->
+            <div class="bg-white rounded-xl border border-vb-card-border p-6 shadow-sm flex flex-col h-full">
+              <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 block">Line Items<span class="text-red-500">*</span></label>
+              <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden mb-4 grow">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-100/50 border-b border-slate-200 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                      <th class="py-2.5 px-4">Item Name</th>
+                      <th class="py-2.5 px-4 w-24 text-center">Qty</th>
+                      <th class="py-2.5 px-4 w-24 text-center">Unit</th>
+                      <th class="py-2.5 px-4 w-12 text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="rfqItemsTbody" class="text-sm font-medium text-slate-800 divide-y divide-slate-200/60">
+                    <!-- Dynamic rows go here -->
+                  </tbody>
+                </table>
+              </div>
+              <button id="addLineItemBtn" class="w-full text-xs font-semibold text-vb-blue hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-lg px-4 py-2.5 transition-colors flex items-center justify-center gap-1.5 border border-blue-100 shrink-0">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                Add Line Item
+              </button>
+            </div>
+
+            <!-- Assign Vendors Section -->
+            <div class="bg-white rounded-xl border border-vb-card-border p-6 shadow-sm flex flex-col h-full">
+              <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 block">Assign Vendors<span class="text-red-500">*</span></label>
+              <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden mb-4 grow">
+                <ul id="rfqVendorsList" class="text-sm font-medium text-slate-800 divide-y divide-slate-200/60">
+                  <li class="py-4 px-4 text-slate-400 text-xs italic text-center" id="emptyVendorsMessage">No vendors assigned yet.</li>
+                </ul>
+              </div>
+              <button id="addVendorBtn" class="w-full text-xs font-semibold text-vb-blue hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-lg px-4 py-2.5 transition-colors flex items-center justify-center gap-1.5 border border-blue-100 shrink-0">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                Add Vendor
+              </button>
+            </div>
+          </div>
+          
+          <div class="flex justify-between pt-2">
+            <button id="btnBack2" class="bg-white border border-slate-300 hover:border-slate-400 text-slate-700 rounded-xl py-2.5 px-6 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </button>
+            <button id="btnNext2" class="bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-2.5 px-8 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+              Next Step <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Review & Send -->
+        <div id="step3Container" class="space-y-6 hidden">
+          <div class="bg-white rounded-xl border border-vb-card-border p-8 shadow-sm">
+            <h2 class="text-lg font-bold text-slate-900 mb-6 pb-4 border-b border-slate-100 flex items-center gap-2">
+              <i data-lucide="clipboard-check" class="w-5 h-5 text-vb-blue"></i>
+              Review Your RFQ
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div class="space-y-4">
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Title</p>
+                  <p id="reviewTitle" class="text-sm font-semibold text-slate-800">-</p>
+                </div>
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Description</p>
+                  <p id="reviewDescription" class="text-sm text-slate-600">-</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Category & Deadline</p>
+                  <p class="text-sm font-semibold text-slate-800"><span id="reviewCategory">-</span> • <span id="reviewDeadline" class="text-red-600">-</span></p>
+                </div>
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Summary</p>
+                  <p class="text-sm font-medium text-slate-700"><span id="reviewItemCount" class="text-vb-blue font-bold">0</span> Line Items to be sent to <span id="reviewVendorCount" class="text-vb-blue font-bold">0</span> Vendors.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex gap-3">
+              <i data-lucide="info" class="w-5 h-5 text-vb-blue shrink-0 mt-0.5"></i>
+              <p class="text-xs text-slate-600 leading-relaxed">Once you click Save & Send, this RFQ will be finalized and notifications will be sent to the assigned vendors to submit their quotations.</p>
+            </div>
+          </div>
+          
+          <div class="flex justify-between pt-2">
+            <button id="btnBack3" class="bg-white border border-slate-300 hover:border-slate-400 text-slate-700 rounded-xl py-2.5 px-6 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </button>
+            <button id="saveRfqBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-2.5 px-8 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i> Save & Send to Vendors
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Vendor Selection Modal Overlay -->
+  <div id="vendorSelectionModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="vendorModalBackdrop"></div>
+    <!-- Modal Content -->
+    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden flex flex-col max-h-[80vh]">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0">
+        <h2 class="text-lg font-bold text-slate-800">Select Vendor</h2>
+        <button id="closeVendorModalBtn" class="text-slate-400 hover:text-slate-600 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto grow">
+        <div class="relative w-full mb-4">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
+          <input type="text" id="vendorSearchInput" placeholder="Search vendors..." class="w-full bg-slate-50 border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all">
+        </div>
+        <ul id="liveVendorsList" class="space-y-2">
+          <!-- Live vendors injected here -->
+          <li class="py-4 text-center text-sm text-slate-500">Loading vendors...</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load the page script -->
+  <script src="../supabase_client.js"></script>
+  <script src="./rfqs_logic.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

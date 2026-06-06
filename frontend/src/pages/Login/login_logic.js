@@ -54,12 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Card wrappers
     const loginCard = document.getElementById('login-card');
     const forgotCard = document.getElementById('forgot-card');
-    const signupCard = document.getElementById('signup-card');
 
     // Forms
     const loginForm = document.getElementById('login-form');
     const forgotForm = document.getElementById('forgot-form');
-    const signupForm = document.getElementById('signup-form');
 
     // Login Fields
     const usernameInput = document.getElementById('username');
@@ -81,32 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const recoverySubmitBtn = document.getElementById('recovery-submit');
     const forgotAlertBox = document.getElementById('forgot-alert');
 
-    // Signup Fields
-    const signupNameInput = document.getElementById('signup-name');
-    const signupEmailInput = document.getElementById('signup-email');
-    const signupRoleInput = document.getElementById('signup-role');
-    const signupPasswordInput = document.getElementById('signup-password');
-    const signupConfirmPasswordInput = document.getElementById('signup-confirm-password');
-    const signupSubmitBtn = document.getElementById('signup-submit');
-    const signupAlertBox = document.getElementById('signup-alert');
-
     // Card state triggers
     const triggerForgotLink = document.getElementById('trigger-forgot');
     const triggerSignupLink = document.getElementById('trigger-signup');
     const triggerLoginBtn = document.getElementById('trigger-login');
-    const triggerLoginFromSignupBtn = document.getElementById('trigger-login-from-signup');
 
     // Avatar handlers (Login Card)
     const profilePicContainer = document.getElementById('profile-pic');
     const avatarImg = document.getElementById('avatar-img');
     const avatarUploadInput = document.getElementById('avatar-upload');
-
-    // Avatar handlers (Signup Card)
-    const signupProfilePicContainer = document.getElementById('signup-profile-pic');
-    const signupAvatarImg = document.getElementById('signup-avatar-img');
-    const signupAvatarUploadInput = document.getElementById('signup-avatar-upload');
-
-    let currentSignupAvatarBase64 = '';
 
     // SVGs for eye toggle icon
     const eyeOpenIcon = `
@@ -192,22 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     triggerSignupLink.addEventListener('click', (e) => {
         e.preventDefault();
-        clearAlerts();
-        loginCard.classList.add('hidden');
-        signupCard.classList.remove('hidden');
-        signupNameInput.focus();
+        // Redirect placeholder - replace '#' with your actual sign-up page link once available
+        window.location.href = '#';
     });
 
     triggerLoginBtn.addEventListener('click', () => {
         clearAlerts();
         forgotCard.classList.add('hidden');
-        loginCard.classList.remove('hidden');
-        usernameInput.focus();
-    });
-
-    triggerLoginFromSignupBtn.addEventListener('click', () => {
-        clearAlerts();
-        signupCard.classList.add('hidden');
         loginCard.classList.remove('hidden');
         usernameInput.focus();
     });
@@ -256,21 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    signupProfilePicContainer.addEventListener('click', () => {
-        signupAvatarUploadInput.click();
-    });
 
-    signupAvatarUploadInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                currentSignupAvatarBase64 = event.target.result;
-                signupAvatarImg.src = currentSignupAvatarBase64;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
 
     // ==========================================
     // 6. PASSWORD VISIBILITY
@@ -310,8 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginAlertBox.className = 'alert-box';
         forgotAlertBox.style.display = 'none';
         forgotAlertBox.className = 'alert-box';
-        signupAlertBox.style.display = 'none';
-        signupAlertBox.className = 'alert-box';
     }
 
     // ==========================================
@@ -390,127 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ==========================================
-    // 9. SIGN UP CONTROLLER
-    // ==========================================
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        clearAlerts();
 
-        const name = signupNameInput.value.trim();
-        const email = signupEmailInput.value.trim();
-        const role = signupRoleInput.value;
-        const password = signupPasswordInput.value;
-        const confirmPassword = signupConfirmPasswordInput.value;
-
-        // Validations
-        if (!name) {
-            showAlert(signupAlertBox, 'error', 'Please enter your full name.');
-            signupNameInput.focus();
-            return;
-        }
-
-        if (!email) {
-            showAlert(signupAlertBox, 'error', 'Please enter your email address.');
-            signupEmailInput.focus();
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showAlert(signupAlertBox, 'error', 'Please enter a valid email address.');
-            signupEmailInput.focus();
-            return;
-        }
-
-        if (!role) {
-            showAlert(signupAlertBox, 'error', 'Please select a role.');
-            signupRoleInput.focus();
-            return;
-        }
-
-        if (!password) {
-            showAlert(signupAlertBox, 'error', 'Please set a password.');
-            signupPasswordInput.focus();
-            return;
-        }
-
-        if (password.length < 6) {
-            showAlert(signupAlertBox, 'error', 'Password must be at least 6 characters long.');
-            signupPasswordInput.focus();
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            showAlert(signupAlertBox, 'error', 'Passwords do not match.');
-            signupConfirmPasswordInput.focus();
-            return;
-        }
-
-        // Check if user already exists
-        if (findUserByEmail(email)) {
-            showAlert(signupAlertBox, 'error', 'An account with this email already exists.');
-            signupEmailInput.focus();
-            return;
-        }
-
-        setSignupLoading(true);
-
-        setTimeout(() => {
-            setSignupLoading(false);
-
-            // Save user to local storage DB
-            const newUser = {
-                name,
-                email,
-                role,
-                password,
-                avatar: currentSignupAvatarBase64
-            };
-            saveUser(newUser);
-
-            showAlert(signupAlertBox, 'success', 'Account created successfully! Switching to Login...');
-
-            // Clear inputs
-            signupNameInput.value = '';
-            signupEmailInput.value = '';
-            signupRoleInput.value = '';
-            signupPasswordInput.value = '';
-            signupConfirmPasswordInput.value = '';
-            signupAvatarImg.src = "../../../assets/user_avatar_arjun.png";
-            currentSignupAvatarBase64 = '';
-
-            setTimeout(() => {
-                signupCard.classList.add('hidden');
-                loginCard.classList.remove('hidden');
-                usernameInput.value = email;
-                passwordInput.focus();
-            }, 1500);
-
-        }, 1200);
-    });
-
-    function setSignupLoading(isLoading) {
-        if (isLoading) {
-            signupSubmitBtn.classList.add('loading');
-            signupSubmitBtn.disabled = true;
-            signupNameInput.disabled = true;
-            signupEmailInput.disabled = true;
-            signupRoleInput.disabled = true;
-            signupPasswordInput.disabled = true;
-            signupConfirmPasswordInput.disabled = true;
-            triggerLoginFromSignupBtn.disabled = true;
-        } else {
-            signupSubmitBtn.classList.remove('loading');
-            signupSubmitBtn.disabled = false;
-            signupNameInput.disabled = false;
-            signupEmailInput.disabled = false;
-            signupRoleInput.disabled = false;
-            signupPasswordInput.disabled = false;
-            signupConfirmPasswordInput.disabled = false;
-            triggerLoginFromSignupBtn.disabled = false;
-        }
-    }
 
     // ==========================================
     // 10. FORGOT PASSWORD CONTROLLER

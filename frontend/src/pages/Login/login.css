@@ -116,6 +116,12 @@ body {
     height: 48px;
 }
 
+.profile-pic-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Focus visual effect on profile pic when focusing username */
 .auth-card.focus-username .profile-pic-container {
     box-shadow: 0 0 0 4px var(--color-primary-focus);

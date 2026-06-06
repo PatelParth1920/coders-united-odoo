@@ -62,7 +62,7 @@ body {
 /* Chart Canvas adjustments */
 .chart-container {
   position: relative;
-  height: 240px;
+  height: 180px;
   width: 100%;
 }
 

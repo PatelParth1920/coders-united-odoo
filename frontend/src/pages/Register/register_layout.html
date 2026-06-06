@@ -1,1 +1,112 @@
-﻿<!-- HTML Layout for Register -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vander Bridge - Register Profile</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+    <div class="register-card">
+        <div class="register-title">Register Partner Profile</div>
+        <div class="register-subtitle">Set up your Vander Bridge authentication identity</div>
+
+        <div id="error-message-box" class="alert-error"></div>
+
+        <form id="detailed-register-form">
+            
+            <!-- ID Photo Upload (Round Container) -->
+            <div class="form-group">
+                <label class="form-label">Identification Photo</label>
+                <div class="photo-upload-container">
+                    <div class="photo-upload-box" onclick="document.getElementById('id-photo-input').click()">
+                        <div id="default-upload-icon-container" style="text-align: center;">
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <div class="upload-text">Upload ID</div>
+                        </div>
+                        <input type="file" id="id-photo-input" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                        <img id="image-preview-element" class="photo-preview" src="#" alt="Preview">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Name Details (First, Middle, Last) -->
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <div class="name-row">
+                    <input type="text" id="first-name" class="input-field" placeholder="First Name" required>
+                    <input type="text" id="middle-name" class="input-field" placeholder="Middle Name">
+                    <input type="text" id="last-name" class="input-field" placeholder="Last Name" required>
+                </div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+                <label class="form-label" for="reg-email">Email Address</label>
+                <input type="text" id="reg-email" class="input-field" placeholder="partner@vanderbridge.com" required>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label class="form-label" for="reg-phone">Phone Number</label>
+                <input type="text" id="reg-phone" class="input-field" placeholder="e.g. 9876543210" required>
+            </div>
+
+            <!-- Country Select -->
+            <div class="form-group">
+                <label class="form-label" for="reg-country">Country</label>
+                <select id="reg-country" class="input-field" required>
+                    <option value="">Select your country</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="India">India</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="Other">Other Country</option>
+                </select>
+            </div>
+
+            <!-- Roles: Admin, Vendor, Buyer -->
+            <div class="form-group">
+                <label class="form-label">Select Business Role</label>
+                <div class="role-selector">
+                    <div class="role-option">
+                        <input type="radio" id="role-admin" name="user-role" value="admin" required>
+                        <label for="role-admin" class="role-label">Admin</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" id="role-vendor" name="user-role" value="vendor" checked>
+                        <label for="role-vendor" class="role-label">Vendor</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" id="role-buyer" name="user-role" value="buyer">
+                        <label for="role-buyer" class="role-label">Buyer</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information (150 words limit) -->
+            <div class="form-group">
+                <label class="form-label" for="reg-info">Additional Information</label>
+                <textarea id="reg-info" class="input-field" style="height: 100px; resize: none;" placeholder="Introduce your business specialties..." oninput="checkWordLimit(this)"></textarea>
+                <div class="word-counter"><span id="word-count-val">0</span> / 150 words</div>
+            </div>
+
+            <button type="submit" class="btn-submit">Register Profile</button>
+        </form>
+        
+        <a href="index.html" class="back-link">Return to Portal</a>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>
+

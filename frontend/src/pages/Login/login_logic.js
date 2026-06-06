@@ -156,17 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
             loginSubtitle.classList.remove('hidden');
             sessionActiveView.classList.add('hidden');
             
-            // Default avatar
-            const savedGlobalAvatar = localStorage.getItem('vendorbridge-avatar');
-            if (savedGlobalAvatar) {
-                avatarImg.src = savedGlobalAvatar;
-                avatarImg.classList.remove('hidden');
-                if (avatarPlaceholder) avatarPlaceholder.classList.add('hidden');
-            } else {
-                avatarImg.src = '';
-                avatarImg.classList.add('hidden');
-                if (avatarPlaceholder) avatarPlaceholder.classList.remove('hidden');
-            }
+            // Always show the upload photo icon (placeholder) when no active session is logged in
+            avatarImg.src = '';
+            avatarImg.classList.add('hidden');
+            if (avatarPlaceholder) avatarPlaceholder.classList.remove('hidden');
         }
     }
     checkSession();

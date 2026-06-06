@@ -226,6 +226,24 @@ body {
     box-shadow: 0 0 0 4px var(--color-primary-focus);
 }
 
+/* Custom Dropdown Styling */
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    cursor: pointer;
+}
+
+/* Ensure the dropdown options have high contrast */
+select.form-input option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
 /* Password Toggle Icon Button */
 .password-toggle-btn {
     position: absolute;

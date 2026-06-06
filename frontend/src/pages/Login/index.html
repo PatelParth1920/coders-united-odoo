@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VendorBridge - Login</title>
+    <style>
+        /* બેઝિક સેટિંગ્સ */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        
+        /* આખા પેજનું બેકગ્રાઉન્ડ (લાઈટ બ્લુ/ગ્રે) */
+        body { 
+            background-color: #f0f4f8; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        
+        /* મેઈન વ્હાઇટ કાર્ડ */
+        .login-card { 
+            background: white; 
+            padding: 40px 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
+            width: 100%; 
+            max-width: 360px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* મોકઅપ મુજબ ગોળ વાદળી લોગો "VB" */
+        .logo-circle {
+            width: 70px;
+            height: 70px;
+            background-color: #0f4c81; /* મોકઅપનો રોયલ બ્લુ કલર */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(15, 76, 129, 0.3);
+        }
+        
+        /* ફોર્મ કન્ટેનર */
+        form {
+            width: 100%;
+        }
+        
+        /* ઇનપુટ ગ્રુપ */
+        .input-group { 
+            margin-bottom: 18px; 
+            width: 100%;
+        }
+        
+        /* ટેક્સ્ટ બોક્સની ડિઝાઇન */
+        .input-group input { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            outline: none; 
+            background-color: #f8fafc;
+            transition: all 0.2s;
+        }
+        
+        /* ક્લિક કરવા પર બોર્ડર બ્લુ થશે */
+        .input-group input:focus { 
+            border-color: #0f4c81; 
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1); 
+        }
+        
+        /* Forgot Password ની લિંક */
+        .forgot-link { 
+            width: 100%;
+            text-align: center; 
+            margin-top: 5px;
+            margin-bottom: 20px; 
+        }
+        
+        .forgot-link a { 
+            font-size: 13px; 
+            color: #64748b; 
+            text-decoration: none; 
+        }
+        
+        .forgot-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* મોકઅપ મુજબનું લીલા કલરનું લોગિન બટન */
+        .btn-login { 
+            width: 100%; 
+            background-color: #00a896; /* મોકઅપનો ગ્રીન કલર */
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 15px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+        }
+        
+        .btn-login:hover { 
+            background-color: #008f80; 
+        }
+        
+        /* રજીસ્ટ્રેશન પેજ પર જવા માટે નીચેની લિંક */
+        .register-footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .register-footer a {
+            color: #0f4c81;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="logo-circle">VB</div>
+    
+    <form action="dashboard.html" method="GET">
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Username / Email" required>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+        
+        <div class="forgot-link">
+            <a href="#">Forgot Userid?</a>
+        </div>
+        
+        <button type="submit" class="btn-login">Log In</button>
+    </form>
+    
+    <div class="register-footer">
+        for creating a new account <a href="register.html">register here</a>
+    </div>
+</div>
+
+</body>
+</html>

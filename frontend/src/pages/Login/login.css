@@ -98,14 +98,14 @@ body {
 .profile-pic-container {
     width: 90px;
     height: 90px;
-    background-color: var(--color-input-bg); /* Crisp White */
+    background-color: transparent;
     border: 2px solid var(--color-border);    /* Crisp White Border */
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    color: var(--color-icon);                 /* Navy Blue Icon */
+    color: var(--color-text-main);            /* Crisp White Icon */
     position: relative;
     overflow: hidden;
     transition: all var(--transition-smooth);

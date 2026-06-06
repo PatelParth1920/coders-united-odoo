@@ -1,1 +1,354 @@
-﻿/* Styles for Login */
+/* Import Inter Font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* CSS Variables - Customized for Navy, Slate, and Crisp White */
+:root {
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Palette Config */
+    --color-bg: #0f172a;               /* Navy Blue body background */
+    --color-card: #334155;             /* Slate Gray card background */
+    --color-border: #ffffff;           /* Crisp White borders */
+    --color-input-bg: #ffffff;         /* Crisp White input backgrounds */
+    --color-icon: #0f172a;             /* Navy Blue icons */
+    
+    /* Text Colors */
+    --color-text-main: #ffffff;        /* Crisp White for main headings & labels */
+    --color-text-muted: #cbd5e1;       /* Light gray-white for descriptions */
+    --color-text-dark: #0f172a;        /* Navy Blue for text inside white components */
+    
+    /* Primary Buttons (White card with Navy Blue text) */
+    --color-primary: #ffffff;          /* Crisp White button background */
+    --color-primary-text: #0f172a;     /* Navy Blue button text */
+    --color-primary-hover: #e2e8f0;    /* Slightly muted hover */
+    --color-primary-focus: rgba(255, 255, 255, 0.3);
+    
+    /* Secondary Buttons (Transparent with White borders) */
+    --color-secondary-bg: transparent;
+    --color-secondary-border: #ffffff;
+    --color-secondary-text: #ffffff;
+    
+    /* Alerts (Contrasted on Slate Gray card) */
+    --color-success: #34d399;
+    --color-success-bg: #1e293b;       /* Dark navy box */
+    --color-success-border: #34d399;
+    
+    --color-error: #f87171;
+    --color-error-bg: #1e293b;
+    --color-error-border: #f87171;
+    
+    /* Border Radius & Shadow Tokens */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    
+    --shadow-main: 0 15px 35px -5px rgba(0, 0, 0, 0.4), 0 10px 15px -10px rgba(0, 0, 0, 0.4);
+    --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+/* Container for Card States */
+.card-container {
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    perspective: 1000px;
+}
+
+/* Base Card Styling */
+.auth-card {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border); /* Crisp White Border */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-main);
+    padding: 2.5rem 2.25rem;
+    width: 100%;
+    transition: all var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Hide card state */
+.hidden {
+    display: none !important;
+}
+
+/* Profile Picture / Avatar Slot */
+.profile-pic-container {
+    width: 90px;
+    height: 90px;
+    background-color: var(--color-input-bg); /* Crisp White */
+    border: 2px solid var(--color-border);    /* Crisp White Border */
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-icon);                 /* Navy Blue Icon */
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-smooth);
+}
+
+.profile-pic-container svg {
+    width: 48px;
+    height: 48px;
+}
+
+/* Focus visual effect on profile pic when focusing username */
+.auth-card.focus-username .profile-pic-container {
+    box-shadow: 0 0 0 4px var(--color-primary-focus);
+}
+
+/* Brand Logo Text */
+.brand-name {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--color-text-main); /* Crisp White */
+    letter-spacing: -0.025em;
+    margin-bottom: 0.25rem;
+}
+
+.brand-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted); /* Light Slate */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.auth-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-main); /* Crisp White */
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-left {
+    position: absolute;
+    left: 1rem;
+    color: var(--color-icon); /* Navy Blue Icon */
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-smooth);
+    z-index: 10;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    border: 2px solid var(--color-border); /* Crisp White Border */
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-bg); /* Crisp White Background */
+    color: var(--color-text-dark); /* Navy Blue Text inside inputs */
+    outline: none;
+    transition: all var(--transition-smooth);
+}
+
+.form-input-password {
+    padding-right: 2.75rem;
+}
+
+.form-input::placeholder {
+    color: #64748b; /* Medium slate gray for placeholders */
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 4px var(--color-primary-focus);
+}
+
+/* Password Toggle Icon Button */
+.password-toggle-btn {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-icon); /* Navy Blue Icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    z-index: 10;
+    transition: transform var(--transition-smooth);
+}
+
+.password-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Utilities Row */
+.form-utilities {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-main); /* Crisp White */
+    text-decoration: none;
+    transition: opacity var(--transition-smooth);
+}
+
+.forgot-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Primary Action Buttons */
+.btn-action {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--color-primary); /* Crisp White */
+    color: var(--color-primary-text);       /* Navy Blue */
+    border: 2px solid var(--color-border);   /* Crisp White */
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-smooth);
+}
+
+.btn-action:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.btn-action:active {
+    transform: translateY(1px);
+}
+
+.btn-action:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Secondary Button for Back Action (Transparent with White Border) */
+.btn-secondary {
+    background-color: var(--color-secondary-bg);
+    color: var(--color-secondary-text);
+    border: 2px solid var(--color-secondary-border);
+    margin-top: 0.75rem;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-secondary-text);
+}
+
+/* Alerts Banners */
+.alert-box {
+    display: none;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    animation: slideDown 0.2s ease-out;
+}
+
+.alert-box.success {
+    display: flex;
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid var(--color-success-border);
+}
+
+.alert-box.error {
+    display: flex;
+    background-color: var(--color-error-bg);
+    color: var(--color-error);
+    border: 1px solid var(--color-error-border);
+}
+
+.alert-icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.alert-message {
+    font-weight: 500;
+}
+
+/* Loading Spinner (Navy Blue for White Button) */
+.spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(15, 23, 42, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--color-primary-text); /* Navy Blue Spinner */
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-action.loading .spinner {
+    display: block;
+}
+
+.btn-action.loading .btn-text {
+    display: none;
+}
+
+/* Keyframe Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

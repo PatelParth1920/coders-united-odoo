@@ -1,1 +1,607 @@
-﻿/* Styles for PO */
+/* Import Inter Font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* CSS Variables matching Login & Settings Themes */
+:root {
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Palette Config */
+    --color-bg: #0f172a;               /* Navy Blue body background */
+    --color-card: #334155;             /* Slate Gray control panel background */
+    --color-border: #ffffff;           /* Crisp White borders */
+    --color-input-bg: #ffffff;         /* Crisp White input backgrounds */
+    --color-icon: #0f172a;             /* Navy Blue icons */
+    
+    /* Text Colors */
+    --color-text-main: #ffffff;        /* Crisp White for main headings & labels */
+    --color-text-muted: #cbd5e1;       /* Light gray-white for descriptions */
+    --color-text-dark: #0f172a;        /* Navy Blue for text inside white components */
+    
+    /* Buttons & Active Elements */
+    --color-primary: #ffffff;          /* Crisp White button background */
+    --color-primary-text: #0f172a;     /* Navy Blue button text */
+    --color-primary-hover: #e2e8f0;    /* Slightly muted hover */
+    --color-primary-focus: rgba(255, 255, 255, 0.3);
+    
+    --color-secondary-bg: transparent;
+    --color-secondary-border: #ffffff;
+    --color-secondary-text: #ffffff;
+    
+    /* Status indicators */
+    --color-success: #34d399;
+    --color-error: #f87171;
+    
+    /* Document Preview Card variables (White document sheet style) */
+    --doc-bg: #ffffff;
+    --doc-text-main: #0f172a;
+    --doc-text-muted: #475569;
+    --doc-border: #e2e8f0;
+    
+    /* Border Radius & Styling Tokens */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+    
+    --shadow-main: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    --shadow-doc: 0 4px 20px -2px rgba(15, 23, 42, 0.15);
+    --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================
+   HEADER SECTION
+   ========================================== */
+.po-header {
+    background-color: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-logo-icon {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.15rem;
+}
+
+.brand-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.btn-header-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-secondary-bg);
+    color: var(--color-secondary-text);
+    border: 2px solid var(--color-secondary-border);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-smooth);
+}
+
+.btn-header-back:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================
+   MAIN LAYOUT GRID
+   ========================================== */
+.po-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .po-container {
+        grid-template-columns: 1.1fr 1fr; /* Controls on left, Document preview on right */
+    }
+}
+
+/* ==========================================
+   LEFT COLUMN - CONTROLS & FORMS
+   ========================================== */
+.controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.control-card {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-main);
+    padding: 1.75rem;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .form-row.double {
+        grid-template-columns: 1fr 1fr;
+    }
+    .form-row.triple {
+        grid-template-columns: 1.5fr 1fr 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-left {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--color-icon);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.65rem 0.75rem 0.65rem 2.25rem;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-bg);
+    color: var(--color-text-dark);
+    outline: none;
+    transition: all var(--transition-smooth);
+}
+
+.form-input-no-icon {
+    padding-left: 0.75rem;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 4px var(--color-primary-focus);
+}
+
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%230f172a' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.5rem) center;
+    padding-right: 2rem;
+}
+
+/* Add Item Button inside form */
+.btn-add-item {
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transition: all var(--transition-smooth);
+}
+
+.btn-add-item:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Control Actions Row (Generate Invoice / Print Buttons) */
+.action-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.btn-control-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-smooth);
+}
+
+.btn-control-primary {
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
+    border: 2px solid var(--color-border);
+}
+
+.btn-control-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn-control-secondary {
+    background-color: var(--color-secondary-bg);
+    color: var(--color-secondary-text);
+    border: 2px solid var(--color-secondary-border);
+}
+
+.btn-control-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Alert box */
+.alert-box {
+    display: none;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.2s ease-out;
+}
+
+.alert-box.success {
+    display: flex;
+    background-color: rgba(52, 211, 153, 0.15);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+.alert-box.error {
+    display: flex;
+    background-color: rgba(248, 113, 113, 0.15);
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+}
+
+.alert-icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+/* ==========================================
+   RIGHT COLUMN - LIVE PO DOCUMENT PREVIEW (Crisp White)
+   ========================================== */
+.document-preview-card {
+    background-color: var(--doc-bg);
+    color: var(--doc-text-main);
+    border: 2px solid var(--color-border); /* Outer crisp white border matching theme */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-main);
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    position: relative;
+    min-height: 700px;
+}
+
+/* Document Header Branding */
+.doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--doc-border);
+    padding-bottom: 1.5rem;
+}
+
+.doc-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.doc-logo-box {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    font-weight: 800;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doc-brand-title {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.025em;
+}
+
+.doc-type-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--color-bg); /* Use navy theme color for title accent */
+    line-height: 1;
+}
+
+/* Document Info Block (PO details, vendor details) */
+.doc-info-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.info-column h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-bg); /* Navy */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.meta-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed var(--doc-border);
+    padding: 0.25rem 0;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: var(--doc-text-muted);
+}
+
+.meta-val {
+    font-weight: 700;
+}
+
+/* Document Table */
+.doc-table-wrapper {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.doc-table th, 
+.doc-table td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--doc-border);
+}
+
+.doc-table th {
+    background-color: #f8fafc;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--doc-text-muted);
+    border-top: 2px solid var(--doc-border);
+}
+
+.doc-table tbody tr:last-child td {
+    border-bottom: 2px solid var(--doc-border);
+}
+
+.btn-remove-row {
+    background: none;
+    border: none;
+    color: var(--color-error);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-smooth);
+}
+
+.btn-remove-row:hover {
+    transform: scale(1.15);
+}
+
+/* Document Footer Totals Calculation */
+.doc-totals-section {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    margin-top: auto;
+}
+
+.doc-terms {
+    font-size: 0.75rem;
+    color: var(--doc-text-muted);
+}
+
+.doc-terms h5 {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.totals-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+}
+
+.totals-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.15rem 0;
+}
+
+.totals-row.grand-total {
+    border-top: 2px solid var(--doc-border);
+    padding-top: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-bg); /* Navy */
+}
+
+/* Spinner for actions */
+.spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(15, 23, 42, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--color-primary-text);
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-control-action.loading .spinner {
+    display: block;
+}
+
+.btn-control-action.loading .btn-text {
+    display: none;
+}
+
+/* Keyframe Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   @MEDIA PRINT RULES (Extremely Important)
+   ========================================== */
+@media print {
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Hide navigation headers, sidebar forms, controls card and action buttons */
+    .po-header, 
+    .controls-panel, 
+    .action-cards-grid, 
+    .btn-remove-row,
+    th:last-child, 
+    td:last-child {
+        display: none !important;
+    }
+    
+    .po-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    /* Format the document card to occupy full paper page */
+    .document-preview-card {
+        border: none !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Clean text styling for printing */
+    .doc-type-title, 
+    .totals-row.grand-total {
+        color: #000000 !important;
+    }
+    
+    /* Ensure table headers render backgrounds during print */
+    .doc-table th {
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

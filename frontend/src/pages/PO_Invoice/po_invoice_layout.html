@@ -4,310 +4,310 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VendorBridge - Purchase Order & Invoice</title>
-  
-  <!-- CDNs for Tailwind CSS, Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Tailwind Configuration to extend colors -->
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'vb-dark': '#031329',
-            'vb-blue': '#1d4ed8',
-            'vb-light': '#f8fafc',
-            'vb-card-border': '#e2e8f0'
-          }
-        }
-      }
+      theme: { extend: { colors: { 'vb-dark': '#031329', 'vb-blue': '#1d4ed8', 'vb-light': '#f8fafc', 'vb-card-border': '#e2e8f0' } } }
     }
   </script>
-  
-  <!-- Custom stylesheet link -->
   <link rel="stylesheet" href="./po_invoice.css">
 </head>
-<body class="bg-vb-light flex h-screen overflow-hidden">
+<body class="bg-slate-50 flex h-screen overflow-hidden">
 
-  <!-- ================= SIDEBAR ================= -->
-  <aside id="sidebar" class="sidebar-transition w-64 bg-vb-dark text-slate-300 flex flex-col justify-between h-full border-r border-slate-800 shrink-0">
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar-transition w-64 bg-white text-slate-500 flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
     <div class="flex flex-col overflow-y-auto grow">
-      
-      <!-- Brand Logo Header -->
-      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-        <div class="w-9 h-9 rounded-lg bg-vb-blue flex items-center justify-center shadow-lg shadow-blue-900/30 shrink-0">
-          <span class="text-white font-bold text-xl select-none">V</span>
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-vb-blue to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+          <span class="text-white font-light uppercase tracking-widest text-xl select-none">V</span>
         </div>
-        <span id="logoText" class="text-white font-semibold text-lg tracking-wide select-none">VendorBridge</span>
+        <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
       </div>
-
-      <!-- Navigation Menu -->
-      <nav class="p-4 space-y-1.5 grow">
-        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Dashboard</span>
-        </a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="users" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Vendors</span>
-        </a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">RFQs</span>
-        </a>
-        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Quotations</span>
-        </a>
-        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Approvals</span>
-        </a>
-        <a href="./po_invoice_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
-          <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">PO & Invoices</span>
-        </a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Reports</span>
-        </a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="history" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Activity Logs</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="settings" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Settings</span>
-        </a>
+      <nav class="p-4 space-y-1 grow">
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-vb-blue bg-blue-50"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
+        <a href="../Settings/settings_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span></a>
       </nav>
     </div>
-
-    <!-- Sidebar Footer -->
-    <div class="p-4 border-t border-slate-800 space-y-4">
-      <div id="supportBox" class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-center space-y-3">
-        <div class="flex justify-center">
-          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
-            <i data-lucide="headphones" class="w-5 h-5 text-slate-300"></i>
-          </div>
-        </div>
-        <div class="space-y-1">
-          <h4 class="text-xs font-semibold text-white">Need Help?</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Contact support team for assistance.</p>
-        </div>
-        <button id="contactSupportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
-          <span>Contact Support</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-
-      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white bg-transparent">
-        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i>
-        <span class="sidebar-label">Collapse</span>
+    <div class="p-4 border-t border-slate-100 space-y-4">
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors bg-transparent">
+        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>
       </button>
     </div>
   </aside>
 
-  <!-- ================= MAIN LAYOUT AREA ================= -->
-  <main class="flex-1 flex flex-col h-full overflow-hidden">
+  <!-- MAIN -->
+  <main class="flex-1 flex flex-col h-full overflow-hidden relative">
     
-    <!-- ================= HEADER ================= -->
+    <!-- HEADER -->
     <header class="bg-white border-b border-vb-card-border h-16 flex items-center justify-between px-8 shrink-0">
-      
-      <!-- Left side: Hamburger Toggle & Search -->
       <div class="flex items-center gap-4 w-96">
-        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg lg:hidden transition-colors">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
+        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg lg:hidden transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
         <div class="relative w-full">
           <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
-          <input id="globalSearchInput" type="text" placeholder="Search vendors, RFQs, quotations..." 
-                 class="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400">
+          <input type="text" placeholder="Search invoices..." class="w-full bg-slate-50 border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm outline-none">
         </div>
       </div>
-
-      <!-- Right side: Notifications & Profile -->
-      <div class="flex items-center gap-6">
-        <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
-          <i data-lucide="bell" class="w-6 h-6"></i>
-          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-bold text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
-        </button>
-
-        <div class="w-px h-6 bg-slate-200"></div>
-
-        <div class="flex items-center gap-3">
-          <img src="../../../assets/user_avatar_arjun.png" alt="Arjun Sharma" 
-               class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-sm shrink-0">
-          <div class="flex flex-col text-left shrink-0">
-            <span class="text-sm font-semibold text-slate-800 leading-tight">Arjun Sharma</span>
-            <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md self-start mt-0.5 leading-none">Procurement Officer</span>
-          </div>
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center border border-slate-300 shadow-sm shrink-0 overflow-hidden"><i data-lucide="user" class="w-5 h-5 text-slate-500"></i></div>
+        <div class="flex flex-col text-left">
+          <span class="text-sm font-light uppercase tracking-widest leading-tight">Admin User</span>
+          <span class="text-[11px] font-medium text-vb-blue">Procurement</span>
         </div>
       </div>
     </header>
 
-    <!-- ================= SCROLLABLE CONTENT AREA ================= -->
-    <div class="flex-1 overflow-y-auto p-5 md:p-8 bg-slate-50">
-      
-      <!-- Top Action Bar -->
-      <div class="max-w-5xl mx-auto flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
-        <div class="flex flex-col space-y-1">
-          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Purchase Order & Invoice</h1>
-          <p class="text-[14px] text-slate-600 font-medium flex items-center gap-2">
-            PO-2024-auto-generated after approval
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          </p>
+    <div class="flex-1 overflow-y-auto p-5 md:p-8 bg-slate-50 relative" id="scrollContainer">
+
+      <!-- LIST VIEW -->
+      <div id="listViewContainer" class="space-y-6 block max-w-6xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900">PO & Invoices</h1>
+            <p class="text-[13px] text-slate-500 font-medium">Manage payment history and track status.</p>
+          </div>
+          <button id="btnOpenCreate" class="bg-vb-blue hover:bg-blue-700 text-white font-light uppercase tracking-widest py-2 px-4 rounded-lg text-sm flex items-center gap-2 shadow-sm transition-colors">
+            <i data-lucide="plus" class="w-4 h-4"></i> Create Invoice
+          </button>
         </div>
-        
-        <div class="flex items-center gap-3">
-          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
-            <i data-lucide="download" class="w-4 h-4"></i>
-            Download PDF
-          </button>
-          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
-            <i data-lucide="printer" class="w-4 h-4"></i>
-            Print
-          </button>
-          <button class="bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-lg py-2 px-4 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
-            <i data-lucide="mail" class="w-4 h-4"></i>
-            Email invoice
-          </button>
+
+        <div class="flex gap-4 border-b border-slate-200 mb-6">
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-vb-blue text-vb-blue" data-tab="all">All Invoices</button>
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-slate-500 hover:text-slate-700" data-tab="Sent">Sent by Me</button>
+          <button class="tab-btn pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-slate-500 hover:text-slate-700" data-tab="Received">Received</button>
+        </div>
+
+        <div class="bg-white rounded-xl border border-vb-card-border shadow-sm overflow-hidden min-h-[300px] relative">
+          <div id="listLoading" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
+            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-vb-blue mb-2"></i>
+          </div>
+          <div id="listEmpty" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center bg-white">
+            <i data-lucide="file-x" class="w-10 h-10 text-slate-300 mb-3"></i>
+            <h3 class="text-lg font-light uppercase tracking-widest mb-1 text-slate-800">No Invoices Found</h3>
+            <p class="text-sm text-slate-500">Create a new invoice to get started.</p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
+                  <th class="py-4 px-5">Type</th>
+                  <th class="py-4 px-5">Invoice ID / PO</th>
+                  <th class="py-4 px-5">Party (Vendor)</th>
+                  <th class="py-4 px-5">Due Date</th>
+                  <th class="py-4 px-5 text-right">Amount</th>
+                  <th class="py-4 px-5 text-center">Status</th>
+                  <th class="py-4 px-5"></th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTbody" class="text-sm font-medium text-slate-800 divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Main Document Box -->
-      <div class="max-w-5xl mx-auto space-y-6">
-        
-        <!-- Header / Details Card -->
+      <!-- DETAIL VIEW -->
+      <div id="detailViewContainer" class="hidden max-w-5xl mx-auto space-y-6 pb-10">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+          <div class="flex items-center gap-4">
+            <button id="btnBackToList" class="p-2 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors bg-white"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+            <div>
+              <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight" id="detTitle">Invoice Document</h1>
+              <p class="text-[14px] text-slate-600 font-medium" id="detSubtitle">PO-NUMBER</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="bg-white border border-slate-300 text-slate-700 rounded-lg py-2 px-4 font-light uppercase tracking-widest text-sm shadow-sm flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Print</button>
+          </div>
+        </div>
+
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="p-6 md:p-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-              
-              <!-- Bill To -->
               <div class="space-y-4">
-                <div>
-                  <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Bill To:</h3>
-                  <div class="text-sm text-slate-900 font-medium space-y-1">
-                    <p class="font-bold text-base">Your Organization Name</p>
-                    <p>123 business park, ahmedabad</p>
-                    <p class="text-slate-500">GSTIN: 25383438AFB</p>
-                  </div>
-                </div>
+                <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">From:</h3>
+                <div class="text-sm text-slate-900 font-medium space-y-1" id="detFromInfo"></div>
               </div>
-
-              <!-- Vendor -->
               <div class="space-y-4">
-                <div>
-                  <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Vendor:</h3>
-                  <div class="text-sm text-slate-900 font-medium space-y-1">
-                    <p class="font-bold text-base">Infra supplies pvt ltd</p>
-                    <p>456, industrial estate, surat</p>
-                    <p class="text-slate-500">GSTIN: 343434DB4523</p>
-                  </div>
-                </div>
+                <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">To:</h3>
+                <div class="text-sm text-slate-900 font-medium space-y-1" id="detToInfo"></div>
               </div>
             </div>
-
             <div class="w-full h-px bg-slate-200 my-6"></div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div class="space-y-3">
-                <div class="flex text-sm">
-                  <span class="w-32 text-slate-500 font-medium">PO Number:</span>
-                  <span class="font-bold text-slate-900">PO-2025-0068</span>
-                </div>
-                <div class="flex text-sm">
-                  <span class="w-32 text-slate-500 font-medium">PO date:</span>
-                  <span class="font-medium text-slate-900">21 may, 2025</span>
-                </div>
+                <div class="flex flex-col text-sm"><span class="text-xs text-slate-500 font-light uppercase tracking-widest uppercase tracking-wider mb-1">Invoice ID:</span><span class="font-light uppercase tracking-widest text-base" id="detInvId"></span></div>
               </div>
               <div class="space-y-3">
-                <div class="flex text-sm">
-                  <span class="w-32 text-slate-500 font-medium">invoice date:</span>
-                  <span class="font-medium text-slate-900">22 may 2025</span>
-                </div>
-                <div class="flex text-sm">
-                  <span class="w-32 text-slate-500 font-medium">Due date:</span>
-                  <span class="font-medium text-slate-900">21 june 2025</span>
-                </div>
+                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">PO Num:</span><span class="font-light uppercase tracking-widest" id="detPoNum"></span></div>
+                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">Issue Date:</span><span class="font-medium" id="detIssue"></span></div>
+              </div>
+              <div class="space-y-3">
+                <div class="flex text-sm"><span class="w-24 text-slate-500 font-medium">Due Date:</span><span class="font-light uppercase tracking-widest text-red-500" id="detDue"></span></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Table Card -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
                   <th class="py-4 px-6">Item</th>
                   <th class="py-4 px-6 w-24 text-center">Qty</th>
-                  <th class="py-4 px-6 w-40 text-right">Unit price (₹)</th>
-                  <th class="py-4 px-6 w-40 text-right">Total (₹)</th>
+                  <th class="py-4 px-6 w-40 text-right">Unit price</th>
+                  <th class="py-4 px-6 w-40 text-right">Total</th>
                 </tr>
               </thead>
-              <tbody class="text-sm font-medium text-slate-800 divide-y divide-slate-100">
-                <tr class="hover:bg-slate-50 transition-colors">
-                  <td class="py-4 px-6 text-slate-900">Ergonomic chair</td>
-                  <td class="py-4 px-6 text-center">25</td>
-                  <td class="py-4 px-6 text-right">3,500</td>
-                  <td class="py-4 px-6 text-right">87,500</td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                  <td class="py-4 px-6 text-slate-900">Standing desks</td>
-                  <td class="py-4 px-6 text-center">10</td>
-                  <td class="py-4 px-6 text-right">8,200</td>
-                  <td class="py-4 px-6 text-right">82,000</td>
-                </tr>
-              </tbody>
+              <tbody class="text-sm font-medium text-slate-800 divide-y divide-slate-100" id="detItemsTbody"></tbody>
             </table>
           </div>
+          <div class="border-t border-slate-200 bg-slate-50/50 p-6 flex flex-col md:flex-row justify-between items-start gap-6">
+            
+            <div class="flex-1 w-full max-w-md">
+              <h4 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2">Terms & Conditions</h4>
+              <p class="text-xs text-slate-600 bg-white p-3 rounded-lg border border-slate-200 whitespace-pre-wrap" id="detTc"></p>
+            </div>
 
-          <!-- Totals Footer inside the table card -->
-          <div class="border-t border-slate-200 bg-slate-50/50 p-6 flex flex-col items-end">
             <div class="w-full max-w-sm space-y-3">
-              <div class="flex justify-between text-sm font-medium text-slate-600 px-2">
-                <span>Subtotal</span>
-                <span class="text-slate-900">1,69,500</span>
-              </div>
-              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2">
-                <span>CGST(9%)</span>
-                <span class="text-slate-900">15,255</span>
-              </div>
-              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2">
-                <span>SGST(9%)</span>
-                <span class="text-slate-900">15,255</span>
-              </div>
-              <div class="flex justify-between items-center text-sm font-bold text-slate-900 px-2 border-t-2 border-slate-800 pt-3 mt-1">
-                <span class="uppercase tracking-wider">Grand total</span>
-                <span class="text-lg text-vb-blue">₹ 2,00,010</span>
-              </div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2"><span>Subtotal</span><span id="detSubtotal" class="text-slate-900 font-mono"></span></div>
+              <div class="flex justify-between text-sm font-medium text-slate-600 px-2 border-t border-slate-200 pt-2"><span id="detTaxLabel"></span><span id="detTaxAmount" class="text-slate-900 font-mono"></span></div>
+              <div class="flex justify-between items-center text-sm font-light uppercase tracking-widest text-slate-900 px-2 border-t-2 border-slate-800 pt-3 mt-1"><span class="uppercase tracking-wider">Grand total</span><span id="detGrandTotal" class="text-lg text-vb-blue font-mono"></span></div>
             </div>
           </div>
         </div>
 
-        <!-- Document Footer Actions -->
-        <div class="flex items-center justify-between pt-2 pb-10">
+        <div class="flex items-center justify-between pt-2">
           <div class="flex items-center gap-3">
-            <span class="text-sm font-medium text-slate-500">status:</span>
-            <span class="bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Pending Payment</span>
+            <span class="text-sm font-light uppercase tracking-widest text-slate-700">Update Status:</span>
+            <select id="selUpdateStatus" class="border border-slate-300 rounded-lg px-3 py-2 text-sm font-light uppercase tracking-widest outline-none cursor-pointer">
+              <option value="Pending">Pending Payment</option>
+              <option value="Paid">Mark as Paid</option>
+              <option value="Overdue">Flag as Overdue</option>
+            </select>
           </div>
-          <button class="text-sm font-bold text-vb-blue hover:text-blue-800 hover:bg-blue-50 transition-colors py-2 px-4 rounded-lg">
-            Mark as Paid
-          </button>
         </div>
-
       </div>
 
     </div>
+
+    <!-- CREATE MODAL OVERLAY -->
+    <div id="createModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex justify-end">
+      <div class="w-full max-w-2xl bg-white h-full shadow-2xl flex flex-col translate-x-full transition-transform duration-300" id="createModalPanel">
+        <div class="p-6 border-b border-slate-200 flex justify-between items-center shrink-0">
+          <h2 class="text-xl font-light uppercase tracking-widest text-slate-900">Draft New Invoice</h2>
+          <button id="btnCloseCreate" class="p-2 text-slate-400 hover:bg-slate-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto flex-1 space-y-6">
+          
+          <div class="grid grid-cols-1 gap-4">
+            
+            <div class="relative">
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">To Party (Vendor)</label>
+              <div class="relative">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                <input type="text" id="frmVendorSearch" placeholder="Type vendor name to search..." autocomplete="off" class="w-full border border-slate-200 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue font-light uppercase tracking-widest">
+              </div>
+              <input type="hidden" id="frmVendor">
+              
+              <div id="vendorDropdown" class="hidden absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-48 overflow-y-auto divide-y divide-slate-100">
+                <!-- Autocomplete items inject here -->
+              </div>
+            </div>
+
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Invoice ID <span class="text-red-500">*</span></label>
+              <input type="text" id="frmInvId" placeholder="INV-2025-001" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue font-light uppercase tracking-widest">
+            </div>
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">PO Number <span class="text-red-500">*</span></label>
+              <input type="text" id="frmPo" placeholder="PO-2025-..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Contact Number</label>
+              <input type="text" id="frmContact" placeholder="+1 234 567 890" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Email Address</label>
+              <input type="email" id="frmEmail" placeholder="billing@company.com" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">GST / Tax ID</label>
+              <input type="text" id="frmGst" placeholder="GSTIN..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Issue Date <span class="text-red-500">*</span></label>
+              <input type="date" id="frmIssue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+            <div>
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Due Date <span class="text-red-500">*</span></label>
+              <input type="date" id="frmDue" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue">
+            </div>
+          </div>
+
+          <div class="w-full h-px bg-slate-200"></div>
+
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase">Line Items <span class="text-red-500">*</span></label>
+              <button id="btnAddItem" class="text-xs font-light uppercase tracking-widest text-vb-blue flex items-center gap-1 hover:underline"><i data-lucide="plus" class="w-3 h-3"></i> Add Item</button>
+            </div>
+            <div class="border border-slate-200 rounded-lg overflow-hidden">
+              <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 text-[10px] uppercase text-slate-500">
+                  <tr><th class="p-2">Name</th><th class="p-2 w-16">Qty</th><th class="p-2 w-24">Price</th><th class="p-2 w-10"></th></tr>
+                </thead>
+                <tbody id="frmItemsBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="flex justify-end items-center gap-4">
+            <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase">Tax %</label>
+            <input type="number" id="frmTax" value="0" min="0" class="w-20 border border-slate-200 rounded-lg p-2 text-sm bg-slate-50 outline-none text-right font-light uppercase tracking-widest text-slate-800">
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-right space-y-1">
+            <p class="text-xs font-medium text-slate-500">Subtotal: $<span id="lblSub" class="font-mono">0.00</span></p>
+            <p class="text-xs font-medium text-slate-500">Tax: $<span id="lblTax" class="font-mono">0.00</span></p>
+            <p class="text-base font-light uppercase tracking-widest text-slate-900 mt-2 pt-2 border-t border-slate-200">Grand Total: $<span id="lblTotal" class="font-mono">0.00</span></p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2">Terms & Conditions</label>
+            <textarea id="frmTc" rows="3" placeholder="Payment is due within 30 days..." class="w-full border border-slate-200 rounded-lg p-2.5 text-sm bg-slate-50 outline-none focus:border-vb-blue"></textarea>
+          </div>
+
+        </div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 shrink-0">
+          <button id="btnCancelCreate" class="px-5 py-2.5 text-sm font-light uppercase tracking-widest text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
+          <button id="btnSaveInvoice" class="px-5 py-2.5 text-sm font-light uppercase tracking-widest text-white bg-vb-blue hover:bg-blue-700 rounded-lg shadow-md transition-colors flex items-center gap-2">
+            Save Invoice
+          </button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-  <!-- Load the page script -->
-  <script src="./po_invoice_logic.js"></script>
-  <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
-  </script>
+  <script src="../supabase_client.js"></script>
+  <script src="./po_invoice_logic.js?v=4"></script>
 </body>
 </html>

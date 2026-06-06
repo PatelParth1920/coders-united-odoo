@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Avatar handlers (Login Card)
     const profilePicContainer = document.getElementById('profile-pic');
     const avatarImg = document.getElementById('avatar-img');
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
     const avatarUploadInput = document.getElementById('avatar-upload');
 
     // SVGs for eye toggle icon
@@ -134,13 +135,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Load custom avatar if saved
             if (sessionData.avatar) {
                 avatarImg.src = sessionData.avatar;
+                avatarImg.classList.remove('hidden');
+                if (avatarPlaceholder) avatarPlaceholder.classList.add('hidden');
             } else {
                 // Check if user has avatar in database
                 const dbUser = findUserByEmail(sessionData.email);
                 if (dbUser && dbUser.avatar) {
                     avatarImg.src = dbUser.avatar;
+                    avatarImg.classList.remove('hidden');
+                    if (avatarPlaceholder) avatarPlaceholder.classList.add('hidden');
                 } else {
-                    avatarImg.src = "../../../assets/user_avatar_arjun.png";
+                    avatarImg.src = '';
+                    avatarImg.classList.add('hidden');
+                    if (avatarPlaceholder) avatarPlaceholder.classList.remove('hidden');
                 }
             }
         } else {
@@ -149,13 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
             loginSubtitle.classList.remove('hidden');
             sessionActiveView.classList.add('hidden');
             
-            // Default avatar
-            const savedGlobalAvatar = localStorage.getItem('vendorbridge-avatar');
-            if (savedGlobalAvatar) {
-                avatarImg.src = savedGlobalAvatar;
-            } else {
-                avatarImg.src = "../../../assets/user_avatar_arjun.png";
-            }
+            // Always show the upload photo icon (placeholder) when no active session is logged in
+            avatarImg.src = '';
+            avatarImg.classList.add('hidden');
+            if (avatarPlaceholder) avatarPlaceholder.classList.remove('hidden');
         }
     }
     checkSession();
@@ -206,6 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.onload = (event) => {
                 const base64Data = event.target.result;
                 avatarImg.src = base64Data;
+                avatarImg.classList.remove('hidden');
+                if (avatarPlaceholder) avatarPlaceholder.classList.add('hidden');
                 localStorage.setItem('vendorbridge-avatar', base64Data);
 
                 // Update current user if logged in

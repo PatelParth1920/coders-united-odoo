@@ -23,46 +23,33 @@
   <link rel="stylesheet" href="./approval.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-vb-light flex h-screen overflow-hidden text-slate-800">
+<body class="bg-slate-50 flex h-screen overflow-hidden text-slate-800">
 
   <!-- SIDEBAR -->
-  <aside id="sidebar" class="sidebar-transition w-64 bg-vb-dark text-slate-300 flex flex-col justify-between h-full border-r border-slate-800 shrink-0">
+  <aside id="sidebar" class="sidebar-transition w-64 bg-white text-slate-500 flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
     <div class="flex flex-col overflow-y-auto grow">
-      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-        <div class="w-9 h-9 rounded-lg bg-vb-blue flex items-center justify-center shadow-lg shadow-blue-900/30 shrink-0">
-          <span class="text-white font-bold text-xl select-none">V</span>
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-vb-blue to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+          <span class="text-white font-light uppercase tracking-widest text-xl select-none">V</span>
         </div>
-        <span id="logoText" class="text-white font-semibold text-lg tracking-wide select-none">VendorBridge</span>
+        <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
       </div>
-      <nav class="p-4 space-y-1.5 grow">
-        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span>
-        </a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span>
-        </a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span>
-        </a>
-        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span>
-        </a>
-        <a href="#" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-white bg-slate-800/50">
-          <i data-lucide="check-square" class="w-5 h-5 shrink-0 text-vb-blue"></i><span class="sidebar-label">Approvals</span>
-        </a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span>
-        </a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span>
-        </a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span>
-        </a>
+      <nav class="p-4 space-y-1 grow">
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-vb-blue bg-blue-50"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
+        <a href="../Settings/settings_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span></a>
       </nav>
+    </div>
+    <div class="p-4 border-t border-slate-100 space-y-4">
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors bg-transparent">
+        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>
+      </button>
     </div>
   </aside>
 
@@ -82,7 +69,7 @@
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-full bg-slate-200"></div>
           <div class="flex flex-col text-left">
-            <span class="text-sm font-semibold leading-tight">Admin User</span>
+            <span class="text-sm font-light uppercase tracking-widest leading-tight">Admin User</span>
             <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md">Procurement</span>
           </div>
         </div>
@@ -95,28 +82,38 @@
       <!-- LIST VIEW CONTAINER -->
       <div id="listContainer" class="space-y-6 block">
         <div class="flex flex-col space-y-1">
-          <h1 class="text-2xl font-bold text-slate-900">Manage Approvals</h1>
-          <p class="text-[13px] text-slate-500 font-medium">Review and process vendor quotations across stages.</p>
+          <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900">Manage Approvals</h1>
+          <p class="text-[13px] text-slate-500 font-medium" id="pageSubtitle">Review internal RFQs and external vendor quotations.</p>
         </div>
+
+      <!-- TABS NAVIGATION -->
+      <div class="flex gap-4 border-b border-slate-200 mb-6">
+        <button id="tabTender" class="pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-vb-blue text-vb-blue">
+          Estimates I Sent (My Bids)
+        </button>
+        <button id="tabQuotation" class="pb-3 px-2 text-sm font-light uppercase tracking-widest border-b-2 transition-all border-transparent text-slate-500 hover:text-slate-700">
+          Estimates I Received (Vendor Bids)
+        </button>
+      </div>
 
         <div class="bg-white rounded-xl border border-vb-card-border shadow-sm overflow-hidden relative min-h-[300px]">
           <div id="manageLoadingState" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
             <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-vb-blue mb-2"></i>
-            <p class="text-sm font-semibold">Loading approvals...</p>
+            <p class="text-sm font-light uppercase tracking-widest">Loading approvals...</p>
           </div>
 
           <div id="manageEmptyState" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center bg-white">
             <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <i data-lucide="check-square" class="w-8 h-8 text-slate-400"></i>
             </div>
-            <h3 class="text-lg font-bold mb-1">No Approvals Found</h3>
+            <h3 class="text-lg font-light uppercase tracking-widest mb-1">No Approvals Found</h3>
             <p class="text-sm text-slate-500">Wait for vendors to submit quotations or create dummy records.</p>
           </div>
 
           <div class="overflow-x-auto w-full">
             <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+              <thead id="approvalsThead">
+                <tr class="bg-slate-50/70 border-b border-slate-200 text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
                   <th class="py-4 px-5">RFQ Title</th>
                   <th class="py-4 px-5">Vendor</th>
                   <th class="py-4 px-5 text-right">Amount</th>
@@ -138,7 +135,7 @@
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
           </button>
           <div>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Approval Workflow</h1>
+            <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight">Approval Workflow</h1>
             <p id="detailSubtitle" class="text-[14px] text-slate-600 font-medium">RFQ: Loading... - Vendor: Loading...</p>
           </div>
         </div>
@@ -157,13 +154,13 @@
           <!-- Left Column -->
           <div class="space-y-8">
             <div>
-              <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Approval Chain</h3>
+              <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-4">Approval Chain</h3>
               <div id="approvalChainList" class="space-y-0 relative before:absolute before:inset-0 before:ml-5 before:w-0.5 before:bg-slate-200">
                 <!-- Dynamically populated remarks -->
               </div>
             </div>
             <div>
-              <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">Approval Remarks</label>
+              <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase mb-2 block">Approval Remarks</label>
               <textarea id="remarkInput" rows="4" placeholder="Add your comments..." class="w-full bg-white border border-slate-200 focus:border-vb-blue rounded-xl px-4 py-3 text-sm outline-none resize-none shadow-sm"></textarea>
             </div>
           </div>
@@ -171,21 +168,41 @@
           <!-- Right Column -->
           <div class="space-y-6">
             <div>
-              <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Quotation Summary</h3>
+              <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2 block">Quotation Summary</h3>
               <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-                <div class="flex justify-between text-sm"><span class="text-slate-500">Vendor:</span><span id="sumVendor" class="font-bold">...</span></div>
+                <div class="flex justify-between text-sm"><span class="text-slate-500">Vendor:</span><span id="sumVendor" class="font-light uppercase tracking-widest">...</span></div>
                 <div class="w-full h-px bg-slate-100"></div>
-                <div class="flex justify-between text-sm"><span class="text-slate-500">Total:</span><span id="sumAmount" class="font-bold text-base">...</span></div>
+                <div class="flex justify-between text-sm"><span class="text-slate-500">Total:</span><span id="sumAmount" class="font-light uppercase tracking-widest text-base">...</span></div>
                 <div class="w-full h-px bg-slate-100"></div>
                 <div class="flex justify-between text-sm"><span class="text-slate-500">Submitted:</span><span id="sumDate" class="font-medium">...</span></div>
               </div>
             </div>
 
+            <div id="itemsDetailContainer" class="hidden">
+              <h3 class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2 block">Line Items</h3>
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div id="itemsLoading" class="p-6 text-center text-sm text-slate-500"><i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-2"></i>Loading details...</div>
+                <div class="overflow-x-auto hidden" id="itemsTableWrapper">
+                  <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-[10px] font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider" id="itemsThead">
+                      <!-- Dynamically populated -->
+                    </thead>
+                    <tbody id="itemsTbody" class="text-xs font-medium text-slate-800 divide-y divide-slate-100">
+                      <!-- Dynamically populated -->
+                    </tbody>
+                  </table>
+                </div>
+                <div id="extraQuoteDetails" class="hidden bg-slate-50 p-4 border-t border-slate-200 space-y-2">
+                   <!-- Delivery and Terms -->
+                </div>
+              </div>
+            </div>
+
             <div class="grid grid-cols-2 gap-4 pt-2">
-              <button id="approveActionBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-3 px-4 font-semibold text-sm shadow-sm flex justify-center items-center gap-2">
+              <button id="approveActionBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-3 px-4 font-light uppercase tracking-widest text-sm shadow-sm flex justify-center items-center gap-2">
                 <i data-lucide="check-circle" class="w-4 h-4"></i> Proceed to Next Stage
               </button>
-              <button id="rejectActionBtn" class="bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 rounded-xl py-3 px-4 font-semibold text-sm shadow-sm flex justify-center items-center gap-2">
+              <button id="rejectActionBtn" class="bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 rounded-xl py-3 px-4 font-light uppercase tracking-widest text-sm shadow-sm flex justify-center items-center gap-2">
                 <i data-lucide="x-circle" class="w-4 h-4"></i> Reject
               </button>
             </div>
@@ -198,7 +215,7 @@
   </main>
 
   <script src="../supabase_client.js"></script>
-  <script src="./approval_logic_v2.js"></script>
+  <script src="./approval_logic_v4.js"></script>
   <script>lucide.createIcons();</script>
 </body>
 </html>

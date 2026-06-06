@@ -4,439 +4,169 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VendorBridge - Dashboard</title>
-  
-  <!-- CDNs for Tailwind CSS, Lucide Icons, and Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <!-- Tailwind Configuration to extend colors -->
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'vb-dark': '#031329',
-            'vb-blue': '#1d4ed8',
-            'vb-light': '#f8fafc',
-            'vb-card-border': '#e2e8f0'
-          }
-        }
-      }
+      theme: { extend: { colors: { 'vb-dark': '#031329', 'vb-blue': '#1d4ed8', 'vb-card-border': '#e2e8f0' } } }
     }
   </script>
-  
-  <!-- Custom stylesheet link -->
-  <link rel="stylesheet" href="./dashboard.css">
 </head>
-<body class="bg-vb-light flex h-screen overflow-hidden">
+<body class="bg-slate-50 flex h-screen overflow-hidden font-sans">
 
-  <!-- ================= SIDEBAR ================= -->
-  <aside id="sidebar" class="sidebar-transition w-64 bg-vb-dark text-slate-300 flex flex-col justify-between h-full border-r border-slate-800 shrink-0">
+<aside id="sidebar" class="sidebar-transition w-64 bg-white text-slate-500 flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
     <div class="flex flex-col overflow-y-auto grow">
-      
-      <!-- Brand Logo Header -->
-      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-        <div class="w-9 h-9 rounded-lg bg-vb-blue flex items-center justify-center shadow-lg shadow-blue-900/30 shrink-0">
-          <!-- Custom Vector V Logo icon -->
-          <span class="text-white font-bold text-xl select-none">V</span>
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-vb-blue to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+          <span class="text-white font-light uppercase tracking-widest text-xl select-none">V</span>
         </div>
-        <span id="logoText" class="text-white font-semibold text-lg tracking-wide select-none">VendorBridge</span>
+        <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
       </div>
-
-      <!-- Navigation Menu -->
-      <nav class="p-4 space-y-1.5 grow">
-        <a href="./dashboard_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
-          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Dashboard</span>
-        </a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="users" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Vendors</span>
-        </a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">RFQs</span>
-        </a>
-        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Quotations</span>
-        </a>
-        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Approvals</span>
-        </a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">PO & Invoices</span>
-        </a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Reports</span>
-        </a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="history" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Activity Logs</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="settings" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Settings</span>
-        </a>
+      <nav class="p-4 space-y-1 grow">
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-vb-blue bg-blue-50"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
+        <a href="../Settings/settings_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span></a>
       </nav>
     </div>
-
-    <!-- Sidebar Footer -->
-    <div class="p-4 border-t border-slate-800 space-y-4">
-      
-      <!-- Need Help Panel -->
-      <div id="supportBox" class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-center space-y-3">
-        <div class="flex justify-center">
-          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
-            <i data-lucide="headphones" class="w-5 h-5 text-slate-300"></i>
-          </div>
-        </div>
-        <div class="space-y-1">
-          <h4 class="text-xs font-semibold text-white">Need Help?</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Contact support team for assistance.</p>
-        </div>
-        <button id="contactSupportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
-          <span>Contact Support</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-
-      <!-- Collapse Toggle Button -->
-      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white bg-transparent">
-        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i>
-        <span class="sidebar-label">Collapse</span>
+    <div class="p-4 border-t border-slate-100 space-y-4">
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors bg-transparent">
+        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>
       </button>
     </div>
   </aside>
 
-  <!-- ================= MAIN LAYOUT AREA ================= -->
-  <main class="flex-1 flex flex-col h-full overflow-hidden">
+  <main class="flex-1 flex flex-col h-full overflow-hidden relative">
     
-    <!-- ================= HEADER ================= -->
-    <header class="bg-white border-b border-vb-card-border h-16 flex items-center justify-between px-8 shrink-0">
-      
-      <!-- Left side: Hamburger Toggle & Search -->
-      <div class="flex items-center gap-4 w-96">
-        <button id="menuToggle" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg lg:hidden transition-colors">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-        <div class="relative w-full">
-          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
-          <input id="searchInput" type="text" placeholder="Search vendors, RFQs, quotations..." 
-                 class="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-vb-blue rounded-xl pl-10 pr-4 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400">
+    <!-- HEADER -->
+    <header class="bg-white/80 backdrop-blur-md h-16 flex items-center justify-between px-8 shrink-0 z-10 sticky top-0 border-b border-slate-100">
+      <div class="flex items-center gap-4 w-full max-w-xl">
+        <button id="menuToggle" class="p-2 text-slate-500 hover:bg-slate-100 rounded-xl lg:hidden transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
+        <div class="relative w-full hidden md:block">
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400"></i>
+          <input type="text" placeholder="Search..." class="w-full bg-slate-100/50 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-blue-200 focus:ring-4 focus:ring-blue-50 rounded-full pl-11 pr-4 py-2 text-sm font-light uppercase tracking-widest text-slate-700 outline-none transition-all">
         </div>
       </div>
-
-      <!-- Right side: Notifications & Profile -->
-      <div class="flex items-center gap-6">
-        <!-- Notification icon with badge -->
-        <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
-          <i data-lucide="bell" class="w-6 h-6"></i>
-          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-bold text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
-        </button>
-
-        <!-- Divider -->
-        <div class="w-px h-6 bg-slate-200"></div>
-
-        <!-- User profile details -->
-        <div class="flex items-center gap-3">
-          <img src="../../../assets/user_avatar_arjun.png" alt="Arjun Sharma" 
-               class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-sm shrink-0">
-          <div class="flex flex-col text-left shrink-0">
-            <span class="text-sm font-semibold text-slate-800 leading-tight">Arjun Sharma</span>
-            <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md self-start mt-0.5 leading-none">Procurement Officer</span>
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-3 cursor-pointer group">
+          <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 text-blue-600 group-hover:bg-blue-100 transition-colors"><i data-lucide="user" class="w-4 h-4"></i></div>
+          <div class="flex flex-col text-left hidden sm:flex">
+            <span class="text-[10px] font-light uppercase tracking-widest text-slate-800 leading-tight">Admin User</span>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- ================= SCROLLABLE CONTENT AREA ================= -->
-    <div class="flex-1 overflow-y-auto p-5 space-y-3">
-      
-      <!-- Welcome Back Header Section -->
-      <div class="flex items-center justify-between">
-        <div class="text-left">
-          <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
-        </div>
-        <!-- Date Selector Button -->
-        <div class="relative">
-          <button class="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 shadow-sm transition-colors">
-            <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-            <span>May 19, 2025</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= QUICK ACTIONS GRID ================= -->
-      <div class="bg-white rounded-xl border border-vb-card-border p-4 shadow-sm space-y-3">
-        <div class="flex items-center gap-2 text-vb-blue select-none">
-          <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
-          <h3 class="text-sm font-bold text-slate-900">Quick Actions</h3>
-        </div>
-        <!-- Actions Button Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <button class="action-btn w-full bg-vb-blue text-white rounded-lg py-2.5 px-3 flex items-center justify-center gap-2 font-semibold text-xs">
-            <i data-lucide="file-plus" class="w-4.5 h-4.5"></i>
-            <span>Create RFQ</span>
-          </button>
-          <button class="action-btn w-full bg-vb-blue text-white rounded-lg py-2.5 px-3 flex items-center justify-center gap-2 font-semibold text-xs">
-            <i data-lucide="user-plus" class="w-4.5 h-4.5"></i>
-            <span>Add Vendor</span>
-          </button>
-          <button class="action-btn w-full bg-vb-blue text-white rounded-lg py-2.5 px-3 flex items-center justify-center gap-2 font-semibold text-xs">
-            <i data-lucide="shopping-bag" class="w-4.5 h-4.5"></i>
-            <span>Generate Purchase Order</span>
-          </button>
-          <button class="action-btn w-full bg-vb-blue text-white rounded-lg py-2.5 px-3 flex items-center justify-center gap-2 font-semibold text-xs">
-            <i data-lucide="receipt" class="w-4.5 h-4.5"></i>
-            <span>Create Invoice</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= KPI METRIC CARDS ================= -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="flex-1 overflow-y-auto p-4 md:p-6" id="scrollContainer">
+      <div class="max-w-[1400px] mx-auto flex flex-col h-full space-y-6">
         
-        <!-- Card 1: Active RFQs -->
-        <div class="metric-card bg-white rounded-2xl border border-vb-card-border p-5 shadow-sm flex flex-col gap-2">
-          <div class="flex justify-between items-start">
-            <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Active RFQs</span>
-              <i data-lucide="info" class="w-3.5 h-3.5 text-slate-300"></i>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
-              <i data-lucide="file-text" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <h2 class="text-3xl font-bold text-slate-900 tracking-tight">12</h2>
-          <div class="mt-1 flex items-center gap-1.5">
-            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-500 font-bold text-[10px] px-2 py-0.5 rounded-full">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              20%
-            </span>
-            <span class="text-[10px] text-slate-400 font-medium">vs last month</span>
-          </div>
-        </div>
-
-        <!-- Card 2: Pending Approvals -->
-        <div class="metric-card bg-white rounded-2xl border border-vb-card-border p-5 shadow-sm flex flex-col gap-2">
-          <div class="flex justify-between items-start">
-            <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Pending Approvals</span>
-              <i data-lucide="info" class="w-3.5 h-3.5 text-slate-300"></i>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 shrink-0">
-              <i data-lucide="user-check" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <h2 class="text-3xl font-bold text-slate-900 tracking-tight">5</h2>
-          <div class="mt-1 flex items-center gap-1.5">
-            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-500 font-bold text-[10px] px-2 py-0.5 rounded-full">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              25%
-            </span>
-            <span class="text-[10px] text-slate-400 font-medium">vs last month</span>
-          </div>
-        </div>
-
-        <!-- Card 3: Monthly Procurement Value -->
-        <div class="metric-card bg-white rounded-2xl border border-vb-card-border p-5 shadow-sm flex flex-col gap-2">
-          <div class="flex justify-between items-start">
-            <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Monthly Procurement Value</span>
-              <i data-lucide="info" class="w-3.5 h-3.5 text-slate-300"></i>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 shrink-0">
-              <span class="text-lg font-bold font-sans">₹</span>
-            </div>
-          </div>
-          <h2 class="text-3xl font-bold text-slate-900 tracking-tight">₹2.3L</h2>
-          <div class="mt-1 flex items-center gap-1.5">
-            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-500 font-bold text-[10px] px-2 py-0.5 rounded-full">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              18%
-            </span>
-            <span class="text-[10px] text-slate-400 font-medium">vs last month</span>
-          </div>
-        </div>
-
-        <!-- Card 4: Pending Invoices -->
-        <div class="metric-card bg-white rounded-2xl border border-vb-card-border p-5 shadow-sm flex flex-col gap-2">
-          <div class="flex justify-between items-start">
-            <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Pending Invoices</span>
-              <i data-lucide="info" class="w-3.5 h-3.5 text-slate-300"></i>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-500 shrink-0">
-              <i data-lucide="receipt" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <h2 class="text-3xl font-bold text-slate-900 tracking-tight">3</h2>
-          <div class="mt-1 flex items-center gap-1.5">
-            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-500 font-bold text-[10px] px-2 py-0.5 rounded-full">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              15%
-            </span>
-            <span class="text-[10px] text-slate-400 font-medium">vs last month</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= DOUBLE COLUMN GRID ================= -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        
-        <!-- Left: Recent Purchase Orders (Span 7) -->
-        <div class="lg:col-span-7 bg-white rounded-xl border border-vb-card-border shadow-sm flex flex-col justify-between">
+        <!-- TOP ACTIONS BAR -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0">
           <div>
-            <!-- Header -->
-            <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-vb-blue shrink-0">
-                  <i data-lucide="shopping-cart" class="w-4.5 h-4.5"></i>
-                </div>
-                <h3 class="text-sm font-bold text-slate-900">Recent Purchase Orders</h3>
-              </div>
-              <button class="text-xs font-semibold text-slate-600 hover:text-vb-blue border border-slate-200 hover:border-vb-blue rounded-lg px-3 py-1.5 transition-all flex items-center gap-1">
-                <span>View All</span>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
+            <h1 class="text-lg font-light uppercase tracking-widest text-slate-900">Platform Overview</h1>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="../PO_Invoice/po_invoice_layout.html" class="bg-white border border-slate-200 hover:border-slate-300 hover:shadow-sm text-slate-700 font-light uppercase tracking-widest py-2 px-4 rounded-lg text-[10px] flex items-center gap-2 transition-all">
+              <i data-lucide="file-plus" class="w-3.5 h-3.5 text-slate-400"></i> Create Invoice
+            </a>
+            <a href="../RFQs/rfqs_layout.html" class="bg-white border border-slate-200 hover:border-slate-300 hover:shadow-sm text-slate-700 font-light uppercase tracking-widest py-2 px-4 rounded-lg text-[10px] flex items-center gap-2 transition-all">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400"></i> Create RFQ
+            </a>
+            <a href="../Vendors/vendors_layout.html" class="bg-gradient-to-r from-vb-blue to-blue-600 hover:from-blue-700 hover:to-blue-800 text-white font-light uppercase tracking-widest py-2 px-5 rounded-lg text-[10px] shadow-sm flex items-center gap-2 transition-all">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Add Vendors
+            </a>
+          </div>
+        </div>
 
-            <!-- Table -->
-            <div class="overflow-x-auto w-full">
+        <!-- 4 KPI CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
+          
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] transition-shadow relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+            <div class="relative z-10 flex flex-col justify-between h-full">
+              <p class="text-[10px] font-light uppercase tracking-widest text-slate-500 mb-2">Active RFQs</p>
+              <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900" id="dashActiveRfqs">--</h2>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] transition-shadow relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+            <div class="relative z-10 flex flex-col justify-between h-full">
+              <p class="text-[10px] font-light uppercase tracking-widest text-slate-500 mb-2">Pending Approvals</p>
+              <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900" id="dashPendingApprovals">--</h2>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] transition-shadow relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-16 h-16 bg-red-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+            <div class="relative z-10 flex flex-col justify-between h-full">
+              <p class="text-[10px] font-light uppercase tracking-widest text-slate-500 mb-2">Overdue Invoices</p>
+              <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900" id="dashOverdueInvoices">--</h2>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] transition-shadow relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+            <div class="relative z-10 flex flex-col justify-between h-full">
+              <p class="text-[10px] font-light uppercase tracking-widest text-slate-500 mb-2">Pending Invoices</p>
+              <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900" id="dashPendingInvoices">--</h2>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BOTTOM SPLIT (Chart & Table) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-[350px]">
+          
+          <!-- CHART SECTION -->
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] p-6 flex flex-col h-full">
+            <div class="mb-4">
+              <h3 class="text-xs font-light uppercase tracking-widest text-slate-900">Procurement Volume</h3>
+            </div>
+            <div class="flex-1 relative w-full">
+              <canvas id="volumeChart"></canvas>
+            </div>
+          </div>
+
+          <!-- RECENT ACTIVITY TABLE -->
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex flex-col h-full overflow-hidden">
+            <div class="p-5 border-b border-slate-50 flex justify-between items-center bg-slate-50/50 shrink-0">
+              <h3 class="text-xs font-light uppercase tracking-widest text-slate-900">Recent Activity</h3>
+              <a href="../Activity/activity_layout.html" class="text-[10px] font-light uppercase tracking-widest text-vb-blue hover:text-blue-800 transition-colors">View All</a>
+            </div>
+            <div class="flex-1 overflow-auto">
               <table class="w-full text-left border-collapse">
-                <thead>
-                  <tr class="bg-slate-50/70 text-slate-500 font-semibold text-xs border-b border-slate-100 select-none">
-                    <th class="py-2 px-4 text-[11px]">PO Number</th>
-                    <th class="py-2 px-4 text-[11px]">Vendor</th>
-                    <th class="py-2 px-4 text-[11px]">Amount</th>
-                    <th class="py-2 px-4 text-[11px]">Status</th>
-                    <th class="py-2 px-4 w-12 text-center"></th>
+                <thead class="sticky top-0 bg-white shadow-sm z-10">
+                  <tr>
+                    <th class="py-3 px-5 text-[9px] font-light uppercase tracking-widest text-slate-400 border-b border-slate-100">Type</th>
+                    <th class="py-3 px-5 text-[9px] font-light uppercase tracking-widest text-slate-400 border-b border-slate-100">ID Reference</th>
+                    <th class="py-3 px-5 text-[9px] font-light uppercase tracking-widest text-slate-400 border-b border-slate-100 hidden sm:table-cell">Entity</th>
+                    <th class="py-3 px-5 text-[9px] font-light uppercase tracking-widest text-slate-400 border-b border-slate-100 text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody id="poTableBody" class="text-sm text-slate-700 divide-y divide-slate-100/50">
+                <tbody id="activityTableBody" class="divide-y divide-slate-50">
+                  <!-- JS Injected -->
                   <tr>
-                    <td class="py-2 px-4 text-xs font-semibold po-number text-slate-900">PO-001</td>
-                    <td class="py-2 px-4 text-xs vendor-name">Tech Corp</td>
-                    <td class="py-2 px-4 text-xs po-amount">₹90,000</td>
-                    <td class="py-2 px-4 text-xs po-status">
-                      <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 font-semibold text-xs px-2.5 py-1 rounded-full border border-emerald-100">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Approved
-                      </span>
-                    </td>
-                    <td class="py-2 px-4 text-xs text-center">
-                      <button class="table-actions-btn p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-4 text-xs font-semibold po-number text-slate-900">PO-002</td>
-                    <td class="py-2 px-4 text-xs vendor-name">Dell India</td>
-                    <td class="py-2 px-4 text-xs po-amount">₹1,20,000</td>
-                    <td class="py-2 px-4 text-xs po-status">
-                      <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 font-semibold text-xs px-2.5 py-1 rounded-full border border-amber-100">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
-                      </span>
-                    </td>
-                    <td class="py-2 px-4 text-xs text-center">
-                      <button class="table-actions-btn p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-4 text-xs font-semibold po-number text-slate-900">PO-003</td>
-                    <td class="py-2 px-4 text-xs vendor-name">OfficeMart</td>
-                    <td class="py-2 px-4 text-xs po-amount">₹45,000</td>
-                    <td class="py-2 px-4 text-xs po-status">
-                      <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-600 font-semibold text-xs px-2.5 py-1 rounded-full border border-slate-200">
-                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Draft
-                      </span>
-                    </td>
-                    <td class="py-2 px-4 text-xs text-center">
-                      <button class="table-actions-btn p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-4 text-xs font-semibold po-number text-slate-900">PO-004</td>
-                    <td class="py-2 px-4 text-xs vendor-name">HP Partner</td>
-                    <td class="py-2 px-4 text-xs po-amount">₹80,000</td>
-                    <td class="py-2 px-4 text-xs po-status">
-                      <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 font-semibold text-xs px-2.5 py-1 rounded-full border border-emerald-100">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Approved
-                      </span>
-                    </td>
-                    <td class="py-2 px-4 text-xs text-center">
-                      <button class="table-actions-btn p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                      </button>
-                    </td>
+                    <td colspan="4" class="py-8 text-center text-[10px] font-light uppercase tracking-widest text-slate-400">Loading Activity...</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Footer Pagination -->
-          <div class="px-4 py-2.5 border-t border-slate-100 flex items-center justify-between select-none shrink-0">
-            <span class="text-xs text-slate-500">Showing 1 to 4 of 4 results</span>
-            <div class="flex items-center gap-1.5">
-              <button class="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg border border-slate-200 transition-colors">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i>
-              </button>
-              <button class="w-7 h-7 flex items-center justify-center text-xs font-semibold bg-blue-50 text-vb-blue rounded-lg border border-blue-100 transition-colors">
-                1
-              </button>
-              <button class="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg border border-slate-200 transition-colors">
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
         </div>
 
-        <!-- Right: Spending Trends & Top Vendor (Span 5) -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
-          
-          <!-- Spending Trends Chart Card -->
-          <div class="bg-white rounded-xl border border-vb-card-border p-4 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-50 pb-2">
-              <h3 class="text-sm font-bold text-slate-900">Spending Trends</h3>
-              <select id="chartPeriod" class="text-xs font-semibold text-slate-600 hover:text-vb-blue border border-slate-200 hover:border-vb-blue rounded-lg px-2.5 py-1.5 bg-white outline-none cursor-pointer shadow-sm transition-colors">
-                <option value="year">This Year</option>
-                <option value="quarter">This Quarter</option>
-                <option value="month">This Month</option>
-              </select>
-            </div>
-            
-            <!-- Custom Legend / Unit info matching design -->
-            <div class="flex items-center gap-3 select-none">
-              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Amount (₹)</span>
-            </div>
-
-            <!-- Line Chart container -->
-            <div class="chart-container">
-              <canvas id="spendingChart"></canvas>
-            </div>
-          </div>
-
-
-        </div>
       </div>
-
-
-
     </div>
   </main>
 
-  <!-- Load the page script -->
+  <script src="../supabase_client.js"></script>
   <script src="./dashboard_logic.js"></script>
 </body>
 </html>

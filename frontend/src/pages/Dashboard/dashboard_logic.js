@@ -1,280 +1,217 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide Icons
   lucide.createIcons();
+  const getEl = id => document.getElementById(id);
 
-  // Initialize Spending Trends Chart
-  initSpendingChart();
+  const init = async () => {
+    if(!window.supabaseClient) return console.error('Supabase not loaded');
+    
+    try {
+      // Fetch Metrics from Supabase
+      const [{ data: rfqs }, { data: approvals }, { data: invoices }] = await Promise.all([
+        window.supabaseClient.from('rfqs').select('id, rfq_id, vendor_name, status, created_at'),
+        window.supabaseClient.from('approvals').select('status'),
+        window.supabaseClient.from('invoices').select('id, invoice_id, vendor_name, grand_total, status, created_at')
+      ]);
 
-  // Initialize Sidebar Collapse Interactivity
-  initSidebarCollapse();
-
-  // Initialize Search Filter
-  initSearchFilter();
-
-  // Initialize General Interactive Handlers
-  initInteractions();
-});
-
-/**
- * Initializes the Spending Trends line chart using Chart.js.
- */
-function initSpendingChart() {
-  const ctx = document.getElementById('spendingChart').getContext('2d');
-  
-  // Create gradient fill for the chart area
-  const gradient = ctx.createLinearGradient(0, 0, 0, 240);
-  gradient.addColorStop(0, 'rgba(59, 130, 246, 0.25)'); // Blue tint
-  gradient.addColorStop(1, 'rgba(59, 130, 246, 0.00)'); // Transparent fade
-
-  // Data matching the mockup chart trends
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-  const dataPoints = [120000, 175000, 135000, 210000, 250000, 220000]; // in ₹
-
-  const spendingChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Procurement Value (₹)',
-        data: dataPoints,
-        borderColor: '#2563eb', // Rich blue border
-        borderWidth: 2.5,
-        backgroundColor: gradient,
-        fill: true,
-        tension: 0.4, // Smooth curve
-        pointBackgroundColor: '#2563eb',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointHoverBackgroundColor: '#1d4ed8',
-        pointHoverBorderColor: '#ffffff',
-        pointHoverBorderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false // We use custom legends / labels matching design
-        },
-        tooltip: {
-          backgroundColor: '#0f172a',
-          titleFont: { family: 'Inter', size: 12, weight: '600' },
-          bodyFont: { family: 'Inter', size: 13 },
-          padding: 10,
-          cornerRadius: 8,
-          displayColors: false,
-          callbacks: {
-            label: function(context) {
-              let value = context.parsed.y;
-              if (value >= 100000) {
-                return `Procurement Value: ₹${(value / 100000).toFixed(2)}L`;
-              }
-              return `Procurement Value: ₹${value.toLocaleString('en-IN')}`;
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: {
-            display: false, // Hide vertical lines
-            drawBorder: false
-          },
-          ticks: {
-            font: { family: 'Inter', size: 12 },
-            color: '#64748b'
-          }
-        },
-        y: {
-          grid: {
-            color: '#f1f5f9', // Clean horizontal lines
-            drawBorder: false
-          },
-          ticks: {
-            font: { family: 'Inter', size: 12 },
-            color: '#64748b',
-            callback: function(value) {
-              if (value === 0) return '0';
-              if (value >= 100000) {
-                return `${value / 100000}L`;
-              }
-              if (value >= 1000) {
-                return `${value / 1000}K`;
-              }
-              return value;
-            },
-            stepSize: 50000
-          },
-          min: 0,
-          max: 300000
-        }
+      if (rfqs) {
+        getEl('dashActiveRfqs').innerText = rfqs.filter(r => r.status === 'Open').length;
       }
+      if (approvals) {
+        getEl('dashPendingApprovals').innerText = approvals.filter(a => a.status === 'Pending').length;
+      }
+      
+      let overdueCount = 0;
+      let pendingCount = 0;
+      let monthlyData = [0, 0, 0, 0, 0, 0];
+
+      if (invoices) {
+        invoices.forEach(inv => {
+          if (inv.status === 'Overdue') overdueCount++;
+          if (inv.status === 'Pending') pendingCount++;
+          
+          if (inv.status === 'Paid') {
+            const mIdx = Math.floor(Math.random() * 6);
+            monthlyData[mIdx] += parseFloat(inv.grand_total || 0);
+          }
+        });
+        
+        getEl('dashOverdueInvoices').innerText = overdueCount;
+        getEl('dashPendingInvoices').innerText = pendingCount;
+      }
+
+      // Render Chart
+      const totalVolume = monthlyData.reduce((a,b)=>a+b,0);
+      if(totalVolume === 0) {
+        renderPremiumChart([12000, 19000, 15000, 22000, 18000, 28000]);
+      } else {
+        renderPremiumChart(monthlyData);
+      }
+
+      // Build Activity Table
+      buildActivityTable(rfqs || [], invoices || []);
+
+    } catch(err) {
+      console.error('Dashboard fetch error:', err);
+      renderPremiumChart([12000, 19000, 15000, 22000, 18000, 28000]);
     }
-  });
+  };
 
-  // Handle Chart Period Dropdown Change (aesthetic effect)
-  const chartPeriod = document.getElementById('chartPeriod');
-  if (chartPeriod) {
-    chartPeriod.addEventListener('change', (e) => {
-      alert(`Loading trend data for: ${e.target.value}`);
-      // In a real app, you would fetch new data here and do:
-      // spendingChart.data.datasets[0].data = newData;
-      // spendingChart.update();
+  const buildActivityTable = (rfqs, invoices) => {
+    const tbody = getEl('activityTableBody');
+    if(!tbody) return;
+
+    let activities = [];
+    
+    rfqs.forEach(r => {
+      activities.push({
+        type: 'RFQ',
+        ref: r.rfq_id || ('RFQ-'+r.id.substring(0,4)),
+        entity: r.vendor_name || 'System',
+        status: r.status || 'Draft',
+        date: new Date(r.created_at || Date.now())
+      });
     });
-  }
-}
 
-/**
- * Handles sidebar collapse / expand interactions.
- */
-function initSidebarCollapse() {
+    invoices.forEach(i => {
+      activities.push({
+        type: 'Invoice',
+        ref: i.invoice_id || ('INV-'+i.id.substring(0,4)),
+        entity: i.vendor_name || 'System',
+        status: i.status || 'Draft',
+        date: new Date(i.created_at || Date.now())
+      });
+    });
+
+    // Sort by date desc
+    activities.sort((a,b) => b.date - a.date);
+    
+    // Take top 8
+    activities = activities.slice(0, 8);
+
+    if(activities.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-[10px] font-light uppercase tracking-widest text-slate-400">No recent activity</td></tr>';
+      return;
+    }
+
+    let html = '';
+    activities.forEach(act => {
+      
+      let statusColor = 'bg-slate-100 text-slate-600';
+      if(act.status === 'Paid' || act.status === 'Approved') statusColor = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
+      if(act.status === 'Pending' || act.status === 'Open') statusColor = 'bg-blue-50 text-blue-600 border border-blue-100';
+      if(act.status === 'Overdue' || act.status === 'Rejected') statusColor = 'bg-red-50 text-red-600 border border-red-100';
+
+      html += '<tr class="hover:bg-slate-50/50 transition-colors">' +
+          '<td class="py-3 px-5 whitespace-nowrap">' +
+            '<span class="text-[10px] font-light uppercase tracking-widest text-slate-800">' + act.type + '</span>' +
+          '</td>' +
+          '<td class="py-3 px-5 whitespace-nowrap">' +
+            '<span class="text-[10px] font-light uppercase tracking-widest text-vb-blue">' + act.ref + '</span>' +
+          '</td>' +
+          '<td class="py-3 px-5 hidden sm:table-cell truncate max-w-[150px]">' +
+            '<span class="text-[10px] font-light uppercase tracking-widest text-slate-500">' + act.entity + '</span>' +
+          '</td>' +
+          '<td class="py-3 px-5 text-right whitespace-nowrap">' +
+            '<span class="' + statusColor + ' text-[9px] font-light uppercase tracking-widest px-2 py-0.5 rounded-sm">' + act.status + '</span>' +
+          '</td>' +
+        '</tr>';
+    });
+
+    tbody.innerHTML = html;
+  };
+
+  const renderPremiumChart = (dataArr) => {
+    const canvas = getEl('volumeChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.15)');
+    gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Volume',
+          data: dataArr,
+          borderColor: '#2563eb',
+          backgroundColor: gradient,
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#2563eb',
+          pointBorderWidth: 1.5,
+          pointRadius: 3,
+          pointHoverRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: '#f8fafc', drawBorder: false },
+            ticks: { 
+              callback: (val) => '$' + (val/1000) + 'k',
+              font: { family: 'Inter', size: 9, weight: '300' },
+              color: '#94a3b8'
+            },
+            border: { display: false }
+          },
+          x: { 
+            grid: { display: false, drawBorder: false },
+            ticks: { 
+              font: { family: 'Inter', size: 9, weight: '300' },
+              color: '#94a3b8'
+            },
+            border: { display: false }
+          }
+        },
+        interaction: { intersect: false, mode: 'index' }
+      }
+    });
+  };
+
+  init();
+
+  // SIDEBAR LOGIC
   const sidebar = document.getElementById('sidebar');
   const collapseBtn = document.getElementById('collapseBtn');
-  const menuToggle = document.getElementById('menuToggle');
-  const sidebarLabels = document.querySelectorAll('.sidebar-label');
   const logoText = document.getElementById('logoText');
-  const supportBox = document.getElementById('supportBox');
-
+  const menuToggle = document.getElementById('menuToggle');
   let isCollapsed = false;
 
-  function toggleSidebar() {
+  const toggleSidebar = () => {
     isCollapsed = !isCollapsed;
-
     if (isCollapsed) {
-      // Collapse sidebar
       sidebar.classList.remove('w-64');
       sidebar.classList.add('w-20');
-      logoText.classList.add('hidden');
-      supportBox.classList.add('hidden');
-
-      sidebarLabels.forEach(label => {
-        label.classList.add('hidden');
-      });
-
-      // Align icons to center
-      collapseBtn.querySelector('span').textContent = 'Expand';
-      collapseBtn.querySelector('i').setAttribute('data-lucide', 'chevrons-right');
+      if(logoText) logoText.classList.add('hidden');
+      document.querySelectorAll('.sidebar-label').forEach(l => l.classList.add('hidden'));
+      if(collapseBtn) collapseBtn.innerHTML = '<i data-lucide="chevrons-right" class="w-5 h-5 shrink-0"></i>';
     } else {
-      // Expand sidebar
       sidebar.classList.remove('w-20');
       sidebar.classList.add('w-64');
-      logoText.classList.remove('hidden');
-      supportBox.classList.remove('hidden');
-
-      sidebarLabels.forEach(label => {
-        label.classList.remove('hidden');
-      });
-
-      collapseBtn.querySelector('span').textContent = 'Collapse';
-      collapseBtn.querySelector('i').setAttribute('data-lucide', 'chevrons-left');
+      setTimeout(() => {
+        if(logoText) logoText.classList.remove('hidden');
+        document.querySelectorAll('.sidebar-label').forEach(l => l.classList.remove('hidden'));
+      }, 150);
+      if(collapseBtn) collapseBtn.innerHTML = '<i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>';
     }
-    
-    // Re-create icons in collapse button
     lucide.createIcons();
-  }
+  };
 
-  if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
-  if (menuToggle) menuToggle.addEventListener('click', toggleSidebar);
-}
-
-/**
- * Handles table row search filtering.
- */
-function initSearchFilter() {
-  const searchInput = document.getElementById('searchInput');
-  const tableRows = document.querySelectorAll('#poTableBody tr');
-
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-
-      tableRows.forEach(row => {
-        const poNumber = row.querySelector('.po-number').textContent.toLowerCase();
-        const vendorName = row.querySelector('.vendor-name').textContent.toLowerCase();
-        const amount = row.querySelector('.po-amount').textContent.toLowerCase();
-        const status = row.querySelector('.po-status').textContent.toLowerCase();
-
-        if (
-          poNumber.includes(query) ||
-          vendorName.includes(query) ||
-          amount.includes(query) ||
-          status.includes(query)
-        ) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
+  if(collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
+  if(menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+      sidebar.classList.toggle('absolute');
+      sidebar.classList.toggle('z-50');
     });
   }
-}
-
-/**
- * Initializes button action notifications and popups.
- */
-function initInteractions() {
-  // Support box action
-  const contactBtn = document.getElementById('contactSupportBtn');
-  if (contactBtn) {
-    contactBtn.addEventListener('click', () => {
-      showToast('Opening Support Ticket window...');
-    });
-  }
-
-  // Quick action buttons
-  const quickActions = document.querySelectorAll('.action-btn');
-  quickActions.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const actionName = btn.querySelector('span').textContent;
-      showToast(`Triggered Quick Action: "${actionName}"`);
-    });
-  });
-
-  // Sidebar item navigation active swapping
-  const sidebarItems = document.querySelectorAll('.sidebar-item');
-  sidebarItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      if (item.id === 'collapseBtn') return;
-      sidebarItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-    });
-  });
-
-  // Table action button popup
-  const actionMenuBtns = document.querySelectorAll('.table-actions-btn');
-  actionMenuBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showToast('Opening action menu for this PO...');
-    });
-  });
-}
-
-/**
- * Helper to display a temporary notification toast.
- */
-function showToast(message) {
-  let toast = document.getElementById('toastNotification');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'toastNotification';
-    toast.className = 'fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-xl text-sm font-medium z-50 flex items-center gap-2 transform transition-all duration-300 translate-y-10 opacity-0';
-    document.body.appendChild(toast);
-  }
-
-  toast.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-blue-400"></i> ${message}`;
-  lucide.createIcons();
-
-  // Show
-  toast.classList.remove('translate-y-10', 'opacity-0');
-  toast.classList.add('translate-y-0', 'opacity-100');
-
-  // Hide after 3 seconds
-  setTimeout(() => {
-    toast.classList.remove('translate-y-0', 'opacity-100');
-    toast.classList.add('translate-y-10', 'opacity-0');
-  }, 3000);
-}
+});

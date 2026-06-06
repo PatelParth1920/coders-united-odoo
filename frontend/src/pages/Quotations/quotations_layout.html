@@ -28,82 +28,32 @@
   <!-- Custom stylesheet link -->
   <link rel="stylesheet" href="./quotations.css">
 </head>
-<body class="bg-vb-light flex h-screen overflow-hidden">
+<body class="bg-slate-50 flex h-screen overflow-hidden">
 
   <!-- ================= SIDEBAR ================= -->
-  <aside id="sidebar" class="sidebar-transition w-64 bg-vb-dark text-slate-300 flex flex-col justify-between h-full border-r border-slate-800 shrink-0">
+  <aside id="sidebar" class="sidebar-transition w-64 bg-white text-slate-500 flex flex-col justify-between h-full border-r border-slate-200 shrink-0 z-20 relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
     <div class="flex flex-col overflow-y-auto grow">
-      
-      <!-- Brand Logo Header -->
-      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-        <div class="w-9 h-9 rounded-lg bg-vb-blue flex items-center justify-center shadow-lg shadow-blue-900/30 shrink-0">
-          <span class="text-white font-bold text-xl select-none">V</span>
+      <div class="p-6 flex items-center gap-3 border-b border-slate-100">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-vb-blue to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+          <span class="text-white font-light uppercase tracking-widest text-xl select-none">V</span>
         </div>
-        <span id="logoText" class="text-white font-semibold text-lg tracking-wide select-none">VendorBridge</span>
+        <span id="logoText" class="text-slate-800 font-light uppercase tracking-widest text-lg tracking-tight select-none">VendorBridge</span>
       </div>
-
-      <!-- Navigation Menu -->
-      <nav class="p-4 space-y-1.5 grow">
-        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Dashboard</span>
-        </a>
-        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="users" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Vendors</span>
-        </a>
-        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">RFQs</span>
-        </a>
-        <a href="./quotations_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium">
-          <i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Quotations</span>
-        </a>
-        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Approvals</span>
-        </a>
-        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">PO & Invoices</span>
-        </a>
-        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Reports</span>
-        </a>
-        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="history" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Activity Logs</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white">
-          <i data-lucide="settings" class="w-5 h-5 shrink-0"></i>
-          <span class="sidebar-label">Settings</span>
-        </a>
+      <nav class="p-4 space-y-1 grow">
+        <a href="../Dashboard/dashboard_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="../Vendors/vendors_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="users" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Vendors</span></a>
+        <a href="../RFQs/rfqs_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-text" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">RFQs</span></a>
+        <a href="../Quotations/quotations_layout.html" class="sidebar-item active flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-vb-blue bg-blue-50"><i data-lucide="message-square-quote" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Quotations</span></a>
+        <a href="../Approval/approval_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="check-square" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Approvals</span></a>
+        <a href="../PO_Invoice/po_invoice_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">PO & Invoices</span></a>
+        <a href="../Reports/reports_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="bar-chart-3" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Reports</span></a>
+        <a href="../Activity/activity_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="history" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Activity Logs</span></a>
+        <a href="../Settings/settings_layout.html" class="sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i data-lucide="settings" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Settings</span></a>
       </nav>
     </div>
-
-    <!-- Sidebar Footer -->
-    <div class="p-4 border-t border-slate-800 space-y-4">
-      <div id="supportBox" class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-center space-y-3">
-        <div class="flex justify-center">
-          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
-            <i data-lucide="headphones" class="w-5 h-5 text-slate-300"></i>
-          </div>
-        </div>
-        <div class="space-y-1">
-          <h4 class="text-xs font-semibold text-white">Need Help?</h4>
-          <p class="text-[11px] text-slate-500 leading-normal">Contact support team for assistance.</p>
-        </div>
-        <button id="contactSupportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
-          <span>Contact Support</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-
-      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white bg-transparent">
-        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i>
-        <span class="sidebar-label">Collapse</span>
+    <div class="p-4 border-t border-slate-100 space-y-4">
+      <button id="collapseBtn" class="w-full sidebar-item flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-light uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors bg-transparent">
+        <i data-lucide="chevrons-left" class="w-5 h-5 shrink-0"></i><span class="sidebar-label">Collapse</span>
       </button>
     </div>
   </aside>
@@ -130,16 +80,15 @@
       <div class="flex items-center gap-6">
         <button class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
           <i data-lucide="bell" class="w-6 h-6"></i>
-          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-bold text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
+          <span class="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-[10px] font-light uppercase tracking-widest text-white rounded-full flex items-center justify-center border-2 border-white leading-none">8</span>
         </button>
 
         <div class="w-px h-6 bg-slate-200"></div>
 
         <div class="flex items-center gap-3">
-          <img src="../../../assets/user_avatar_arjun.png" alt="Arjun Sharma" 
-               class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-sm shrink-0">
+          <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center border border-slate-300 shadow-sm shrink-0 overflow-hidden"><i data-lucide="user" class="w-5 h-5 text-slate-500"></i></div>
           <div class="flex flex-col text-left shrink-0">
-            <span class="text-sm font-semibold text-slate-800 leading-tight">Arjun Sharma</span>
+            <span class="text-sm font-light uppercase tracking-widest text-slate-800 leading-tight">Arjun Sharma</span>
             <span class="text-[11px] font-medium text-vb-blue bg-blue-50 px-1.5 py-0.5 rounded-md self-start mt-0.5 leading-none">Procurement Officer</span>
           </div>
         </div>
@@ -151,7 +100,7 @@
       
       <!-- Page Header -->
       <div class="flex flex-col space-y-1">
-        <h1 class="text-2xl font-bold text-slate-900 tracking-tight" id="pageMainTitle">Quotations Dashboard</h1>
+        <h1 class="text-2xl font-light uppercase tracking-widest text-slate-900 tracking-tight" id="pageMainTitle">Quotations Dashboard</h1>
         <p class="text-[14px] text-slate-600 font-medium" id="pageSubTitle">Manage and compare vendor quotations</p>
       </div>
 
@@ -159,7 +108,7 @@
       <div id="quotationsLoadingState" class="hidden absolute inset-0 bg-vb-light/80 backdrop-blur-sm z-50 flex items-center justify-center">
         <div class="bg-white px-6 py-4 rounded-xl shadow-lg border border-slate-100 flex items-center gap-3">
           <i data-lucide="loader-2" class="w-5 h-5 text-vb-blue animate-spin"></i>
-          <span class="text-sm font-bold text-slate-700">Loading data...</span>
+          <span class="text-sm font-light uppercase tracking-widest text-slate-700">Loading data...</span>
         </div>
       </div>
 
@@ -173,9 +122,9 @@
             <div class="w-14 h-14 bg-blue-100 text-vb-blue rounded-2xl flex items-center justify-center mb-6">
               <i data-lucide="edit-3" class="w-7 h-7"></i>
             </div>
-            <h2 class="text-2xl font-bold text-slate-900 mb-2">Submit Quotation</h2>
+            <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900 mb-2">Submit Quotation</h2>
             <p class="text-sm text-slate-500 font-medium mb-8 grow">Enter your unique RFQ code to submit secure pricing and delivery terms on behalf of a vendor.</p>
-            <div class="flex items-center text-vb-blue font-bold text-sm mt-auto">
+            <div class="flex items-center text-vb-blue font-light uppercase tracking-widest text-sm mt-auto">
               Enter Code <i data-lucide="arrow-right" class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
             </div>
           </div>
@@ -188,9 +137,9 @@
             <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
               <i data-lucide="bar-chart-2" class="w-7 h-7"></i>
             </div>
-            <h2 class="text-2xl font-bold text-slate-900 mb-2">Analyze Received</h2>
+            <h2 class="text-2xl font-light uppercase tracking-widest text-slate-900 mb-2">Analyze Received</h2>
             <p class="text-sm text-slate-500 font-medium mb-8 grow">Review all submitted vendor quotations, compare line-item pricing side-by-side, and approve the best bid.</p>
-            <div class="flex items-center text-emerald-600 font-bold text-sm mt-auto">
+            <div class="flex items-center text-emerald-600 font-light uppercase tracking-widest text-sm mt-auto">
               View Comparisons <i data-lucide="arrow-right" class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
             </div>
           </div>
@@ -200,19 +149,19 @@
 
       <!-- ================= ENTER CODE VIEW ================= -->
       <div id="codeEntryContainer" class="hidden max-w-md mx-auto py-10">
-        <button id="backFromCodeBtn" class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-vb-blue transition-colors mb-6">
+        <button id="backFromCodeBtn" class="flex items-center gap-2 text-sm font-light uppercase tracking-widest text-slate-500 hover:text-vb-blue transition-colors mb-6">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
         </button>
         <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 text-center">
           <div class="w-16 h-16 bg-blue-50 text-vb-blue rounded-full flex items-center justify-center mx-auto mb-4">
             <i data-lucide="key" class="w-8 h-8"></i>
           </div>
-          <h2 class="text-xl font-bold text-slate-900 mb-2">Enter RFQ Code</h2>
+          <h2 class="text-xl font-light uppercase tracking-widest text-slate-900 mb-2">Enter RFQ Code</h2>
           <p class="text-sm text-slate-500 mb-6">Please enter the 6-character Unique RFQ Code to access the quotation form.</p>
           
-          <input type="text" id="rfqCodeInput" placeholder="e.g. RFQ-8X9B" class="w-full text-center text-lg uppercase tracking-widest bg-slate-50 border-2 border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-3 font-bold outline-none shadow-sm transition-all mb-4">
+          <input type="text" id="rfqCodeInput" placeholder="e.g. RFQ-8X9B" class="w-full text-center text-lg uppercase tracking-widest bg-slate-50 border-2 border-slate-200 focus:bg-white focus:border-vb-blue rounded-xl px-4 py-3 font-light uppercase tracking-widest outline-none shadow-sm transition-all mb-4">
           
-          <button id="verifyCodeBtn" class="w-full bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-3 font-bold text-sm shadow-md transition-colors flex items-center justify-center gap-2">
+          <button id="verifyCodeBtn" class="w-full bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-3 font-light uppercase tracking-widest text-sm shadow-md transition-colors flex items-center justify-center gap-2">
             Proceed <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
@@ -220,12 +169,12 @@
 
       <!-- ================= RECEIVED LIST VIEW ================= -->
       <div id="receivedListView" class="hidden space-y-6">
-        <button id="backFromReceivedBtn" class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-vb-blue transition-colors mb-2">
+        <button id="backFromReceivedBtn" class="flex items-center gap-2 text-sm font-light uppercase tracking-widest text-slate-500 hover:text-vb-blue transition-colors mb-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back Home
         </button>
         
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-bold text-slate-900">RFQs with Received Quotations</h2>
+          <h2 class="text-xl font-light uppercase tracking-widest text-slate-900">RFQs with Received Quotations</h2>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="receivedQuotesGrid">
@@ -242,13 +191,13 @@
       <!-- ================= MODE 1: MANUAL QUOTE ENTRY ================= -->
       <div id="modeEntryContainer" class="hidden max-w-5xl mx-auto space-y-6">
         
-        <button id="backToDashboardBtn1" class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-vb-blue transition-colors mb-2">
+        <button id="backToDashboardBtn1" class="flex items-center gap-2 text-sm font-light uppercase tracking-widest text-slate-500 hover:text-vb-blue transition-colors mb-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Dashboard
         </button>
 
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900 mb-1" id="entryRfqTitle">RFQ Title</h3>
+            <h3 class="text-sm font-light uppercase tracking-widest text-slate-900 mb-1" id="entryRfqTitle">RFQ Title</h3>
             <p class="text-xs text-slate-600" id="entryRfqDesc">Select a vendor below to submit a quotation on their behalf.</p>
           </div>
           <div class="w-full md:w-64 shrink-0">
@@ -261,12 +210,12 @@
         <div id="quoteFormArea" class="hidden">
           <!-- Quotation Table -->
           <div>
-            <h3 class="text-sm font-bold text-slate-900 mb-3 ml-1">Line Items Pricing</h3>
+            <h3 class="text-sm font-light uppercase tracking-widest text-slate-900 mb-3 ml-1">Line Items Pricing</h3>
             <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                   <thead>
-                    <tr class="bg-slate-50/70 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <tr class="bg-slate-50/70 border-b border-slate-200 text-[11px] font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider">
                       <th class="py-3.5 px-4">Item Name</th>
                       <th class="py-3.5 px-4 w-24 text-center">Qty</th>
                       <th class="py-3.5 px-4 w-24 text-center">Unit</th>
@@ -289,22 +238,22 @@
             <div class="space-y-5">
               <div class="grid grid-cols-2 gap-4 max-w-sm">
                 <div>
-                  <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Tax / GST %</label>
+                  <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2 block">Tax / GST %</label>
                   <input type="number" id="quoteTax" value="18" min="0" max="100" class="w-full bg-white border border-slate-200 focus:border-vb-blue rounded-xl px-4 py-2 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all">
                 </div>
                 <div>
-                  <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Delivery (Days)</label>
+                  <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2 block">Delivery (Days)</label>
                   <input type="number" id="quoteDelivery" placeholder="e.g. 14" min="1" class="w-full bg-white border border-slate-200 focus:border-vb-blue rounded-xl px-4 py-2 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all">
                 </div>
               </div>
               
               <div>
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Note / Payment Terms</label>
+                <label class="text-xs font-light uppercase tracking-widest text-slate-500 uppercase tracking-wider mb-2 block">Note / Payment Terms</label>
                 <textarea id="quoteTerms" rows="3" placeholder="Payment terms: 30 days net..." class="w-full max-w-sm bg-white border border-slate-200 focus:border-vb-blue rounded-xl px-4 py-2.5 text-sm text-slate-900 font-medium outline-none shadow-sm transition-all placeholder:text-slate-400 resize-none"></textarea>
               </div>
 
               <div class="pt-2 flex items-center gap-3">
-                <button id="submitQuoteBtn" class="bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-2.5 px-6 font-semibold text-sm shadow-sm transition-colors flex items-center gap-2">
+                <button id="submitQuoteBtn" class="bg-vb-blue hover:bg-blue-700 text-white rounded-xl py-2.5 px-6 font-light uppercase tracking-widest text-sm shadow-sm transition-colors flex items-center gap-2">
                   <i data-lucide="check-circle" class="w-4 h-4"></i> Submit Quotation
                 </button>
               </div>
@@ -325,8 +274,8 @@
                 <div class="w-full h-px bg-slate-200 my-4"></div>
                 
                 <div class="flex items-center justify-between">
-                  <span class="text-sm font-bold text-slate-900 uppercase tracking-wider">Grand Total</span>
-                  <span class="text-xl font-bold text-vb-blue" id="summaryGrandTotal">₹ 0</span>
+                  <span class="text-sm font-light uppercase tracking-widest text-slate-900 uppercase tracking-wider">Grand Total</span>
+                  <span class="text-xl font-light uppercase tracking-widest text-vb-blue" id="summaryGrandTotal">₹ 0</span>
                 </div>
               </div>
             </div>
@@ -338,7 +287,7 @@
           <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mb-3">
             <i data-lucide="check-square" class="w-6 h-6 text-emerald-500"></i>
           </div>
-          <h3 class="text-md font-bold text-slate-800">Quotation Already Submitted</h3>
+          <h3 class="text-md font-light uppercase tracking-widest text-slate-800">Quotation Already Submitted</h3>
           <p class="text-sm text-slate-500">This vendor has already submitted a quote for this RFQ.</p>
         </div>
 
@@ -347,12 +296,12 @@
       <!-- ================= MODE 2: QUOTATION COMPARISON ================= -->
       <div id="modeComparisonContainer" class="hidden space-y-6 pb-10">
         
-        <button id="backToDashboardBtn2" class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-vb-blue transition-colors mb-2">
+        <button id="backToDashboardBtn2" class="flex items-center gap-2 text-sm font-light uppercase tracking-widest text-slate-500 hover:text-vb-blue transition-colors mb-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Dashboard
         </button>
 
         <div class="flex flex-col space-y-1">
-          <h2 class="text-xl font-bold text-slate-900 tracking-tight">Quotation Comparison</h2>
+          <h2 class="text-xl font-light uppercase tracking-widest text-slate-900 tracking-tight">Quotation Comparison</h2>
           <p class="text-[14px] text-slate-600 font-medium" id="comparisonSubtitle">RFQ: Select an RFQ to view comparisons</p>
         </div>
 

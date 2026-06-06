@@ -376,6 +376,8 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordInput.disabled = true;
             triggerForgotLink.style.pointerEvents = 'none';
             triggerSignupLink.style.pointerEvents = 'none';
+            triggerSignupLink.disabled = true;
+            triggerSignupLink.style.opacity = '0.5';
         } else {
             loginSubmitBtn.classList.remove('loading');
             loginSubmitBtn.disabled = false;
@@ -383,6 +385,8 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordInput.disabled = false;
             triggerForgotLink.style.pointerEvents = 'auto';
             triggerSignupLink.style.pointerEvents = 'auto';
+            triggerSignupLink.disabled = false;
+            triggerSignupLink.style.opacity = '1';
         }
     }
 

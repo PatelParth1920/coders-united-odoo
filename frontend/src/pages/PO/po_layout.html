@@ -21,10 +21,10 @@
   <div class="relative">
     <button id="profileDropdownBtn" class="flex items-center gap-3 hover:bg-[#F8F9FA] p-2 rounded-xl transition-colors outline-none cursor-pointer">
       <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 text-blue-600 transition-colors shrink-0 overflow-hidden">
-        <i data-lucide="user" class="w-4 h-4"></i>
+        <i data-lucide="user" class="w-4 h-4 text-[#38BDF8]"></i>
       </div>
       <div class="flex flex-col text-left hidden sm:flex">
-        <span class="text-[11px] font-light uppercase tracking-widest leading-tight text-[#38BDF8]">Guest</span>
+        <span class="text-[11px] font-light uppercase tracking-widest leading-tight text-slate-900">Guest</span>
       </div>
       <i data-lucide="chevron-down" class="w-3 h-3 text-[#38BDF8]"></i>
     </button>
@@ -32,7 +32,7 @@
     <div id="profileDropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 hidden z-50 overflow-hidden">
       <div class="py-1">
         <button id="btnLogout" class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors font-light uppercase tracking-widest">
-          <i data-lucide="log-out" class="w-4 h-4"></i> Logout
+          <i data-lucide="log-out" class="w-4 h-4 text-red-600"></i> Logout
         </button>
       </div>
     </div>
@@ -82,7 +82,7 @@
                                     <line x1="9" y1="21" x2="9" y2="9"></line>
                                 </svg>
                             </span>
-                            <input type="text" id="po-number" class="form-input" placeholder="PO-2026-0001" value="PO-2026-0001" required="">
+                            <input type="text" id="po-number" class="form-input text-slate-900" placeholder="PO-2026-0001" value="PO-2026-0001" required="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -96,7 +96,7 @@
                                     <line x1="3" y1="10" x2="21" y2="10"></line>
                                 </svg>
                             </span>
-                            <input type="date" id="po-date" class="form-input" required="">
+                            <input type="date" id="po-date" class="form-input text-slate-900" required="">
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
                         </span>
-                        <select id="vendor-select" class="form-input" required="">
+                        <select id="vendor-select" class="form-input text-slate-900" required="">
                             <option value="" disabled="" selected="">Select a registered supplier</option>
                             <option value="apex">Apex Electronics Ltd</option>
                             <option value="mahir">Mahir Logistics &amp; Supplies</option>
@@ -141,13 +141,13 @@
                         <div class="form-group">
                             <label for="item-name" class="form-label">Item / Product Name</label>
                             <div class="input-wrapper">
-                                <input type="text" id="item-name" class="form-input form-input-no-icon" placeholder="e.g. ThinkPad L14 Gen 4" required="">
+                                <input type="text" id="item-name" class="form-input form-input-no-icon text-slate-900" placeholder="e.g. ThinkPad L14 Gen 4" required="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="item-desc" class="form-label">Description / Specifications</label>
                             <div class="input-wrapper">
-                                <input type="text" id="item-desc" class="form-input form-input-no-icon" placeholder="e.g. Intel i5, 16GB RAM, 512GB SSD">
+                                <input type="text" id="item-desc" class="form-input form-input-no-icon text-slate-900" placeholder="e.g. Intel i5, 16GB RAM, 512GB SSD">
                             </div>
                         </div>
                     </div>
@@ -156,19 +156,19 @@
                         <div class="form-group">
                             <label for="item-qty" class="form-label">Quantity</label>
                             <div class="input-wrapper">
-                                <input type="number" id="item-qty" class="form-input form-input-no-icon" min="1" value="1" required="">
+                                <input type="number" id="item-qty" class="form-input form-input-no-icon text-slate-900" min="1" value="1" required="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="item-price" class="form-label">Unit Price (₹)</label>
                             <div class="input-wrapper">
-                                <input type="number" id="item-price" class="form-input form-input-no-icon" min="0.01" step="0.01" placeholder="55000" required="">
+                                <input type="number" id="item-price" class="form-input form-input-no-icon text-slate-900" min="0.01" step="0.01" placeholder="55000" required="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="item-gst" class="form-label">GST Tax Rate</label>
                             <div class="input-wrapper">
-                                <select id="item-gst" class="form-input form-input-no-icon" required="">
+                                <select id="item-gst" class="form-input form-input-no-icon text-slate-900" required="">
                                     <option value="0">0% GST</option>
                                     <option value="5">5% GST</option>
                                     <option value="12">12% GST</option>

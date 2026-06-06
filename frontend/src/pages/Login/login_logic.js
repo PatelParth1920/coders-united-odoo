@@ -23,6 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const triggerForgotLink = document.getElementById('trigger-forgot');
     const triggerLoginBtn = document.getElementById('trigger-login');
 
+    // DOM Elements - Avatar Upload Feature
+    const profilePicContainer = document.getElementById('profile-pic');
+    const avatarImg = document.getElementById('avatar-img');
+    const avatarUploadInput = document.getElementById('avatar-upload');
+
+    // Load saved avatar on page initialization
+    const savedAvatar = localStorage.getItem('vendorbridge-avatar');
+    if (savedAvatar) {
+        avatarImg.src = savedAvatar;
+    }
+
     // SVGs for Password Toggle Icon
     const eyeOpenIcon = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -58,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 2. FOCUS MICRO-INTERACTION (Username Focus Highlight)
+    // 2. FOCUS MICRO-INTERACTION & AVATAR UPLOAD
     // ==========================================
     usernameInput.addEventListener('focus', () => {
         loginCard.classList.add('focus-username');
@@ -66,6 +77,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     usernameInput.addEventListener('blur', () => {
         loginCard.classList.remove('focus-username');
+    });
+
+    // Trigger file input click when avatar container is clicked
+    profilePicContainer.addEventListener('click', () => {
+        avatarUploadInput.click();
+    });
+
+    // Read and update the selected profile picture
+    avatarUploadInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Data = event.target.result;
+                avatarImg.src = base64Data;
+                try {
+                    localStorage.setItem('vendorbridge-avatar', base64Data);
+                } catch (err) {
+                    console.warn('Storage limit exceeded: Failed to save avatar locally.');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     });
 
     // ==========================================
